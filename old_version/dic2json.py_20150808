@@ -1,0 +1,86 @@
+#! *-* coding:utf-8 *-*
+
+import gl
+import re
+import os
+import shutil
+from PIL import Image,ImageFont,ImageDraw
+
+class Dic2json(object):
+
+	def __init__(self):
+		self.option_flg = ""
+	
+	def parse(self,val,docname):
+		print gl.option_stat + "  " + gl.type_status + ":" + val
+
+		if gl.type_status == "body" :
+			self._analysis(val,docname)
+			gl.question['body'].append({"type":"newline","value":"1"})
+
+		elif gl.type_status == "options" :
+			self._analysis_option(val,docname)
+
+		elif gl.type_status == "answer" :
+			self._analysis(val,docname)
+			gl.question['answer'].append({"type":"newline","value":"1"})
+
+		elif gl.type_status == "analysis" :
+			self._analysis(val,docname)
+			gl.question['analysis'].append({"type":"newline","value":"1"})
+
+
+	def _analysis_option(self,val,docname):
+
+		pass
+
+	def _analysis(self,val,docname):
+
+		list = val.split('\004')
+		for i in range(0,len(list)):
+		#for i in range(1,len(list),2):
+			if i%2 == 1:
+				self._picinfo(list[i],docname)
+			else:
+				self._aligninfo(list[i])
+
+
+	def _picinfo(self,val,docname):
+
+		file = docname + "/word/" + val
+		dir_b = docname.split('/')[-1] + "/" + "/".join(val.split('/')[0:-1])
+		fname = val.split('/')[-1]
+		dir_o = '/home/wzj/tmpfile/' + dir_b
+		file_o = dir_o + '/' + fname
+		
+		img = Image.open(file)
+		(width, height) = img.size
+		try:
+			os.mkdir(dir_o)
+		except:
+			pass
+		finally:
+			if os.path.isfile(file_o):
+				os.system('rm -f ' + file_o)
+
+			shutil.copy(file,file_o)
+			unit = {"type" : "image", "value":file_o, "width":width, "height":height }
+			gl.question[gl.type_status].append(unit)
+			return
+		
+
+	def _aligninfo(self,val):
+
+		p=re.findall(r'(\S*?)([a-zA-Z0-9\002\003\+\-\(\)（）]+|$)'.decode('utf8'), val)
+		for group in p:
+			if group[0]:
+				unit = {"type" : "text", "value":group[0], "size":"", "font":"", "style":"" }
+				gl.question[gl.type_status].append(unit)
+			if group[1]:
+				pic_url = self._create_pic(group[1])
+				unit = {"type" : "image", "value":pic_url, "width":"", "height":"" }
+				gl.question[gl.type_status].append(unit)
+
+
+	def _create_pic(self,val):
+		return ""

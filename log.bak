@@ -1,0 +1,35 @@
+Warning: [Errno 17] File exists: '/home/work/wzj/docx/qd_hrflXA9662' 
+0###选择题  3###
+0######
+###OK###
+1###下图为美国铜矿资源开发布局指向示意图，读下图回答。###
+body : 下图为美国铜矿资源开发布局指向示意图，读下图回答。
+1###/media/image.bin###
+body : /media/image.bin
+0###美国铜矿熔炼厂和精炼厂分别属于（    ）###
+body : 美国铜矿熔炼厂和精炼厂分别属于（    ）
+0######
+###OK###
+1###A．原料指向型工业和市场指向型工业###
+options : 原料指向型工业和市场指向型工业
+0###B．动力指向型工业和技术指向型工业###
+options : 动力指向型工业和技术指向型工业
+0###C．动力指向型工业和廉价劳动力指向型工业###
+options : 动力指向型工业和廉价劳动力指向型工业
+0###D．原料指向型工业和资本指向型工业###
+options : 原料指向型工业和资本指向型工业
+0### ###
+options :  
+0###A###
+options : A
+0### ###
+options :  
+0###由图可以得出铜矿熔炼厂接近原料地，精炼厂接近市场。###
+options : 由图可以得出铜矿熔炼厂接近原料地，精炼厂接近市场。
+0######
+###OK###
+1###BOM###
+answer : BOM
+0######
+###OK###
+{"body": [{"style": "", "font": "", "type": "text", "value": "下图为美国铜矿资源开发布局指向示意图，读下图回答。", "size": ""}, {"type": "newline", "value": "1"}, {"width": 273, "type": "image", "value": "http://10.60.0.159/qd_hrflXA9662//media/image.gif", "height": 153}, {"type": "newline", "value": "1"}, {"style": "", "font": "", "type": "text", "value": "美国铜矿熔炼厂和精炼厂分别属于（    ）", "size": ""}, {"type": "newline", "value": "1"}], "answer": [{"type": "newline", "value": "1"}, {"style": "", "font": "", "type": "text", "value": "BOM", "size": ""}, {"type": "newline", "value": "1"}], "tag": "", "options": [[{"type": "option", "value": "A"}, {"style": "", "font": "", "type": "text", "value": "原料指向型工业和市场指向型工业", "size": ""}, {"type": "newline", "value": "1"}], [{"type": "option", "value": "B"}, {"style": "", "font": "", "type": "text", "value": "动力指向型工业和技术指向型工业", "size": ""}, {"type": "newline", "value": "1"}], [{"type": "option", "value": "C"}, {"style": "", "font": "", "type": "text", "value": "动力指向型工业和廉价劳动力指向型工业", "size": ""}, {"type": "newline", "value": "1"}], [{"type": "option", "value": "D"}, {"style": "", "font": "", "type": "text", "value": "原料指向型工业和资本指向型工业", "size": ""}, {"type": "newline", "value": "1"}, {"style": "", "font": "", "type": "text", "value": " ", "size": ""}, {"type": "newline", "value": "1"}, {"style": "", "font": "", "type": "text", "value": "A", "size": ""}, {"type": "newline", "value": "1"}, {"style": "", "font": "", "type": "text", "value": " ", "size": ""}, {"type": "newline", "value": "1"}, {"style": "", "font": "", "type": "text", "value": "由图可以得出铜矿熔炼厂接近原料地，精炼厂接近市场。", "size": ""}, {"type": "newline", "value": "1"}]], "analysis": []}

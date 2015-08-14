@@ -1,0 +1,9 @@
+body: 已知物体的速度方向和它所受恒力的方向，如图所示，可能的运动轨迹是（    ）
+option: A./media/image.bin
+option: B./media/image2.bin
+option: C./media/image3.bin
+option: D./media/image4.bin
+right_option: BC
+analysis: 试题分析：物体做曲线运动时，轨迹夹在速度方向和合力方向之间，合力大致指向轨迹凹的一向．故BC正确，AD错误．
+analysis: 故选BC
+==================================

@@ -1,0 +1,10 @@
+###名称:1,题目中0,题目外:依赖项:匹配规则###
+body:1:topic_type:
+option:1:body:^(A|B|C|D)(．|\.)[\s\S]+
+answer:1:option:^(A|B|C|D)[\s]*\001$
+point:1::^考点：
+special:1::^专题：
+analysis:1::^分析：
+answer_detail:1::^解答：
+comment:1::^点评：
+topic_type:0::^(选择题|填空题|简答题|计算题)

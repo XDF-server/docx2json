@@ -1,0 +1,177 @@
+#! *-* coding:utf-8 *-*
+
+import gl
+import re
+import os
+import shutil
+from subprocess import call
+from PIL import Image,ImageFont,ImageDraw
+
+class Dic2json(object):
+
+	def __init__(self):
+		self.option_result = []
+		self.option_flg = ""
+		self.cnt = 1 
+	
+	def parse(self,val,docname):
+		#print gl.option_stat + "  " + gl.type_status + ":" + val
+		self._analysis(val,docname)
+		unit = {"type":"newline","value":"1"}
+		self._data_push(unit)
+
+	def _data_push(self,val):
+
+		if gl.type_status == "options" :
+			if self.option_flg != gl.option_stat:
+				self.option_flg =  gl.option_stat
+				if self.option_result:
+					gl.question["options"].append(self.option_result)
+					self.option_result = []
+				self.option_result.append({ "type" : "option", "value" : gl.option_stat })
+			if val:
+				self.option_result.append(val)
+
+		else:
+			if self.option_result:
+				gl.question["options"].append(self.option_result)
+				self.option_result = []
+				self.option_flg = ""
+
+			gl.question[gl.type_status].append(val)
+
+
+	def _analysis(self,val,docname):
+
+		list = val.split('\004')
+		for i in range(0,len(list)):
+		#for i in range(1,len(list),2):
+			if i%2 == 1:
+				self._picinfo(list[i],docname)
+			else:
+				self._aligninfo(list[i],docname)
+
+
+	def _aligninfo(self,val,docname):
+
+		p=re.findall(r'(.*?)([\w\002\003\+\-=\(\)（）甲乙丙丁戊己庚辛壬癸]+|$)'.decode('utf8'), val)
+		text = ""
+		for group in p:
+			if re.search(r'[\002\003]',group[1]):
+				print group[0] + group[1]
+				text += group[0]
+				if text != "":
+					unit = {"type" : "text", "value":text, "size":"", "font":"", "style":"" }
+					self._data_push(unit)
+		
+				new_pic_info = self._create_pic(group[1],docname)
+				unit = {"type" : "image", "value":new_pic_info['url'], "width":new_pic_info['w'], "height":new_pic_info['h'] }
+				self._data_push(unit)
+
+				text = ""
+			else:
+				text += group[0] + group[1]
+
+		if text != "":
+			unit = {"type" : "text", "value":text, "size":"", "font":"", "style":"" }
+			self._data_push(unit)
+
+	def _picinfo(self,val,docname):
+
+		file = docname + "/word/" + val
+		if os.path.isfile(file) is False:
+			file = docname + val
+		dir_b = docname.split('/')[-1] + "/" + "/".join(val.split('/')[0:-1])
+		fname = val.split('/')[-1]
+		dir_o = '/home/work/wzj/tmpfile/' + dir_b
+		file_o = dir_o + '/' + fname
+		
+		try:
+			img = Image.open(file)
+		except:
+			print "openfileNG"
+
+		(width, height) = img.size
+
+		try:
+			cmd = "mkdir -p " + dir_o
+			retn=call(cmd,shell=True)
+		except: 
+			print "mkdir err"
+
+		if os.path.isfile(file_o):
+			os.system('rm -f ' + file_o)
+
+		shutil.copy(file,file_o)
+		unit = {"type" : "image", "value":file_o, "width":width, "height":height }
+		self._data_push(unit)
+		return
+		
+
+	def _create_pic(self,val,docname):
+
+		dir_o = '/home/work/wzj/tmpfile/' + docname.split('/')[-1] +'/'
+		#print "val:" + val + "dir:" + dir_o
+		try:
+			cmd = "mkdir -p " + dir_o
+			retn=call(cmd,shell=True)
+		except: 
+			print "mkdir err"
+		file_o = dir_o + str(self.cnt) + ".gif"
+		self.cnt += 1
+		val_list = re.split(r'\002|\003',val)
+		val_len = len("".join(val_list).encode('utf8'))
+		#print "".join(val_list).encode('utf8')
+		#print val_len
+		val_lens = int(len(val_list)/2)
+		weith = 10 * val_len - 4 * val_lens
+		high = 20
+		#print weith , high
+		bgcolor=(255,255,255) #背景颜色
+		fontcolor = (0,0,0) #字体颜色
+		#加载字体
+		font_n = ImageFont.truetype("/usr/share/fonts/simsun/simsun.ttf",20)
+		font_s = ImageFont.truetype("/usr/share/fonts/simsun/simsun.ttf",10)
+		img = Image.new("RGB", (weith,high), bgcolor) # 创建图形 生成背景图片
+		draw = ImageDraw.Draw(img) # 创建画笔
+		###被截取的字符串
+		text = ""
+		###起点位置
+		station = 0
+		###下角标flg
+		sub_flg = 0
+		###上角标flg
+		up_flg = 0
+
+		for i in val:
+			if i == '\002':
+				if sub_flg==0:
+					sub_flg=1
+					if text:
+						draw.text((station,0),text,font=font_n,fill=fontcolor)
+						station += len(text) * 10 + 2
+						text = ""
+				else:
+					sub_flg=0
+					if text:
+						draw.text((station,10),text,font=font_s,fill=fontcolor)
+						station += len(text) * 5 + 2
+						text = ""
+			elif i == '\003':
+				if up_flg==0:
+					up_flg=1
+					if text:
+						draw.text((station,0),text,font=font_n,fill=fontcolor)
+						station += len(text) * 10 + 2
+						text = ""
+				else:
+					up_flg=0
+					if text:
+						draw.text((station,0),text,font=font_s,fill=fontcolor)
+						station += len(text) * 5 + 2
+						text = ""
+			else:
+				text += i
+		del draw
+		img.save(file_o) #保存原始版本
+		return {'url':file_o, 'w':weith, 'h':high}

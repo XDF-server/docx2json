@@ -1,0 +1,666 @@
+num: 92242
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_honev76593.ori.docx
+body : There are some ________ desks in the classroom. 
+options :  nice long new
+options :  nice new long
+options :  long new nice
+options :  long nice new
+answer : A
+analysis : 多个形容词作定语时有一定的排列顺序：主观描绘形容词→形状形容词→年龄(新旧)形容词→名词。
+###oldnum:92242
+num: 92243
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_honevc9775.ori.docx
+body : Everyone is tired,  but nobody wants to stop ________. 
+options :  to relax
+options :  relax
+options :  relaxing
+options :  relaxes
+answer : A
+analysis : 句意为“大家都很累，但是没有人想停下来去休息。”stop to do sth. “停下去做某事”。
+###oldnum:92243
+num: 92245
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_honewV6541.ori.docx
+body : Liu Huan is a great singer ________ long hair. 
+options :  has
+options :  have
+options :  with
+options :  of
+answer : C
+analysis : 句中已经有动词is, 故A、B两项不符合语法；with+名词表示“带有……；具有……”，介词短语作后置定语修饰前面的名词。
+###oldnum:92245
+num: 92246
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_honewr1370.ori.docx
+body : Her hair is ________ curly, not very straight. 
+options :  little
+options :  bit
+options :  kinds of
+options :  a little bit
+answer : D
+analysis : little“一点(几乎没有)”后跟名词；bit“一点儿；少许”一般不单独使用, 而是构成短语 a (little) bit(修饰形容词或副词)或a bit of(跟名词) ；kinds of“各种各样的”后跟名词；句中的curly是形容词，故用a little bit。
+###oldnum:92246
+num: 92247
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_honexE9479.ori.docx
+body : —________? 
+body : —He is tall. 
+options :  How is he
+options :  What does he look like
+options :  What does he like
+answer : B
+analysis : 考查语境及特殊句式。由答语可知是询问外形、长相，故选B。
+###oldnum:92247
+num: 92248
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_honexe9728.ori.docx
+body : I knocked on the door, but ________ answered. 
+options :  somebody 
+options :  nobody
+options :  anybody
+options :  everybody
+answer : B
+analysis : 考查不定代词词义辨析。somebody“某人”；nobody“没有人”；anybody“任何人”；everybody“每个人”。句意“我敲了敲门，但是没人应答”。故选B。
+###oldnum:92248
+num: 92249
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_honey71805.ori.docx
+body : —Do you often go fishing with your father? 
+body : —No, ________ .  I don’t like fishing at all. 
+options :  never                
+options :  always           
+options :  usually
+answer : A
+analysis : 考查频度副词词义辨析。never “从不”; always“总是；一直”; usually“通常”。从否定回答No以及答语的后一句“我一点也不喜欢钓鱼”可知选A。
+###oldnum:92249
+num: 92250
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_honeyT7991.ori.docx
+body : lice Green ________ thin and ________ long curly hair. 
+options :  is; is
+options :  is; has
+options :  has; is
+options :  has; has
+answer : B
+analysis : 第一个空由后面的形容词thin得知用be动词；第二个空由后面的hair得知用has。
+###oldnum:92250
+num: 92251
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_honeyv0489.ori.docx
+body : The ________ with glasses is a policewoman. 
+options :  man 
+options :  person 
+options :  people 
+options :  family
+answer : B
+analysis : man 指男士、人类；person指具体的某个人；people 为集合名词，不能指具体的人；family指家庭、家人， 故选B。
+###oldnum:92251
+num: 95310
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hr3MgI8653.ori.docx
+body : She ______ an old friend of hers yesterday while she was shopping at the department store.
+options :  turned down    
+options :  dealt with      
+options :  took after      
+options :  came across
+answer : D
+analysis : 【命题立意】考查动词短语辨析。
+analysis : 【解题思路】句意为：昨天在百货商店购物时她碰到一位老朋友。turn down意为“拒绝，调低”；deal with意为“处理，对付”；take after意为“与……相似”；come across意为“偶然碰到”。故选D项。
+analysis : 【知识拓展】表示“偶然遇到”的短语有：come across; run into; come upon; run across; come up against。
+###oldnum:95310
+num: 95581
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hr46vo3833.ori.docx
+body : ______ of modern agriculture, more and more waste is produced.
+options :  With the development
+options :  With the developing
+options :  By the development
+options :  By the developing
+answer : A
+analysis : “随着现代农业的发展，产生了越来越多的废物。”with the development  of“随着...的发展”答案A。
+###oldnum:95581
+num: 95825
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hr4YFh3947.ori.docx
+body : It is very common that former soldiers have difficulty in _______ civilian life. 
+options :  sticking to
+options :  relating to
+options :  adjusting to
+options :  connecting to
+answer : C
+analysis : 这题考查固定词组：adjust to 意为“调整，适应”。
+###oldnum:95825
+num: 98289
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hrX7Ei4859.ori.docx
+body : Those poor and needy teenagers were excited to find a shop at the corner where they could buy ______ priced bikes.
+options :  competitively 
+options :  recently
+options :  reasonably
+options :  affordably
+answer : D
+analysis : 考查副词辨析。A项“具竞争性地”，B项“最近”，C项“合理地，理性地”，D项“负担得起地”。根据Those poor and needy teenagers（那些贫穷的青少年）可知，在那里他们可以买到负担得起的那辆自行车。
+###oldnum:98289
+num: 98292
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hrX7Ff1338.ori.docx
+body : Not until he went through real hardship ______the love we have for our families is important.
+options :  had he realized
+options :  did he realize  
+options :  he realized
+options :  he had realized
+answer : B
+analysis : 考查倒装句型。此题考查not…until句型的倒装句，其句型为：Not until +从句+ 助动词+主语 +谓语…，据此排除C、D项；until的主从句均使用一般过去时态，故答案为B。
+###oldnum:98292
+num: 98354
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hrXkf57845.ori.docx
+body : The criminal, as well as some ______ people, was arrested by the police yesterday.
+options :  relevant
+options :  skilled
+options :  released
+options :  lucky
+answer : A
+analysis : 句意是：罪犯和一些相关的人昨天被警察逮捕了。选A。relevant“相关的”。
+###oldnum:98354
+num: 98718
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hrd15G5372.ori.docx
+body : Don’t turn off the computer before closing all programs ______ you could have problems.
+options :  or
+options :  and
+options :  but
+options :  so
+answer : A
+analysis : 考查连词，根据句意逻辑可以轻松选出or否则。
+###oldnum:98718
+num: 98723
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jIdgVW0870.ori.docx
+body : Many countries are now setting up national parks______animals and plants can be protected.
+options :  when
+options :  which
+options :  whose
+options :  where
+answer : D
+analysis : 考查定语从句，从句完整且修饰的是地点，故选where。
+###oldnum:98723
+num: 100280
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hriLmK5797.ori.docx
+body : 读音上分类正确的
+options : , h , j, k 
+options :  c, e ,g ,w 
+options :  f, l ,m, v 
+options :  b, d ,t ,y 
+answer : A
+analysis : A项的几个字母都含有/ei/的音。选A。
+###oldnum:100280
+num: 100281
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hriLme8075.ori.docx
+body : 英语句子开头第一个字母必须_______ ，词与词之间必须有_______ 的间隔。
+options :  小写，两个字母
+options :  大写，一个字母
+options :  斜体，一厘米
+options :  重读 ， 一个单词
+answer : B
+###oldnum:100281
+num: 100286
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hriLtH1829.ori.docx
+body : 英文缩写H1N1 的含义是_______.
+options : 硬黑  
+options :  光盘  
+options :  甲型流感  
+options :  乙型流感
+answer : C
+###oldnum:100286
+num: 100393
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hrie800531.ori.docx
+body : While regular exercise contributes to good health, it's never wise to do so too close to bedtime, ______.
+options :  meanwhile    
+options :  otherwise          
+options :  although         
+options :  though
+answer : D
+analysis : 【命题立意】考查连词辨析。难度中等。
+analysis : 【解题思路】句意为：尽管定期运动有利于身体健康，但在离睡觉时间太近的时候做运动一点也不明智。though意为“尽管，虽然”，既可以用于句首也可以用于句尾，符合语境；although也意为“虽然，尽管”，但只能用于句首。meanwhile意为“同时”，otherwise意为“另外，其他方面”，均不符合语境。故答案选D。
+###oldnum:100393
+num: 100610
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hrj4ao6605.ori.docx
+body : —________? 
+body : —He is tall. 
+options :  How is he
+options :  What does he look like
+options :  What does he like
+answer : B
+analysis : 考查语境及特殊句式。由答语可知是询问外形、长相，故选B。
+###oldnum:100610
+num: 100663
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hrj9Xc8014.ori.docx
+body : A good teacher never criticizes his or her pupils but uses praise to ______ their best.
+options :  bring out        
+options :  bring up         
+options :  bring in        
+options :  bring on
+answer : A
+analysis : 【命题立意】考查动词短语辨析。难度中等。
+analysis : 【解题思路】句意为：好老师从来都不批评学生，而是用表扬的方式使他们能力发挥到极致。A项意为“使……发挥出来”；B项意为“抚养；教育”；C项意为“引进；增加”；D项意为“导致；引起”。故答案选A。
+###oldnum:100663
+num: 106100
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hshCDC2009.ori.docx
+body : The express No.12 ______ at two pm.
+options :  reaches
+options :  gets in 
+options :  cuts in
+options :  knocks
+answer : B
+analysis : 题意是快递12号会在下午二点到达。“gets in”的意思是到达，因此选B。
+###oldnum:106100
+num: 106110
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hshCHL4713.ori.docx
+body : The way she thought of ______ enough money was to sell her hair.
+options :  getting
+options :  to get
+options :  and got
+options :  for getting
+answer : B
+analysis : The way 后常用to do 或of doing 作定语，题中she thought of是定语从句，句意：她想出的得到足够钱的方法就是卖掉她的头发。所以选B。
+###oldnum:106110
+num: 106117
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hshCKG6719.ori.docx
+body : Tom hurried back only ______ his friend ______ in a hospital.
+options :  to find; dying
+options :  find; dead
+options :  finding; dying
+options :  to find; die
+answer : A
+analysis : 考查结果状语，意料中的用ving.出人意料的用 to do/ only to do。Find sb dying “发现某人快死了”。
+###oldnum:106117
+num: 106132
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hshCRK4713.ori.docx
+body : The International Maths Summer Camp was held in Wuhan ______ the top students in maths from all over the world.
+options :  bringing back
+options :  bringing together
+options :  which brought around 
+options :  gathering around
+answer : D
+analysis : 考查定语从句。Bring back带回来；bring together集合；bring around使信服，使复苏；gather around聚集，搜集。句意：国际数学夏令营在武汉举行，聚集了来自世界各地的在数学方面最优秀的学生。bring together 是那些材料你原来手头上已经有；gather together 是所需材料还没完全到手, 必须先收集。现在分词作状语表示正在进行的伴随的动作，和句子主语是主谓关系，集合语境可知选D。
+###oldnum:106132
+num: 106197
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hshK3z7217.ori.docx
+body : The brave lady, who suffered a lot from her live cancer, ______ the pain with great courage, even in front of her husband.
+options :  stood
+options :  bore
+options :  prevented
+options :  stopped
+answer : A
+analysis : 词义辨析。Stand站立，忍受；bore钻孔，使厌烦；prevent妨碍，预防；stop停止，阻止。句意：这位生活中因为癌症受了很多苦的坚强的女士，以巨大的勇气忍受这种痛苦，即使在他的丈夫面前。结合语境可知选A，为最佳答案。选B语义不通。
+###oldnum:106197
+num: 106227
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hshKFv2409.ori.docx
+body : When he came in, I happened ______ on the bed ______.
+options :  lying; and read
+options :  to lie; reading
+options :  to be lying; reading
+options :  to have lain; reading
+answer : C
+analysis : 本题考查非谓语动词。happen to碰巧。动词不定式进行式表示动作正在进行，与谓语动词表示的动作同时发生。句意：他进来的时候，我碰巧正躺在床上看书。
+###oldnum:106227
+num: 106269
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_hshjPe2241.ori.docx
+body : ---Jack, you ______ on the phone.
+body : --- ______.
+options :  are wanted; Coming
+options :  are needed; I’m coming
+options :  are called; I’ll come
+options :  are rung up; Thanks
+answer : A
+analysis : 题意是杰克，你的电话。来了。根据所学应该用you are wanted，因此答案选A。
+###oldnum:106269
+num: 214531
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6s2Hw4905.ori.docx
+body : The plane ______ when we got to the airport.
+options :  had taken off 
+options :  was taken off 
+options :  will take off 
+options :  is taking off 
+answer : A
+analysis : 本题考查过去完成时的用法。―当他们赶到机场时，飞机已经起飞了。故用过去完成时表示动作发生在过去的过去。选A。
+###oldnum:214531
+num: 214700
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6sSMM3345.ori.docx
+body : ---Who’s the little baby in the photo, Li Ying?
+body : ---It’s me. This photo ______ fourteen years ago.
+options :  is taken 
+options :  took 
+options :  takes 
+options :  was taken 
+answer : D
+analysis : 被动语态。根据题意可知应用过去时态，而一般过去时态的被动语态结构为was\were + 动词的过去分词。主语this photo 是单数，故用was+ 过去分词。
+###oldnum:214700
+num: 214718
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6sSbN9586.ori.docx
+body : If there is any change to the plan, I ______ you as soon as possible.
+options :  told 
+options :  have told 
+options :  tell 
+options :  will tell
+answer : D
+analysis : 本题时态的用法。作为连词，引导条件状语从句，它表示的意思是―假如―如果等。在复合句中如果主句用将来时，则if引导的状语从句用一般现在时。故选D。
+###oldnum:214718
+num: 214722
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6sSfQ8449.ori.docx
+body : Look! The boys ______ football on the playground.
+options :  plays 
+options :  play 
+options :  are playing 
+options :  played
+answer : C
+analysis : 动词的时态的用法。在句首出现look，listen等表示引起注意的词，动词用现在进行时，表示正在发生的动作。因此选C。
+###oldnum:214722
+num: 214729
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6sSk02353.ori.docx
+body : A big party was held in NO.18 Middle School last night, the teacher with students ______ singing and dancing happily at the party.
+options :  is 
+options :  was 
+options :  are 
+options :  were 
+answer : B
+analysis : 本句的主语是the teacher，系动词要用单数形式，根据句子的意思，应用过去时。
+###oldnum:214729
+num: 214733
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6sSnS6273.ori.docx
+body : ---Lin Kai, hand in your homework, please.
+body : ---Oh, sorry. I ______ it at home this morning.
+options :  was leaving 
+options :  has left 
+options :  will leave 
+options :  left
+answer : D
+analysis : 考查点：考查时态。解题思路：根据句中时间状语this morning表示过去的时间，可知用一般过去时态。故选D。
+###oldnum:214733
+num: 214734
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6sSo48602.ori.docx
+body : My pen pal said he would write to me, but I ______ any letters from him so far.
+options :  won’t receive 
+options :  haven’t received 
+options :  hadn’t received 
+options :  didn’t receive 
+answer : B
+analysis : 考查时态。解题思路：so far表示―到目前为止，句子应该用现在完成时态。故选B。
+###oldnum:214734
+num: 214740
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6sSs26058.ori.docx
+body : ---Can your father drive?
+body : ---Yes, and he ______ to work every day.
+options :  is driving 
+options :  drove
+options :  drives 
+options :  has driven
+answer : C
+analysis : 时态考察,由时间状语every day 可知―每天开车上班应用一般现在时。
+###oldnum:214740
+num: 214743
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i9FwmZ0486.ori.docx
+body : Paul and I ______ tennis yesterday. He did much better than I.
+options :  play 
+options :  will play 
+options :  played 
+options :  are playing 
+answer : C
+analysis : 考查点：本题考查动词时态的用法。由句中的yesterday可知，要用过去式，所以选择答案C。
+###oldnum:214743
+num: 214753
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6sTDo1220.ori.docx
+body : If it ______ this Saturday, we ______ for a picnic.
+options :  won’t rain; shall go 
+options :  doesn’t rain; will go 
+options :  isn’t rain; go
+options :  doesn’t rain; go
+answer : B
+analysis : 考查时态。在if引导的条件状语从句中，如果主句和从句发生的动作都在将来时间，从句用一般现在时表将来。故选B。
+###oldnum:214753
+num: 214767
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6sT108531.ori.docx
+body : She was surprised ______ me last night.
+options :  to see 
+options :  see 
+options :  saw
+answer : A
+analysis : be surprised to do sth.表示―很惊讶做某事。
+###oldnum:214767
+num: 214777
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6sTM37047.ori.docx
+body : ---May I use your cup, Tom?
+body : ---Sorry, it ______ by my sister just now.
+options :  was broken
+options :  is broken 
+options :  broke
+answer : A
+analysis : 被动语态的用法。根据句意可知是被动语态，又时间状语为just now，故答案为A。
+###oldnum:214777
+num: 214822
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6sUIn3621.ori.docx
+body : ---Mom, must I finish my homework now?
+body : ---No, you ______. You may have supper first.
+options :  mustn’t 
+options :  needn’t 
+options :  can’t
+answer : B
+analysis : 考查情态动词的用法。对must引导的一般疑问句，否定回答时常用No, …needn’t.由句意：---妈妈，我现在必须完成家庭作业？---不，你不需要。你可以先吃饭。故选B。
+###oldnum:214822
+num: 215268
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i9z6QO6467.ori.docx
+body : He ______ in this city since his family moved to Nanchong.
+options :  live 
+options :  lived 
+options :  has lived
+answer : C
+analysis : 考查动词时态。句意：自从他家搬到南充，他就住在这个城市。注意：since（意：自从）引导的时间状语从句是现在完成时一个标志。
+###oldnum:215268
+num: 215269
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6tLmY4627.ori.docx
+body : Today is Women's Day. My father and I ______ a special gift for my mother now.
+options :  make 
+options :  made 
+options :  are making
+answer : C
+analysis : 考查动词时态。由时间状语now知，应该用现在进行时态。
+###oldnum:215269
+num: 215281
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6tLuk7102.ori.docx
+body : — Where is Ben? 
+body : — He _____ to the teachers’ office. He will be back soon.
+options :  go 
+options :  has gone 
+options :  has been
+answer : B
+analysis : 考查现在完成时的用法。have been to 曾经去过某地；have gone to 去某地了，还未回来。句意：本在哪里？ 他去办公室了。他不久就回来。故选B。
+###oldnum:215281
+num: 215291
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6tM1d0939.ori.docx
+body : We're very glad to know that a great sports meeting ______ in Guiyangthis September.
+options :  will hold 
+options :  will be held 
+options :  will be hold
+answer : B
+analysis : 这里考查的是将来时的被动语态的结构：will be + 动词的过去分词。故选B。
+###oldnum:215291
+num: 215304
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i6tM9i6873.ori.docx
+body : ---Have you ever ______ Xingkai Lake?
+body : ---Yes. I ______ there last month. It’s quite beautiful.
+options :  gone to, went 
+options :  been to, went 
+options :  been to, go
+answer : B
+analysis : 时态用法。上句用have开头提问，看出是完成时态，构成have been to 去过某地；下句说的是上个月，需要用过去时态，用过去式went,所以选择答案C。
+###oldnum:215304
+num: 219274
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_i7RmQI9042.ori.docx
+body : There is ______ news about this movie star in the newspaper. Where can I get some?
+options :  many
+options :  a few
+options :  a lot
+options :  little
+answer : D
+analysis : many形容词短语，许多的，修饰可数名词复数； a few 形容词短语，几个，修饰可数名词复数；a lot副词短语，许多，大量； little很少。句意：报纸上关于这个电影明星的消息很少。我能在哪儿获得一些？结合语境可知选D。
+analysis : 考点：词义辨析
+###oldnum:219274
+num: 812611
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jGNNg42597.ori.docx
+body : ---Why don’t you go out to play, Rose?
+body : ---I’m afraid I can’t. I have much homework ______.
+options :  do
+options :  does
+options :  doing
+options :  to do
+answer : D
+analysis : 考查动词非谓语形式的用法。句意是“我有好多作业要做”。I have much homework是一个完整的句子。后面的挖空部分只能用作定语修饰homework，使用不定式to do。故选D。
+###oldnum:812611
+num: 814262
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jGRCVH9923.ori.docx
+body : ---Boys and girls , wait for a moment !
+body : ---OK. We can’t cross the street ______ the traffic lights are green.
+options :  until
+options :  after
+options :  while
+options :  for
+answer : A
+analysis : 试题分析：句意：孩子们，等一下！好的，我们直到绿灯才过马路。until直到，after在...后，while当...时，for为；not...until直到...才，固定句型，故选A.
+analysis : 考点：考查固定句型
+###oldnum:814262
+num: 814263
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jGRCVT9147.ori.docx
+body : ---Congratulations ! Let’s cheer for the 17-year-old boy Han Tianyu. He did very well at the Sochi Winter Olympics.
+body : ---We all felt ______ him.
+options :  interested in
+options :  proud of
+options :  worried about
+options :  angry with
+answer : B
+analysis : 试题分析：句意：恭喜！咱们为17岁的男孩韩天宇干杯。他在索契冬季运动会上表现很好。我们都为他感觉自豪。interested in对...有兴趣，proud of以...自豪，worried about担心，angry with对...生气。
+analysis : 根据He did very well at the Sochi Winter Olympics.他在索契冬季运动会上表现很好，可知为中国争光，故选B.
+analysis : 考点：考查动词短语
+###oldnum:814263
+num: 823201
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jGycIV2134.ori.docx
+body : ---Bill, what’s your sister’s favorite______. 
+body : ---She likes volleyball best. 
+options :  food
+options :  color
+options :  sport
+options :  movie
+answer : C
+analysis : 本句回答语的含义为她最喜欢排球，所以问句的含义为你的妹妹最喜欢什么运动，sport表示运动的含义，故本题选C。
+###oldnum:823201
+num: 823204
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jGycJR5161.ori.docx
+body : --- ______did you visit the Science Museum?
+body : ---Three months ago. 
+options :  When
+options :  Where
+options :  What
+options :  Which
+answer : A
+analysis : 考查疑问词的用法。when当……时候，where哪里，what什么，which哪一个，根据答语是过去具体时间，用when来提问。所以选A。
+###oldnum:823204
+num: 823205
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jGycJm9368.ori.docx
+body : The flower smells ______and I like it very much. 
+options :  well
+options :  good
+options :  bad
+options :  badly
+answer : B
+analysis : 考查形容词的用法。因为我喜欢，可以推测花的味道好，排除C、D选项；smell是连系动词，后面跟形容词；well一般做副词使用，做形容词时表示身体好，此处不合适。
+###oldnum:823205
+num: 823206
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jGycK81000.ori.docx
+body : ---Where is your cousin?
+body : ---He______an English exam now. 
+options :  has
+options :  had
+options :  has had
+options :  is having
+answer : D
+analysis : 考查动词的时态用法。问话是问他现在哪儿，可以回答在某处，也可以回答在做某事；再根据后面的时间now，可确定他在考英语，用现在进行时。
+###oldnum:823206
+num: 823207
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jGycKR6849.ori.docx
+body : There must be ______wrong with the clock. It doesn't work. 
+options :  nothing
+options :  something
+options :  everything
+options :  anything
+answer : B
+analysis : 考查不定代词的用法。因为钟表不能正常工作，说明它出了问题，使用something；套用句式There is something wrong with …。
+###oldnum:823207
+num: 954175
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jSaqGe4908.ori.docx
+body : My brother is really______ . He is never afraid that he will fail.
+options :  open-minded
+options :  good-looking
+options :  self-confident
+options :  warm-hearted
+answer : C
+analysis : 句意:我哥哥非常自信，他从不担心会失败。本题考查合 成形容词。open-minded思想开明的.good-looking好看的。 self-confident 自信的。warm-hearted 热心的。根据“He is never afraid that he will fail. ”，推知“非常自信”。
+###oldnum:954175
+num: 1171540
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jtHRkJ1827.ori.docx
+body : ---What about        a kite with me now?
+body : ---Sorry I can’t. I have to do my homework.
+options :  to fly
+options :  flying
+options :  fly    
+options :  is flying
+answer : B
+analysis : 句意：---现在和我一起去放风筝怎么样？---对不起，我不能。我必须做作业。what about doing用于提建议，做……怎么样？因此，选B。
+###oldnum:1171540
+num: 1171666
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jtHkdx4805.ori.docx
+body : ---      
+body : ---Yes. W－A－T－C－H, watch.
+options :  Is it a watch？
+options :  Can you spell “watch”？
+options :  How do you spell “watch”？
+options :  Spell “watch”，please.
+answer : B
+analysis : 句意：你会拼写“手表”吗？是的，W－A－T－C－H, watch。根据答语中的Yes可知前面是一个一般疑问句，所以选B。
+###oldnum:1171666
+num: 1171669
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jtHkek7430.ori.docx
+body : This chair is        black and that is        orange chair.
+options :  a; /            
+options :  /; a              
+options :  a; a                
+options :  /; an
+answer : D
+analysis : 句意：这把椅子是黑色，那把是橙色的椅子。Black是形容词，其前面通常不用冠词；后一空表示类别，要用不定冠词，orange以元音音素开头，该用an，所以选D。
+###oldnum:1171669
+num: 1174880
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jtTY865916.ori.docx
+body : ---Don’t eat in class, Hu Lei!
+body : ---      , Miss Zhang.
+options :  Excuse me
+options :  OK
+options :  Yes
+options :  Sorry
+answer : D
+analysis : 句意：---胡磊，课堂上不要吃东西。---对不起，张老师。根据对话情景，张磊意识到自己错了，应该表示歉意，故选D。
+###oldnum:1174880
+num: 1174884
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jtTgF93448.ori.docx
+body :        girl with        long hair is Jim’s sister.
+options :  The; /
+options :  The; a  
+options :  A; the  
+options :  A; /
+answer : A
+analysis : 句意：那个长着长头发的女孩是吉姆的妹妹。不定冠词a/an表示某一类人或某事物中的任何一个,经常用在第一次提到某人或某物时,用不定冠词起介绍作用，表示一个。a用于辅音音素前an用于元音因素前。定冠词特指某(些)人或某(些)事物, 以区别于同类中其他的人或事物，特指前文出现过的事物或说话双方都知道的事物。故选A。
+###oldnum:1174884
+num: 1174887
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jtTgG37048.ori.docx
+body : Which flat do you live        and which floor do you live       ?
+options :  in; on  
+options :  on; in         
+options :  in; /    
+options :  /; on
+answer : A
+analysis : 句意：你住在那个公寓里，和那层楼上？住在公寓，用In,住在哪层楼用on，故选A
+###oldnum:1174887
+num: 1174888
+wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/qd_jtTgGG7382.ori.docx
+body : ---       go walking with us after supper this evening?
+body : --- Great! I have nothing important to do.
+options :  What about  
+options :  Why don’t  
+options :  Why not  
+options :  Let’s
+answer : C
+analysis : What about doing？做•••怎么样呢？提建议。Why don’t you do= Why not do？为什么不做……，也是提建议。Let’s do sth让我们做, 提建议，肯定句。该句是问句，故选C
+###oldnum:1174888
