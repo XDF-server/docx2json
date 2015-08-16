@@ -10,6 +10,13 @@ import string
 import hashlib
 
 
+print "001 \001"
+print "002 \002"
+print "003 \003"
+print "004 \004"
+print "005 \005"
+print "006 \006"
+exit()
 i = 0
 i = ~i
 print i

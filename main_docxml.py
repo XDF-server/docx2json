@@ -75,7 +75,7 @@ class Docxml(object):
 		self.fd.close()
 				
 
-file_o='/home/work/wzj/docx/qd_jJmVIX5111.ori.docx'
+file_o='/home/work/wzj/docx/qd_jXniiQ4953.ori.docx'
 #file_o='/home/work/wzj/docx/qd_hMrePG4435.docx'
 docx = Docxml(file_o, '','')
 docx.parse()

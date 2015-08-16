@@ -1,28 +1,9 @@
-Warning: [Errno 17] File exists: '/home/work/wzj/docx/qd_jJmVIX5111' 
-body : 为句中划线的词选择正确的释义，并将序号填在括号里。
-{"style": 0, "font": "", "type": "text", "value": "为句中划线的词选择正确的释义，并将序号填在括号里。", "size": ""}
-{"type": "newline", "value": "1"}
-body : 孩子们对未来的憧憬，对生命的喜悦……（    ）
-{"style": 0, "font": "", "type": "text", "value": "孩子们对未来的憧憬，对生命的喜悦……（    ）", "size": ""}
-{"type": "newline", "value": "1"}
-options : 向往
-{"style": 0, "font": "", "type": "text", "value": "向往", "size": ""}
-{"type": "newline", "value": "1"}
-options : 设计
-{"style": 0, "font": "", "type": "text", "value": "设计", "size": ""}
-{"type": "newline", "value": "1"}
-options : 猜测
-{"style": 0, "font": "", "type": "text", "value": "猜测", "size": ""}
-{"type": "newline", "value": "1"}
-options : 害怕
-{"style": 0, "font": "", "type": "text", "value": "害怕", "size": ""}
-{"type": "newline", "value": "1"}
-answer : A
-{"type": "newline", "value": "1"}
-{"style": 0, "font": "", "type": "text", "value": "A", "size": ""}
-{"type": "newline", "value": "1"}
-analysis : 此题考查的都是词语含义，结合所在句子理解，“憧憬”在句中是“向往”的意思，所以选A。
-{"type": "newline", "value": "1"}
-{"style": 0, "font": "", "type": "text", "value": "此题考查的都是词语含义，结合所在句子理解，“憧憬”在句中是“向往”的意思，所以选A。", "size": ""}
-{"type": "newline", "value": "1"}
-{"body": [{"style": 0, "font": "", "type": "text", "value": "为句中划线的词选择正确的释义，并将序号填在括号里。", "size": ""}, {"type": "newline", "value": "1"}, {"style": 0, "font": "", "type": "text", "value": "孩子们对未来的憧憬，对生命的喜悦……（    ）", "size": ""}, {"type": "newline", "value": "1"}, {"type": "newline", "value": "1"}], "answer": [{"type": "newline", "value": "1"}, {"style": 0, "font": "", "type": "text", "value": "A", "size": ""}, {"type": "newline", "value": "1"}], "tag": "", "options": [[{"type": "option", "value": "A"}, {"style": 0, "font": "", "type": "text", "value": "向往", "size": ""}, {"type": "newline", "value": "1"}], [{"type": "option", "value": "B"}, {"style": 0, "font": "", "type": "text", "value": "设计", "size": ""}, {"type": "newline", "value": "1"}], [{"type": "option", "value": "C"}, {"style": 0, "font": "", "type": "text", "value": "猜测", "size": ""}, {"type": "newline", "value": "1"}], [{"type": "option", "value": "D"}, {"style": 0, "font": "", "type": "text", "value": "害怕", "size": ""}, {"type": "newline", "value": "1"}]], "analysis": [{"type": "newline", "value": "1"}, {"style": 0, "font": "", "type": "text", "value": "此题考查的都是词语含义，结合所在句子理解，“憧憬”在句中是“向往”的意思，所以选A。", "size": ""}, {"type": "newline", "value": "1"}]}
+Warning: [Errno 17] File exists: '/home/work/wzj/docx/qd_jXniiQ4953' 
+body : 下列各句中，标点符号使用正确的一句是（    ）
+options : 对于高考等重大教育改革，教育部一般都按照三年早知道的原则，将方案提前一段时间公布，确保改革有序进行，到2020年，基本形成新的考试招生制度。
+options : 外交部发言人洪磊表示，曼德拉是南非反种族隔离斗争的著名领袖，新南非的缔造者，不仅被南非人民尊为“国父”，也赢得世界各国人民的崇敬和爱戴。
+options : 最近出版的英国《简氏防务周刊》发表了一篇报告，曝出备受关注的歼20不是中国军事科研最重要项目，那么事实果真如此吗？中国空军的实力到底如何呢？
+options : 12月6日8时，青岛市人力资源和社会保障网网上服务大厅wsbs．qdhrss．gov．cn开通，进入试运行阶段，有关人社保障业务六成多实现网上办理。
+answer : C
+body : 
+{"body": [{"style": 0, "font": "", "type": "text", "value": "下列各句中，标点符号使用正确的一句是（    ）", "size": ""}, {"type": "newline", "value": "1"}, {"type": "newline", "value": "1"}, {"type": "newline", "value": "1"}], "answer": [{"type": "newline", "value": "1"}, {"style": 0, "font": "", "type": "text", "value": "C", "size": ""}, {"type": "newline", "value": "1"}], "tag": "", "options": [[{"type": "option", "value": "A"}, {"style": 0, "font": "", "type": "text", "value": "对于高考等重大教育改革，教育部一般都按照三年早知道的原则，将方案提前一段时间公布，确保改革有序进行，到2020年，基本形成新的考试招生制度。", "size": ""}, {"type": "newline", "value": "1"}], [{"type": "option", "value": "B"}, {"style": 0, "font": "", "type": "text", "value": "外交部发言人洪磊表示，曼德拉是南非反种族隔离斗争的著名领袖，新南非的缔造者，不仅被南非人民尊为“国父”，也赢得世界各国人民的崇敬和爱戴。", "size": ""}, {"type": "newline", "value": "1"}], [{"type": "option", "value": "C"}, {"style": 0, "font": "", "type": "text", "value": "最近出版的英国《简氏防务周刊》发表了一篇报告，曝出备受关注的歼20不是中国军事科研最重要项目，那么事实果真如此吗？中国空军的实力到底如何呢？", "size": ""}, {"type": "newline", "value": "1"}], [{"type": "option", "value": "D"}, {"style": 0, "font": "", "type": "text", "value": "12月6日8时，青岛市人力资源和社会保障网网上服务大厅wsbs．qdhrss．gov．cn开通，进入试运行阶段，有关人社保障业务六成多实现网上办理。", "size": ""}, {"type": "newline", "value": "1"}]], "analysis": []}

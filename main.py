@@ -14,8 +14,8 @@ passw="1a2s3dqwe"
 dbase="test"
 db = MySQLdb.connect(host,user,passw,dbase,charset="utf8" )
 
-subject_type="单项选择"
-#subject_type="选择题"
+#subject_type="单项选择"
+subject_type="选择题"
 #subject_type="判断题"
 
 cursor = db.cursor()

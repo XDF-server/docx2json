@@ -7,6 +7,7 @@ import shutil
 from subprocess import call
 from PIL import Image,ImageFont,ImageDraw
 import glob
+import json
 
 class Dic2json(object):
 
@@ -27,6 +28,7 @@ class Dic2json(object):
 
 	def _data_push(self,val):
 
+		#print json.dumps(val, ensure_ascii=0)
 		if gl.type_status == "options" :
 			if self.option_flg != gl.option_stat:
 				self.option_flg =  gl.option_stat
@@ -65,18 +67,21 @@ class Dic2json(object):
 		style = 0
 		#print val
 		for i in val:
+			if self.u_flg:
+				style = 4
+			else:
+				style = 0
 			if i == '\006':
 				self.u_flg = ~self.u_flg
-				continue
-			if i == '\002':
+				if text != "":
+					unit = {"type" : "text", "value":text, "size":"", "font":"", "style":style }
+					self._data_push(unit)
+					text = ""
+			elif i == '\002':
 				if sub_flg == 0:
 					sub_flg = 1
 					if text != "":
 						#print "txt:" + text
-						if self.u_flg:
-							style = 4
-						else:
-							style = 0
 						unit = {"type" : "text", "value":text, "size":"", "font":"", "style":style }
 						self._data_push(unit)
 				else:
@@ -93,10 +98,6 @@ class Dic2json(object):
 					up_flg = 1
 					if text != "":
 						#print "txt:" + text
-						if self.u_flg:
-							style = 4
-						else:
-							style = 0
 						unit = {"type" : "text", "value":text, "size":"", "font":"", "style":style }
 						self._data_push(unit)
 				else:
@@ -112,10 +113,6 @@ class Dic2json(object):
 				text += i
 
 		if text != "":
-			if self.u_flg:
-				style = 4
-			else:
-				style = 0
 			unit = {"type" : "text", "value":text, "size":"", "font":"", "style":style }
 			self._data_push(unit)
 
