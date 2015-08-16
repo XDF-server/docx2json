@@ -1,10 +1,28 @@
 Warning: [Errno 17] File exists: '/home/work/wzj/docx/qd_jJmVIX5111' 
 body : 为句中划线的词选择正确的释义，并将序号填在括号里。
+{"style": 0, "font": "", "type": "text", "value": "为句中划线的词选择正确的释义，并将序号填在括号里。", "size": ""}
+{"type": "newline", "value": "1"}
 body : 孩子们对未来的憧憬，对生命的喜悦……（    ）
+{"style": 0, "font": "", "type": "text", "value": "孩子们对未来的憧憬，对生命的喜悦……（    ）", "size": ""}
+{"type": "newline", "value": "1"}
 options : 向往
+{"style": 0, "font": "", "type": "text", "value": "向往", "size": ""}
+{"type": "newline", "value": "1"}
 options : 设计
+{"style": 0, "font": "", "type": "text", "value": "设计", "size": ""}
+{"type": "newline", "value": "1"}
 options : 猜测
+{"style": 0, "font": "", "type": "text", "value": "猜测", "size": ""}
+{"type": "newline", "value": "1"}
 options : 害怕
+{"style": 0, "font": "", "type": "text", "value": "害怕", "size": ""}
+{"type": "newline", "value": "1"}
 answer : A
+{"type": "newline", "value": "1"}
+{"style": 0, "font": "", "type": "text", "value": "A", "size": ""}
+{"type": "newline", "value": "1"}
 analysis : 此题考查的都是词语含义，结合所在句子理解，“憧憬”在句中是“向往”的意思，所以选A。
+{"type": "newline", "value": "1"}
+{"style": 0, "font": "", "type": "text", "value": "此题考查的都是词语含义，结合所在句子理解，“憧憬”在句中是“向往”的意思，所以选A。", "size": ""}
+{"type": "newline", "value": "1"}
 {"body": [{"style": 0, "font": "", "type": "text", "value": "为句中划线的词选择正确的释义，并将序号填在括号里。", "size": ""}, {"type": "newline", "value": "1"}, {"style": 0, "font": "", "type": "text", "value": "孩子们对未来的憧憬，对生命的喜悦……（    ）", "size": ""}, {"type": "newline", "value": "1"}, {"type": "newline", "value": "1"}], "answer": [{"type": "newline", "value": "1"}, {"style": 0, "font": "", "type": "text", "value": "A", "size": ""}, {"type": "newline", "value": "1"}], "tag": "", "options": [[{"type": "option", "value": "A"}, {"style": 0, "font": "", "type": "text", "value": "向往", "size": ""}, {"type": "newline", "value": "1"}], [{"type": "option", "value": "B"}, {"style": 0, "font": "", "type": "text", "value": "设计", "size": ""}, {"type": "newline", "value": "1"}], [{"type": "option", "value": "C"}, {"style": 0, "font": "", "type": "text", "value": "猜测", "size": ""}, {"type": "newline", "value": "1"}], [{"type": "option", "value": "D"}, {"style": 0, "font": "", "type": "text", "value": "害怕", "size": ""}, {"type": "newline", "value": "1"}]], "analysis": [{"type": "newline", "value": "1"}, {"style": 0, "font": "", "type": "text", "value": "此题考查的都是词语含义，结合所在句子理解，“憧憬”在句中是“向往”的意思，所以选A。", "size": ""}, {"type": "newline", "value": "1"}]}
