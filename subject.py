@@ -56,13 +56,13 @@ class Subject_blank(object):
 
 	def parse(self,val,pnum,bnum):
 
-		flg = 0
+		flg = 0 ###类型变化flg 用来增加空行的
 		val = val.replace(b'\xc2\xa0',' ')
 		#print "###" + val +"###" + str(gl.blank_num)
 		if gl.type_status == "":
 			gl.type_status = "type"
 			return
-		elif re.match(r'^\s*\001$',val):
+		elif re.match(r'^\s*\001$',val) or (val == '\005\001' and gl.type_status != "analysis" and gl.type_status != ""):
 			gl.blank_num += 1
 			return
 		elif gl.type_status == "type":
@@ -83,7 +83,7 @@ class Subject_blank(object):
 				gl.type_status = "analysis"
 				flg = 1
 			gl.blank_num = 0
-		elif val == '\005\001':
+		elif val == '\005\001' and gl.type_status == "analysis":
 			gl.type_status = ""
 			gl.blank_num = 0
 			#print "=================================="

@@ -33,11 +33,15 @@ class Parser(object):
 
     
     def iterater(self):
+        '''
+            按word显示的行解析word文档
+        '''
         for paragraph_node in self.doc_root.findall('.//' + self._get_doc_path('w', 'p')):
             self.paragraph_num += 1
             for doc_node in paragraph_node.iter(tag = etree.Element):
                 self.doc_nsmap = doc_node.nsmap
                 val = self._adapter(doc_node)
+                print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
                 if val is not None:
                     yield (doc_node, val, self.paragraph_num, self.parse_num)
                     continue
@@ -51,13 +55,19 @@ class Parser(object):
 
     
     def _adapter(self, node):
+        '''
+            文字
+        '''
         if node.tag == self._get_doc_path('w', 't'):
             text = node.text
             self.last_text = text
             self.parse_num += 1
             if self.style == 4:
                 self.style = 0
-                text = '\006' + text + '\006'
+                text = '\004' + text + '\004'
+            if self.style == 16:
+                self.style = 0
+                text = '\016' + text + '\016'
             if self.vertAlign == 2:
                 self.vertAlign = 0
                 text = '\002' + text + '\002'
@@ -65,20 +75,32 @@ class Parser(object):
                 self.vertAlign = 0
                 text = '\003' + text + '\003'
             return text
+        '''
+            图片
+        '''
         if node.tag == self._get_doc_path('v', 'imagedata'):
             path = self._get_doc_path('r', 'id')
             picid = node.get(path)
             self.parse_num += 1
-            return '\004' + self.pic_rel_map[picid] + '\004'
+            return '\006' + self.pic_rel_map[picid] + '\006'
+        '''
+            题目分割
+        '''
         if node.tag == self._get_doc_path('w', 'bottom'):
             self.paragraph_num = 0
             self.parse_num = 0
             return '\005'
+        '''
+            公式图片
+        '''
         if node.tag == self._get_doc_path('a', 'blip'):
             path = self._get_doc_path('r', 'embed')
             picid = node.get(path)
             self.parse_num += 1
-            return '\004' + self.pic_rel_map[picid] + '\004'
+            return '\006' + self.pic_rel_map[picid] + '\006'
+        '''
+            角标
+        '''
         if node.tag == self._get_doc_path('w', 'vertAlign'):
             path = self._get_doc_path('w', 'val')
             align_type = node.get(path)
@@ -88,11 +110,22 @@ class Parser(object):
             if 'superscript' == align_type:
                 self.vertAlign = 3
             
+        '''
+            下划线
+        '''
         if node.tag == self._get_doc_path('w', 'u'):
             path = self._get_doc_path('w', 'val')
             style_type = node.get(path)
             if 'single' == style_type:
                 self.style = 4
+        '''
+            下标点
+        '''
+        if node.tag == self._get_doc_path('w', 'em'):
+            path = self._get_doc_path('w', 'val')
+            style_type = node.get(path)
+            if 'dot' == style_type or 'underDot' == style_type:
+                self.style = 16
             
 
     

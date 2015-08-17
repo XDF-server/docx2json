@@ -10,36 +10,11 @@ import string
 import hashlib
 
 
-print "001 \001"
-print "002 \002"
-print "003 \003"
-print "004 \004"
-print "005 \005"
-print "006 \006"
-exit()
-i = 0
-i = ~i
-print i
-if i:
-	print "OK1"
-i = ~i
-print i
-if i:
-	print "OK2"
-exit()
-
-word = wc.Dispatch('Word.Application') 
-doc = word.Documents.Open('/home/work/wzj/docx/qd_hMrePG4435.docx') 
-doc.SaveAs('tdir/math.html', 8 ) 
-doc.Close() 
-word.Quit()
-exit()
-
-filep="/home/work/wzj/docx/qd_hMrePG4435/media/image2.bin"
+filep="/home/work/wzj/docx/qd_hrdbKq8667/media/image2.bin"
 #filep="/home/work/wzj/docx/qd_hMrePG4435/word/embeddings/embeddedObject2.bin"
 files=open(filep,'r')
 row=files.readlines()
-print row
+#print row
 for i in row:
 	print i
 	break

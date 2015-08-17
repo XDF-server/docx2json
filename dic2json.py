@@ -14,7 +14,8 @@ class Dic2json(object):
 	def __init__(self):
 		self.option_result = []
 		self.option_flg = ""
-		self.u_flg = 0 ###下划线flg
+		self.flg_list = [] ###文本字体样式flg
+		self.style = 0 ###文本字体样式
 		self.cnt = 1 
 	
 	def parse(self,val,docname):
@@ -50,7 +51,7 @@ class Dic2json(object):
 
 	def _analysis(self,val,docname):
 
-		list = val.split('\004')
+		list = val.split('\006')
 		for i in range(0,len(list)):
 		#for i in range(1,len(list),2):
 			if i%2 == 1:
@@ -64,25 +65,30 @@ class Dic2json(object):
 		sub_flg = 0
 		up_flg = 0
 		text = ""
-		style = 0
+		acc_list = {'\001':1, '\002':2, '\004':4, '\008':8, '\016':16} 
 		#print val
 		for i in val:
-			if self.u_flg:
-				style = 4
-			else:
-				style = 0
-			if i == '\006':
-				self.u_flg = ~self.u_flg
-				if text != "":
-					unit = {"type" : "text", "value":text, "size":"", "font":"", "style":style }
-					self._data_push(unit)
-					text = ""
+			if i == '\004' or i == '\016':
+				if self.flg_list.count(i)==0:
+					self.flg_list.append(i)
+					if text != "":
+						unit = {"type" : "text", "value":text, "size":"", "font":"", "style":self.style }
+						self._data_push(unit)
+						text = ""
+					self.style += acc_list[i]  
+				else:
+					self.flg_list.remove(i)
+					if text != "":
+						unit = {"type" : "text", "value":text, "size":"", "font":"", "style":self.style }
+						self._data_push(unit)
+						text = ""
+					self.style -= acc_list[i]  
 			elif i == '\002':
 				if sub_flg == 0:
 					sub_flg = 1
 					if text != "":
 						#print "txt:" + text
-						unit = {"type" : "text", "value":text, "size":"", "font":"", "style":style }
+						unit = {"type" : "text", "value":text, "size":"", "font":"", "style":self.style }
 						self._data_push(unit)
 				else:
 					#print "sub:" + text
@@ -98,7 +104,7 @@ class Dic2json(object):
 					up_flg = 1
 					if text != "":
 						#print "txt:" + text
-						unit = {"type" : "text", "value":text, "size":"", "font":"", "style":style }
+						unit = {"type" : "text", "value":text, "size":"", "font":"", "style":self.style }
 						self._data_push(unit)
 				else:
 					#print "up:" + text
@@ -113,7 +119,7 @@ class Dic2json(object):
 				text += i
 
 		if text != "":
-			unit = {"type" : "text", "value":text, "size":"", "font":"", "style":style }
+			unit = {"type" : "text", "value":text, "size":"", "font":"", "style":self.style }
 			self._data_push(unit)
 
 	def _picinfo(self,val,docname):

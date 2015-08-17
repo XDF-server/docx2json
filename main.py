@@ -26,11 +26,17 @@ cursor = db.cursor()
 
 sql = '''SELECT o.id,question_docx,question_type,s.fullname,o.grade_id
          FROM entity_question_old as o
-         Left join entity_question_new as n
-         on o.id=n.oldid
          LEFT JOIN entity_subject as s
          on o.subject_id=s.id
-         where n.oldid is null and question_type='%(s)s' and question_docx is not null and state='1' ''' % dict(s=subject_type)
+         where o.id='1001193' and question_type='%(s)s' and question_docx is not null and state='1' ''' % dict(s=subject_type)
+
+#sql = '''SELECT o.id,question_docx,question_type,s.fullname,o.grade_id
+#         FROM entity_question_old as o
+#         Left join entity_question_new as n
+#         on o.id=n.oldid
+#         LEFT JOIN entity_subject as s
+#         on o.subject_id=s.id
+#         where n.oldid is null and question_type='%(s)s' and question_docx is not null and state='1' ''' % dict(s=subject_type)
 #sql = '''SELECT o.id,question_docx,question_type,s.fullname,o.grade_id
 #         FROM entity_question_old as o
 #         LEFT JOIN entity_subject as s
