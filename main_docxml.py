@@ -75,7 +75,7 @@ class Docxml(object):
 		self.fd.close()
 				
 
-file_o='/home/work/wzj/docx/qd_jXspZm9150.ori.docx'
+file_o='/home/work/wzj/docx/qd_jM72ma0531.ori.docx'
 #file_o='/home/work/wzj/docx/qd_jLbUzV4933.ori.docx' #下标点
 #file_o='/home/work/wzj/docx/qd_jJmVIX5111.ori.docx' #下划线
 #file_o='/home/work/wzj/docx/qd_hMrePG4435.docx'

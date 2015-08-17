@@ -1,3 +1,4 @@
+#!/usr/local/python2.7/bin/python
 # *-* coding:utf-8 *-* 
 
 import os
@@ -11,4 +12,4 @@ class TypeChange(object):
 		os.system(command)
 
 
-#JAVA.wmf2svg("../test/image5.wmf","./image.svg")
+TypeChange.wmf2svg("/home/work/wzj/docx/qd_hMreOp5191/media/image2.bin","./image.svg")

@@ -2,22 +2,41 @@
 # *_* coding:utf-8 *-*
 
 import re
-import sys
-reload(sys)
-sys.setdefaultencoding( "utf-8" )
-import glob
-import string
-import hashlib
+#import sys
+#reload(sys)
+#sys.setdefaultencoding( "utf-8" )
+#import glob
+#import string
+#import hashlib
 
+import unicodedata
 
-filep="/home/work/wzj/docx/qd_hrdbKq8667/media/image2.bin"
+val="测试CH调试2OK"
+for i in val.decode('utf8'):
+#for i in re.split('.',val):
+	print "char: " + i
+	if (unicodedata.east_asian_width(i) in ('F','W','A')):
+		print 2
+	else:
+		print 1
+exit()
+import subprocess
+from subprocess import call
+
+cmd = "/usr/bin/file /home/work/wzj/docx/*/media/*" 
+p=subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+for line in p.stdout.readlines():
+    print line
+exit()
+
+filep="/home/work/wzj/docx/qd_hrdbKq8667/media/image.bin"
 #filep="/home/work/wzj/docx/qd_hMrePG4435/word/embeddings/embeddedObject2.bin"
 files=open(filep,'r')
 row=files.readlines()
-#print row
-for i in row:
-	print i
-	break
+print row[0]
+#for i in row:
+#	print i
+#	break
 files.close()
 
 exit()

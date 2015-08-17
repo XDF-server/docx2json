@@ -3,11 +3,14 @@
 import gl
 import re
 import os
-import shutil
+#import shutil
 from subprocess import call
+import subprocess
 from PIL import Image,ImageFont,ImageDraw
 import glob
 import json
+import unicodedata
+from glue_java import *
 
 class Dic2json(object):
 
@@ -94,8 +97,6 @@ class Dic2json(object):
 					#print "sub:" + text
 					sub_flg = 0
 					new_pic_info = self._create_pic(text,2)
-					unit = {"type" : "image", "value":new_pic_info['url'], "width":new_pic_info['w'], "height":new_pic_info['h'] }
-					self._data_push(unit)
 
 				text = ""
 
@@ -110,8 +111,6 @@ class Dic2json(object):
 					#print "up:" + text
 					up_flg = 0
 					new_pic_info = self._create_pic(text,3)
-					unit = {"type" : "image", "value":new_pic_info['url'], "width":new_pic_info['w'], "height":new_pic_info['h'] }
-					self._data_push(unit)
 
 				text = ""
 
@@ -124,32 +123,126 @@ class Dic2json(object):
 
 	def _picinfo(self,val,docname):
 
-		file = docname + "/word/" + val
-		if os.path.isfile(file) is False:
-			file = docname + val
+		###源文件位置
+		file_s = docname + "/word/" + val
+		if os.path.isfile(file_s) is False:
+			file_s = docname + val
+		###url用目录
 		dir_b = docname.split('/')[-1] + "/" + "/".join(val.split('/')[0:-1])
-		fname = val.split('/')[-1]
-		fnamelist = fname.split('.')
-		if fnamelist[-1] == "bin":
-			fname = ".".join(fnamelist[0:-1]) + ".png"
+		###实际目录
 		dir_o = '/home/work/wzj/tmpfile/' + dir_b
-		file_o = dir_o + '/' + fname
-		url = "http://10.60.0.159/" + dir_b + "/" + fname
-		
-		img = Image.open(file)
 
-		(width, height) = img.size
-
+		###创建新文件目录
 		try:
 			cmd = "mkdir -p " + dir_o
 			retn=call(cmd,shell=True)
 		except: 
 			print "mkdir err"
+		
 
-		if os.path.isfile(file_o):
-			os.system('rm -f ' + file_o)
+		img = Image.open(file_s)
+		(width, height) = img.size
 
-		shutil.copy(file,file_o)
+		url = ""
+		file_o=""
+		fname = val.split('/')[-1]
+		fnamelist = fname.split('.')
+		print fnamelist
+		if fnamelist[-1] == "bin":
+			###查看图片类型
+			cmd = "/usr/bin/file " + file_s
+			p = []
+			p=subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+			result = p.stdout.readlines()[0]
+			print result
+			
+			if re.search(r'wmf',result,re.I):
+				###图片后缀 png
+				fname = ".".join(fnamelist[0:-1]) + ".svg"
+				file_o = dir_o + '/' + fname
+				TypeChange.wmf2svg(file_s, file_o)
+			elif re.search(r'PNG',result,re.I):
+				###图片后缀 png
+				fname = ".".join(fnamelist[0:-1]) + ".png"
+				file_o = dir_o + '/' + fname
+				cmd = "cp -f " + file_s + " " +file_o
+				retn=call(cmd,shell=True)
+			elif re.search(r'JPEG',result,re.I):
+				###图片后缀 jpg
+				fname = ".".join(fnamelist[0:-1]) + ".jpg"
+				file_o = dir_o + '/' + fname
+				cmd = "cp -f " + file_s + " " +file_o
+				retn=call(cmd,shell=True)
+			else:
+				print "######pic formart######" + result
+				return
+
+		else:
+			file_o = dir_o + '/' + fname
+			cmd = "cp -f " + file_s + " " +file_o
+			retn=call(cmd,shell=True)
+			#shutil.copy(file_s,file_o)
+
+		url = "http://10.60.0.159/" + dir_b + "/" + fname
+		unit = {"type" : "image", "value":url, "width":width, "height":height }
+		self._data_push(unit)
+		return
+		
+
+	def _picinfo_bak(self,val,docname):
+
+		###源文件位置
+		file_s = docname + "/word/" + val
+		if os.path.isfile(file_s) is False:
+			file_s = docname + val
+		###url用目录
+		dir_b = docname.split('/')[-1] + "/" + "/".join(val.split('/')[0:-1])
+		###实际目录
+		dir_o = '/home/work/wzj/tmpfile/' + dir_b
+
+		###创建新文件目录
+		try:
+			cmd = "mkdir -p " + dir_o
+			retn=call(cmd,shell=True)
+		except: 
+			print "mkdir err"
+		
+
+		url = ""
+		file_o=""
+		fname = val.split('/')[-1]
+		fnamelist = fname.split('.')
+		if fnamelist[-1] == "bin":
+			###查看图片类型
+			cmd = "/usr/bin/file " + file_s
+			p = []
+			p=subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+			result = p.stdout.readlines()[0]
+			
+			if re.search(r'wmf|PNG',result,re.I):
+				###图片后缀 png
+				fname = ".".join(fnamelist[0:-1]) + ".png"
+			elif re.search(r'JPEG',result,re.I):
+				###图片后缀 jpg
+				fname = ".".join(fnamelist[0:-1]) + ".jpg"
+			else:
+				print "######pic formart######" + result
+				return
+
+			file_o = dir_o + '/' + fname
+			cmd = "/usr/bin/convert  " + file_s + " " + file_o
+			retn=call(cmd,shell=True)
+		else:
+			file_o = dir_o + '/' + fname
+			cmd = "cp -f " + file_s + " " +file_o
+			retn=call(cmd,shell=True)
+			#shutil.copy(file_s,file_o)
+
+		img = Image.open(file_o)
+
+		(width, height) = img.size
+
+		url = "http://10.60.0.159/" + dir_b + "/" + fname
 		unit = {"type" : "image", "value":url, "width":width, "height":height }
 		self._data_push(unit)
 		return
@@ -161,43 +254,49 @@ class Dic2json(object):
 		url = "http://10.60.0.159/vertAlign/"
 		cmd = "mkdir -p /home/work/wzj/tmpfile/vertAlign/"
 		retn=call(cmd,shell=True)
-		if atype == 2:
-			pic += "sub_" + val.encode('utf8') + ".gif"
-			url += "sub_" + val.encode('utf8') + ".gif"
-		elif atype == 3:
-			pic += "up_" + val.encode('utf8') + ".gif"
-			url += "up_" + val.encode('utf8') + ".gif"
+		for i in val.decode('utf8'):
+			if atype == 2:
+				pic += "sub_" + i.encode('utf8') + ".gif"
+				url += "sub_" + i.encode('utf8') + ".gif"
+			elif atype == 3:
+				pic += "up_" + i.encode('utf8') + ".gif"
+				url += "up_" + i.encode('utf8') + ".gif"
 
 
-		if pic in gl.vertAlignSet:
+			if pic in gl.vertAlignSet:
+			
+				###在角标集中存在
+				try:
+					img = Image.open(pic)
+				except:
+					print "_create_pic : openfileNG  pic: " + pic
+
+				(width, height) = img.size
+				unit = {"type" : "image", "value":url, "width":width, "height":height }
+				self._data_push(unit)
+			else:
+				###在角标集中不存在
+				w = 5
+				if (unicodedata.east_asian_width(i) in ('F','W','A')):
+					w = 10
+				h = 20
+
+				bgcolor=(255,255,255,0) #背景颜色,透明度
+				fontcolor = (0,0,0) #字体颜色
+				font = ImageFont.truetype("/usr/share/fonts/simsun/simsun.ttf",10)
+				img = Image.new("RGBA", (w,h), bgcolor) # 创建图形 生成背景图片
+				draw = ImageDraw.Draw(img) # 创建画笔
 		
-			try:
-				img = Image.open(pic)
-			except:
-				print "_create_pic : openfileNG  pic: " + pic
+				if atype == 2:
+					draw.text((0,10),val,font=font,fill=fontcolor)
+				elif atype == 3:
+					draw.text((0,0),val,font=font,fill=fontcolor)
 
-			(width, height) = img.size
-			return {'url':url, 'w':width, 'h':height}
+				del draw
 
-		w = 10 * len(val)
-		len1 = len(val)
-		len2 = len(val.encode('utf8'))
-		if len2 / len1 == 3:
-			w = 15 * len1
-		h = 20
-		bgcolor=(255,255,255,0) #背景颜色,透明度
-		fontcolor = (0,0,0) #字体颜色
-		font = ImageFont.truetype("/usr/share/fonts/simsun/simsun.ttf",10)
-		img = Image.new("RGBA", (w,h), bgcolor) # 创建图形 生成背景图片
-		draw = ImageDraw.Draw(img) # 创建画笔
-		
-		if atype == 2:
-			draw.text((0,10),val,font=font,fill=fontcolor)
-		elif atype == 3:
-			draw.text((0,0),val,font=font,fill=fontcolor)
+				img.save(pic) #保存原始版本
+				gl.vertAlignSet.add(pic)
+				unit = {"type" : "image", "value":url, "width":w, "height":h }
+				self._data_push(unit)
 
-		del draw
-
-		img.save(pic) #保存原始版本
-		gl.vertAlignSet.add(pic)
-		return {'url':url, 'w':w, 'h':h}
+		return ""
