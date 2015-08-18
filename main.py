@@ -24,19 +24,19 @@ cursor = db.cursor()
 #         where question_type='选择题' and question_docx is not null and state='ENABLED'
 #           and id > 1355400 and subject_id in (9,10) limit 1 '''
 
-#sql = '''SELECT o.id,question_docx,question_type,s.fullname,o.grade_id
-#         FROM entity_question_old as o
-#         LEFT JOIN entity_subject as s
-#         on o.subject_id=s.id
-#         where o.id='9444' and question_type='%(s)s' and question_docx is not null and state='1' ''' % dict(s=subject_type)
-
 sql = '''SELECT o.id,question_docx,question_type,s.fullname,o.grade_id
          FROM entity_question_old as o
-         Left join entity_question_new as n
-         on o.id=n.oldid
          LEFT JOIN entity_subject as s
          on o.subject_id=s.id
-         where n.oldid is null and question_type='%(s)s' and question_docx is not null and state='1' ''' % dict(s=subject_type)
+         where o.id='892816' and question_type='%(s)s' and question_docx is not null and state='1' ''' % dict(s=subject_type)
+
+#sql = '''SELECT o.id,question_docx,question_type,s.fullname,o.grade_id
+#         FROM entity_question_old as o
+#         Left join entity_question_new as n
+#         on o.id=n.oldid
+#         LEFT JOIN entity_subject as s
+#         on o.subject_id=s.id
+#         where n.oldid is null and question_type='%(s)s' and question_docx is not null and state='1' ''' % dict(s=subject_type)
 
 cursor.execute(sql)
 results = cursor.fetchall()

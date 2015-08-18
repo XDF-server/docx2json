@@ -58,6 +58,8 @@ class Subject_blank(object):
 
 		flg = 0 ###类型变化flg 用来增加空行的
 		val = val.replace(b'\xc2\xa0',' ')
+		val = val.replace('\004\004','')
+		val = val.replace('\016\016','')
 		#print "###" + val +"###" + str(gl.blank_num)
 		if gl.type_status == "":
 			gl.type_status = "type"

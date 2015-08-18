@@ -41,7 +41,7 @@ class Parser(object):
             for doc_node in paragraph_node.iter(tag = etree.Element):
                 self.doc_nsmap = doc_node.nsmap
                 val = self._adapter(doc_node)
-                print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
+                #print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
                 if val is not None:
                     yield (doc_node, val, self.paragraph_num, self.parse_num)
                     continue
@@ -109,7 +109,6 @@ class Parser(object):
                 self.vertAlign = 2
             if 'superscript' == align_type:
                 self.vertAlign = 3
-            
         '''
             下划线
         '''
@@ -126,6 +125,29 @@ class Parser(object):
             style_type = node.get(path)
             if 'dot' == style_type or 'underDot' == style_type:
                 self.style = 16
+        '''
+            特殊字体结束判断
+        '''
+        if node.tag == self._get_doc_path('w', 'r'):
+            if self.style != 0:
+                self.style = 0
+            
+
+    
+    def _pic_relation(self):
+        for pic_rel_node in self.pic_rel_root.iter(tag = etree.Element):
+            if pic_rel_node.tag == self._get_pic_path('Relationship'):
+                self.pic_rel_map[pic_rel_node.get('Id')] = pic_rel_node.get('Target')
+                continue
+
+    
+    def _get_pic_path(self, tag):
+        return '{%s}%s' % (self.pic_ns, tag)
+
+    
+    def _get_doc_path(self, namespace, tag):
+        if self.doc_nsmap.has_key(namespace):
+            return '{%s}%s' % (self.doc_nsmap[namespace], tag)
             
 
     
