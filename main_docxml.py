@@ -36,9 +36,9 @@ class Docxml(object):
 	def subject(self,stype):
 		if self.config_type == "tag":
 			subject = Subject(self.config_file)
-		elif stype == "选择题":
+		elif stype == "选择题" or stype == "单项选择":
 			subject = Subject_blank()
-		elif stype == "判断题":
+		elif stype == "判断题" or stype == "简答题":
 			subject = Subject_panduan()
 		
 		doc_line = ''
@@ -52,7 +52,7 @@ class Docxml(object):
 				json_unit = subject.parse(doc_line,pnum,bnum)
 				doc_line = ''
 
-				if json_unit:
+				if json_unit :
 					dic2json.parse( json_unit[0:-1], self.docxname )
 		
 
@@ -68,18 +68,17 @@ class Docxml(object):
 				self.zf.extract(name,self.docxname)
 			elif re.match(r'media/*',name):
 				self.zf.extract(name,self.docxname)
-			elif re.match(r'word/*',name):
-				self.zf.extract(name,self.docxname)
+			#elif re.match(r'word/*',name):
+			#	self.zf.extract(name,self.docxname)
 
 	def __del__(self):
 		self.fd.close()
 				
 
-file_o='/home/work/wzj/docx/qd_jM72ma0531.ori.docx'
-#file_o='/home/work/wzj/docx/qd_jLbUzV4933.ori.docx' #下标点
-#file_o='/home/work/wzj/docx/qd_jJmVIX5111.ori.docx' #下划线
-#file_o='/home/work/wzj/docx/qd_hMrePG4435.docx'
+#file_o='/home/work/wzj/docx/qd_hPcY3O8404.docx'
+file_o='/home/work/wzj/docx/qd_jrcgJU6048.ori.docx'
 docx = Docxml(file_o, '','')
 docx.parse()
-docx.subject("选择题")
+#docx.subject("选择题")
+docx.subject("判断题")
 print json.dumps(gl.question, ensure_ascii=0)

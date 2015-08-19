@@ -15,27 +15,24 @@ dbase="test"
 db = MySQLdb.connect(host,user,passw,dbase,charset="utf8" )
 
 #subject_type="单项选择"
-subject_type="选择题"
-#subject_type="判断题"
+#subject_type="选择题"
+subject_type="判断题"
+#subject_type="简答题"
 
 cursor = db.cursor()
-#sql = '''SELECT id,question_docx,question_type 
-#         FROM entity_question 
-#         where question_type='选择题' and question_docx is not null and state='ENABLED'
-#           and id > 1355400 and subject_id in (9,10) limit 1 '''
+#sql = '''SELECT o.id,question_docx,question_type,s.fullname,o.grade_id
+#         FROM entity_question_old as o
+#         LEFT JOIN entity_subject as s
+#         on o.subject_id=s.id
+#         where o.id='996599' and question_type='%(s)s' and question_docx is not null and state='1' ''' % dict(s=subject_type)
 
 sql = '''SELECT o.id,question_docx,question_type,s.fullname,o.grade_id
          FROM entity_question_old as o
+         Left join entity_question_new as n
+         on o.id=n.oldid
          LEFT JOIN entity_subject as s
          on o.subject_id=s.id
-         where o.id='892816' and question_type='%(s)s' and question_docx is not null and state='1' ''' % dict(s=subject_type)
-
-#sql = '''SELECT o.id,question_docx,question_type,s.fullname,o.grade_id
-#         FROM entity_question_old as o
-#         Left join entity_question_new as n
-#         on o.id=n.oldid
-#         LEFT JOIN entity_subject as s
-#         on o.subject_id=s.id
+         where question_type='%(s)s' and question_docx is not null and state='1' ''' % dict(s=subject_type)
 #         where n.oldid is null and question_type='%(s)s' and question_docx is not null and state='1' ''' % dict(s=subject_type)
 
 cursor.execute(sql)
@@ -54,17 +51,21 @@ for row in results:
 	qtype = row[2]
 	suject = row[3]
 	grade = row[4]
-	cmd = "wget -t 10 -T 20 -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/" + docfile
+	if grade:
+		print "grade OK"
+	else:	
+		grade = 0 
+	#cmd = "wget -t 10 -T 20 -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/" + docfile
 	docfile2 = ".ori.".join(docfile.split('.'))
 	file_o = "/home/work/wzj/docx/" + docfile
-	retn=call(cmd,shell=True)
+	#retn=call(cmd,shell=True)
 	if os.path.isfile(file_o) is False:
-		cmd = "wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/" + docfile2
+		#cmd = "wget -P /home/work/wzj/docx/ http://qd.okjiaoyu.cn/" + docfile2
 		file_o = "/home/work/wzj/docx/" + docfile2
-		retn=call(cmd,shell=True)
+		#retn=call(cmd,shell=True)
 		if os.path.isfile(file_o) is False:
 			continue
-	print cmd
+	#print cmd
 
 	docx = Docxml(file_o, '','')
 	docx.parse()
@@ -75,11 +76,13 @@ for row in results:
                  on duplicate key update type= '%(t)s' , json='%(j)s' , subject='%(s)s' , 
                  grade_id='%(g)d' ''' % dict(n=num, t=qtype, j=json.dumps(gl.question, ensure_ascii=0), s=suject, g=grade)
 	print "###oldnum:" + str(num)
+	print sql
 	try:
 		cursor.execute(sql)
 		db.commit()
 	except:
 		db.rollback()
+		print "insert NG"
 
 db.close()
 

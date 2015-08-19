@@ -41,7 +41,7 @@ class Parser(object):
             for doc_node in paragraph_node.iter(tag = etree.Element):
                 self.doc_nsmap = doc_node.nsmap
                 val = self._adapter(doc_node)
-                #print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
+                print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
                 if val is not None:
                     yield (doc_node, val, self.paragraph_num, self.parse_num)
                     continue

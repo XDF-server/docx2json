@@ -56,19 +56,22 @@ class Subject_blank(object):
 
 	def parse(self,val,pnum,bnum):
 
+		#print "before:" + gl.type_status + " : " + val
 		flg = 0 ###类型变化flg 用来增加空行的
 		val = val.replace(b'\xc2\xa0',' ')
+		val = val.replace(b'\xe3\x80\x80',' ')
 		val = val.replace('\004\004','')
 		val = val.replace('\016\016','')
 		#print "###" + val +"###" + str(gl.blank_num)
 		if gl.type_status == "":
 			gl.type_status = "type"
 			return
-		elif re.match(r'^\s*\001$',val) or (val == '\005\001' and gl.type_status != "analysis" and gl.type_status != ""):
+		elif re.match(r'^[\s　]*\001$',val) or (val == '\005\001' and gl.type_status != "analysis" and gl.type_status != ""):
 			gl.blank_num += 1
 			return
 		elif gl.type_status == "type":
 			gl.type_status = "body"
+			gl.blank_num = 0
 		elif gl.blank_num > 0 and gl.type_status != "analysis":
 			if gl.type_status == "body":
 				(val, tag) = self.option_ana(val)
@@ -97,13 +100,15 @@ class Subject_blank(object):
 			gl.type_change = 1
 		else:
 			gl.type_change = 0
-		print gl.type_status + " : " + val
-		return val.replace('\005','')
+		print "after : " + gl.type_status + " : " + val
+		val = val.replace('\005','')
+		val = val.replace("'","''")
+		return val
 
 
 	def option_ana(self,val):
 
-		p = re.match(r'([a-gA-G])[\.．]*(.*)'.decode('utf8'), val)
+		p = re.match(r'([a-gA-G])[\.．、]*(.*)'.decode('utf8'), val)
 		if p:
 			gl.option_stat = p.group(1)
 			return (p.group(2), 1)
@@ -116,15 +121,20 @@ class Subject_panduan(object):
 
 	def parse(self,val,pnum,bnum):
 
-		flg = 0
+		print "before: " + gl.type_status + " : "+ val
+		flg = 0 ###类型变化flg 用来增加空行的
+		val = val.replace(b'\xc2\xa0',' ') #去除utf8特殊空格
+		val = val.replace('\004\004','') #去除多余下划线标记
+		val = val.replace('\016\016','') #去除多余着重点标记
 		if gl.type_status == "":
 			gl.type_status = "type"
 			return
-		elif re.compile('^[\s]*\001$').match(val):
+		elif re.compile('^[\s]*\001$').match(val) or (val == '\005\001' and gl.type_status != "analysis" and gl.type_status != ""):
 			gl.blank_num += 1
 			return
 		elif gl.type_status == "type":
 			gl.type_status = "body"
+			gl.blank_num = 0
 		elif gl.blank_num > 0 and gl.type_status != "analysis":
 			if gl.type_status == "body":
 				gl.type_status = "answer"
@@ -133,7 +143,7 @@ class Subject_panduan(object):
 				gl.type_status = "analysis"
 				flg = 1
 			gl.blank_num = 0
-		elif val == '\005\001':
+		elif val == '\005\001' and gl.type_status == "analysis":
 			gl.type_status = ""
 			gl.blank_num = 0
 			#print "=================================="
@@ -143,5 +153,7 @@ class Subject_panduan(object):
 			gl.type_change = 1
 		else:
 			gl.type_change = 0
-		#print gl.type_status + val
+		print "after : " + gl.type_status + " : "+ val
+		val = val.replace('\005','')
+		val = val.replace("'","''")
 		return val
