@@ -37,7 +37,7 @@ class Docxml(object):
 			subject = Subject(self.config_file)
 		elif stype == "选择题" or stype == "单项选择":
 			subject = Subject_blank()
-		elif stype == "判断题" or stype == "简答题":
+		elif stype == "判断题" or stype == "简答题" or stype == "解答题":
 			subject = Subject_panduan()
 		
 		doc_line = ''

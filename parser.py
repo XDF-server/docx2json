@@ -19,6 +19,7 @@ class Parser(object):
         self.paragraph_num = 0
         self.vertAlign = 0
         self.style = 0
+        self.align = 0
 
     
     def set_document_xml(self, document_xml):
@@ -38,10 +39,11 @@ class Parser(object):
         '''
         for paragraph_node in self.doc_root.findall('.//' + self._get_doc_path('w', 'p')):
             self.paragraph_num += 1
+            self.align = 0
             for doc_node in paragraph_node.iter(tag = etree.Element):
                 self.doc_nsmap = doc_node.nsmap
                 val = self._adapter(doc_node)
-                print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
+                #print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
                 if val is not None:
                     yield (doc_node, val, self.paragraph_num, self.parse_num)
                     continue
@@ -65,16 +67,25 @@ class Parser(object):
             if self.style == 4:
                 self.style = 0
                 text = '\004' + text + '\004'
+
             if self.style == 16:
                 self.style = 0
                 text = '\016' + text + '\016'
+
             if self.vertAlign == 2:
                 self.vertAlign = 0
                 text = '\002' + text + '\002'
             elif self.vertAlign == 3:
                 self.vertAlign = 0
                 text = '\003' + text + '\003'
+
+            if self.align == 3:
+                text = '\013' + text + '\013'
+            elif self.align == 2:
+                text = '\012' + text + '\012'
+
             return text
+
         '''
             图片
         '''
@@ -125,6 +136,16 @@ class Parser(object):
             style_type = node.get(path)
             if 'dot' == style_type or 'underDot' == style_type:
                 self.style = 16
+        '''
+            行位置:居左 1 居中 2 居右 3
+        '''
+        if node.tag == self._get_doc_path('w', 'jc'):
+            path = self._get_doc_path('w', 'val')
+            style_type = node.get(path)
+            if 'right' == style_type:
+                self.align = 3
+            elif 'center' == style_type:
+                self.align = 2
         '''
             特殊字体结束判断
         '''

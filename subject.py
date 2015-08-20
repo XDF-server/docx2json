@@ -126,6 +126,8 @@ class Subject_panduan(object):
 		val = val.replace(b'\xc2\xa0',' ') #去除utf8特殊空格
 		val = val.replace('\004\004','') #去除多余下划线标记
 		val = val.replace('\016\016','') #去除多余着重点标记
+		val = val.replace('\012\012','') #去除多余居中符
+		val = val.replace('\013\013','') #去除多余居右符
 		if gl.type_status == "":
 			gl.type_status = "type"
 			return
