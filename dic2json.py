@@ -226,6 +226,143 @@ class Dic2json(object):
 		result = p.stdout.readlines()[0]
 		print result
 		if re.search(r'EMF',result):
+			#cmd = "echo " + file_s + ">>pic_need_change"
+			#retn=call(cmd,shell=True)
+			fname = ".".join(fnamelist[0:-1]) + ".svg"
+			file_o_s = dir_o + '/' + fname
+			cmd = "/usr/local/bin/svgexport " + file_o_s + " " + file_o
+			retn=call(cmd,shell=True)
+			img = Image.open(file_o)
+			(width, height) = img.size
+			fname = ".".join(fnamelist[0:-1]) + ".png"
+		elif re.search(r'wmf',result):
+			###图片后缀 svg
+			fname = ".".join(fnamelist[0:-1]) + ".svg"
+			file_o_s = dir_o + '/' + fname
+			TypeChange.wmf2svg(file_s, file_o_s)
+			#pic_type = 3
+			print "wmf svgexport"
+			cmd = "/usr/local/bin/svgexport " + file_o_s + " " + file_o
+			retn=call(cmd,shell=True)
+			#img = Image.open(file_s)
+			img = Image.open(file_o)
+			(width, height) = img.size
+			fname = ".".join(fnamelist[0:-1]) + ".png"
+		else:
+			cmd = "/usr/bin/convert -transparent white " + file_s + " " + file_o
+			print cmd
+			retn=call(cmd,shell=True)
+
+			img = Image.open(file_s)
+			(width, height) = img.size
+			
+		url = "http://10.60.0.159/" + dir_b + "/" + fname
+		unit = {"type" : "image", "value":url, "width":width, "height":height, "image_type":pic_type }
+		self._data_push(unit)
+
+		return
+
+
+	def _picinfo_convert(self,val,docname):
+
+		###源文件位置
+		file_s = docname + "/word/" + val
+		if os.path.isfile(file_s) is False:
+			file_s = docname + val
+		###url用目录
+		dir_b = docname.split('/')[-1] + "/" + "/".join(val.split('/')[0:-1])
+		###实际目录
+		dir_o = '/home/work/wzj/tmpfile/' + dir_b
+
+		###创建新文件目录
+		try:
+			cmd = "mkdir -p " + dir_o
+			retn=call(cmd,shell=True)
+		except: 
+			print "mkdir err"
+
+
+		pic_type = 1
+		width = 0
+		height = 0
+		fname = val.split('/')[-1]
+		fnamelist = fname.split('.')
+		###图片后缀 png
+		fname = ".".join(fnamelist[0:-1]) + ".png"
+		file_o = dir_o + '/' + fname
+
+		###查看图片类型
+		cmd = "/usr/bin/file " + file_s
+		p = []
+		p=subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+		result = p.stdout.readlines()[0]
+		print result
+		if re.search(r'EMF',result):
+			#cmd = "echo " + file_s + ">>pic_need_change"
+			#retn=call(cmd,shell=True)
+			fname = ".".join(fnamelist[0:-1]) + ".svg"
+			file_o_s = dir_o + '/' + fname
+			img = Image.open(file_o_s)
+			(width, height) = img.size
+			cmd = "cp -f " + file_o_s + " " + file_o
+		elif re.search(r'wmf',result):
+			###图片后缀 svg
+			fname = ".".join(fnamelist[0:-1]) + ".svg"
+			file_o = dir_o + '/' + fname
+			TypeChange.wmf2svg(file_s, file_o)
+			pic_type = 3
+			img = Image.open(file_s)
+			(width, height) = img.size
+		else:
+			cmd = "/usr/bin/convert -transparent white " + file_s + " " + file_o
+			print cmd
+			retn=call(cmd,shell=True)
+
+			img = Image.open(file_s)
+			(width, height) = img.size
+			
+		url = "http://10.60.0.159/" + dir_b + "/" + fname
+		unit = {"type" : "image", "value":url, "width":width, "height":height, "image_type":pic_type }
+		self._data_push(unit)
+
+		return
+
+
+	def _picinfo_sizechange(self,val,docname):
+
+		###源文件位置
+		file_s = docname + "/word/" + val
+		if os.path.isfile(file_s) is False:
+			file_s = docname + val
+		###url用目录
+		dir_b = docname.split('/')[-1] + "/" + "/".join(val.split('/')[0:-1])
+		###实际目录
+		dir_o = '/home/work/wzj/tmpfile/' + dir_b
+
+		###创建新文件目录
+		try:
+			cmd = "mkdir -p " + dir_o
+			retn=call(cmd,shell=True)
+		except: 
+			print "mkdir err"
+
+
+		pic_type = 1
+		width = 0
+		height = 0
+		fname = val.split('/')[-1]
+		fnamelist = fname.split('.')
+		###图片后缀 png
+		fname = ".".join(fnamelist[0:-1]) + ".png"
+		file_o = dir_o + '/' + fname
+
+		###查看图片类型
+		cmd = "/usr/bin/file " + file_s
+		p = []
+		p=subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+		result = p.stdout.readlines()[0]
+		print result
+		if re.search(r'EMF',result):
 			cmd = "echo " + file_s + ">>pic_need_change"
 			retn=call(cmd,shell=True)
 		else:

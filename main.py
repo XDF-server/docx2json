@@ -17,10 +17,10 @@ db = MySQLdb.connect(host,user,passw,dbase,charset="utf8" )
 #subject_type="单项选择"
 #subject_type="选择题"
 
-subject_type="判断题"
+#subject_type="判断题"
 
 #subject_type="简答题"
-#subject_type="解答题"
+subject_type="解答题"
 
 cursor = db.cursor()
 #sql = '''SELECT o.id,question_docx,question_type,s.fullname,o.grade_id
