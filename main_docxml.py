@@ -76,7 +76,7 @@ class Docxml(object):
 				
 
 #file_o='/home/work/wzj/docx/qd_hQHbWx6884.docx'
-file_o='/home/work/wzj/docx/qd_hz9rz63778.ori.docx'
+file_o='/home/work/wzj/docx/qd_iVNDoH6268.ori.docx'
 docx = Docxml(file_o, '','')
 docx.parse()
 #docx.subject("选择题")

@@ -69,10 +69,10 @@ class Dic2json(object):
 		up_flg = 0
 		align = 0
 		text = ""
-		acc_list = {'\001':1, '\002':2, '\004':4, '\008':8, '\016':16} 
+		acc_list = {'\001':1, '\002':2, '\004':4, '\008':8, '\016':16, '\032':32} 
 		#print val
 		for i in val:
-			if i == '\004' or i == '\016':
+			if i == '\004' or i == '\016' or i == '\032':
 				if self.flg_list.count(i)==0:
 					self.flg_list.append(i)
 					if text != "":

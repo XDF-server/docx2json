@@ -56,12 +56,15 @@ class Subject_blank(object):
 
 	def parse(self,val,pnum,bnum):
 
-		#print "before:" + gl.type_status + " : " + val
+		print "before:" + gl.type_status + " : " + val
 		flg = 0 ###类型变化flg 用来增加空行的
 		val = val.replace(b'\xc2\xa0',' ')
 		val = val.replace(b'\xe3\x80\x80',' ')
 		val = val.replace('\004\004','')
 		val = val.replace('\016\016','')
+		val = val.replace('\012\012','') #去除多余居中符
+		val = val.replace('\013\013','') #去除多余居右符
+		val = val.replace('\032\032','')
 		#print "###" + val +"###" + str(gl.blank_num)
 		if gl.type_status == "":
 			gl.type_status = "type"
@@ -128,6 +131,7 @@ class Subject_panduan(object):
 		val = val.replace('\016\016','') #去除多余着重点标记
 		val = val.replace('\012\012','') #去除多余居中符
 		val = val.replace('\013\013','') #去除多余居右符
+		val = val.replace('\032\032','') #去除多余方框
 		if gl.type_status == "":
 			gl.type_status = "type"
 			return

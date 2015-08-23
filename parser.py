@@ -2,6 +2,7 @@
 # encoding: utf-8
 import gl
 from lxml import etree
+import json
 
 class Parser(object):
     
@@ -43,7 +44,7 @@ class Parser(object):
             for doc_node in paragraph_node.iter(tag = etree.Element):
                 self.doc_nsmap = doc_node.nsmap
                 val = self._adapter(doc_node)
-                #print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
+                print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
                 if val is not None:
                     yield (doc_node, val, self.paragraph_num, self.parse_num)
                     continue
@@ -71,6 +72,10 @@ class Parser(object):
             if self.style == 16:
                 self.style = 0
                 text = '\016' + text + '\016'
+
+            if self.style == 32:
+                self.style = 0
+                text = '\032' + text + '\032'
 
             if self.vertAlign == 2:
                 self.vertAlign = 0
@@ -110,6 +115,23 @@ class Parser(object):
             self.parse_num += 1
             return '\006' + self.pic_rel_map[picid] + '\006'
         '''
+            图片大小
+        '''
+        if node.tag == self._get_doc_path('a', 'ext'):
+            if node.attrib.has_key('cx'):
+                print "#################"
+                w = int(node.attrib['cx'])/12700
+                h = int(node.attrib['cy'])/12700
+                print w
+                print h
+
+        #    for key in node.tag:
+        #        print "##### cx=" + key.attrib['cx'] + "cy=" + key.attrib['cy'] + "#####"
+        #    path = self._get_doc_path('cx', 'val')
+        #    style_type = node.get(path)
+        #    if 'single' == style_type:
+        #        self.style = 4
+        '''
             角标
         '''
         if node.tag == self._get_doc_path('w', 'vertAlign'):
@@ -137,6 +159,14 @@ class Parser(object):
             if 'dot' == style_type or 'underDot' == style_type:
                 self.style = 16
         '''
+            方框
+        '''
+        if node.tag == self._get_doc_path('w', 'bdr'):
+            path = self._get_doc_path('w', 'val')
+            style_type = node.get(path)
+            if 'single' == style_type:
+                self.style = 32
+        '''
             行位置:居左 1 居中 2 居右 3
         '''
         if node.tag == self._get_doc_path('w', 'jc'):
@@ -152,6 +182,9 @@ class Parser(object):
         if node.tag == self._get_doc_path('w', 'r'):
             if self.style != 0:
                 self.style = 0
+
+            if self.vertAlign != 0:
+                self.vertAlign = 0
             
 
     
