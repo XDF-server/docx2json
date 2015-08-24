@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 import gl
+import re
 from lxml import etree
 import json
 
@@ -21,6 +22,12 @@ class Parser(object):
         self.vertAlign = 0
         self.style = 0
         self.align = 0
+        self.w = 0
+        self.h = 0
+        self.x = 0.0
+        self.xl = 0.0
+        self.y = 0.0
+        self.yl =0.0
 
     
     def set_document_xml(self, document_xml):
@@ -44,7 +51,7 @@ class Parser(object):
             for doc_node in paragraph_node.iter(tag = etree.Element):
                 self.doc_nsmap = doc_node.nsmap
                 val = self._adapter(doc_node)
-                print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
+                #print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
                 if val is not None:
                     yield (doc_node, val, self.paragraph_num, self.parse_num)
                     continue
@@ -95,10 +102,57 @@ class Parser(object):
             图片
         '''
         if node.tag == self._get_doc_path('v', 'imagedata'):
+            cropleft = 0
+            cropright = 0
+            croptop = 0
+            cropbottom = 0
+            if node.attrib.has_key('cropleft'):
+                if re.search(r'f',node.attrib['cropleft']):
+                    cropleft = float(filter(str.isdigit,node.attrib['cropleft']))/65536
+                elif re.search(r'%',node.attrib['cropleft']):
+                    cropleft = float(filter(str.isdigit,node.attrib['cropleft']))/100
+                else:
+                    cropleft = float(node.attrib['cropleft'])
+                self.xl = cropleft
+            if node.attrib.has_key('cropright'):
+                if re.search(r'f',node.attrib['cropright']):
+                    cropright = float(filter(str.isdigit,node.attrib['cropright']))/65536
+                elif re.search(r'%',node.attrib['cropright']):
+                    cropright = float(filter(str.isdigit,node.attrib['cropright']))/100
+                else:
+                    cropright = float(node.attrib['cropright'])
+                self.x = 1 - cropright - cropleft
+            if node.attrib.has_key('croptop'):
+                if re.search(r'f',node.attrib['croptop']):
+                    croptop = float(filter(str.isdigit,node.attrib['croptop']))/65536
+                elif re.search(r'%',node.attrib['croptop']):
+                    croptop = float(filter(str.isdigit,node.attrib['croptop']))/100
+                else:
+                    croptop = float(node.attrib['croptop'])
+                self.yl = croptop
+            if node.attrib.has_key('cropbottom'):
+                if re.search(r'f',node.attrib['cropbottom']):
+                    cropbottom = float(filter(str.isdigit,node.attrib['cropbottom']))/65536
+                elif re.search(r'%',node.attrib['cropbottom']):
+                    cropbottom = float(filter(str.isdigit,node.attrib['cropbottom']))/100
+                else:
+                    cropbottom = float(node.attrib['cropbottom'])
+                self.y = 1 - cropbottom - croptop
             path = self._get_doc_path('r', 'id')
             picid = node.get(path)
             self.parse_num += 1
-            return '\006' + self.pic_rel_map[picid] + '\006'
+            print "#####imagedata#######"
+            str_pos = 'x:' + str(self.x) + ';xl:' + str(self.xl) + ';y:' + str(self.y) + ';yl:' + str(self.yl)
+            return ' ' + str_pos + ' ' + self.pic_rel_map[picid] + '\006'
+        '''
+            imagedata 图片大小
+        '''
+        if node.tag == self._get_doc_path('v', 'shape'):
+            if node.attrib.has_key('style'):
+                p=re.match(r'width:([0-9.]+)pt;height:([0-9.]+)pt',node.attrib['style'])
+                w=int(round(float(p.group(1))))
+                h=int(round(float(p.group(2))))
+                return '\006image ' + str(w) + ' ' + str(h)
         '''
             题目分割
         '''
@@ -113,24 +167,37 @@ class Parser(object):
             path = self._get_doc_path('r', 'embed')
             picid = node.get(path)
             self.parse_num += 1
-            return '\006' + self.pic_rel_map[picid] + '\006'
+            return '\006embed ' + self.pic_rel_map[picid] + ' '
         '''
-            图片大小
+            embed 图片偏移
+        '''
+        if node.tag == self._get_doc_path('a', 'srcRect'):
+            cropleft = 0
+            cropright = 0
+            croptop = 0
+            cropbottom = 0
+            if node.attrib.has_key('l'):
+                cropleft = float(node.attrib['l'])/100000
+                self.xl = cropleft
+            if node.attrib.has_key('r'):
+                cropright = float(node.attrib['r'])/100000
+                self.x = 1 - cropright - cropleft
+            if node.attrib.has_key('t'):
+                croptop = float(node.attrib['t'])/100000
+                self.yl = croptop
+            if node.attrib.has_key('b'):
+                cropbottom = float(node.attrib['b'])/100000
+                self.y = 1 - cropbottom - croptop
+        '''
+            embed 图片大小
         '''
         if node.tag == self._get_doc_path('a', 'ext'):
             if node.attrib.has_key('cx'):
-                print "#################"
+                #print "#################"
                 w = int(node.attrib['cx'])/12700
                 h = int(node.attrib['cy'])/12700
-                print w
-                print h
-
-        #    for key in node.tag:
-        #        print "##### cx=" + key.attrib['cx'] + "cy=" + key.attrib['cy'] + "#####"
-        #    path = self._get_doc_path('cx', 'val')
-        #    style_type = node.get(path)
-        #    if 'single' == style_type:
-        #        self.style = 4
+                str_pos = 'x:' + str(self.x) + ';xl:' + str(self.xl) + ';y:' + str(self.y) + ';yl:' + str(self.yl)
+                return str_pos + ' ' + str(w) + ' ' + str(h) + '\006'
         '''
             角标
         '''
@@ -177,15 +244,17 @@ class Parser(object):
             elif 'center' == style_type:
                 self.align = 2
         '''
-            特殊字体结束判断
+            特殊字体初始化
         '''
         if node.tag == self._get_doc_path('w', 'r'):
-            if self.style != 0:
-                self.style = 0
-
-            if self.vertAlign != 0:
-                self.vertAlign = 0
-            
+            self.style = 0
+            self.vertAlign = 0
+            self.w = 0
+            self.h = 0
+            self.x = 0.0
+            self.xl = 0.0
+            self.y = 0.0
+            self.yl =0.0
 
     
     def _pic_relation(self):

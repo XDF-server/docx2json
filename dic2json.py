@@ -54,13 +54,13 @@ class Dic2json(object):
 
 	def _analysis(self,val,docname):
 
-		list = val.split('\006')
-		for i in range(0,len(list)):
-		#for i in range(1,len(list),2):
+		vlist = val.split('\006')
+		for i in range(0,len(vlist)):
+		#for i in range(1,len(vlist),2):
 			if i%2 == 1:
-				self._picinfo(list[i],docname)
+				self._picinfo(vlist[i],docname)
 			else:
-				self._aligninfo(list[i],docname)
+				self._aligninfo(vlist[i],docname)
 
 
 	def _aligninfo(self,val,docname):
@@ -194,7 +194,36 @@ class Dic2json(object):
 	def _picinfo(self,val,docname):
 
 		###源文件位置
+		print "#####val: " + val
+		vlist = val.split(' ')
+		width_o = 0
+		height_o = 0
+		x = 0.0
+		xl = 0.0
+		y = 0.0
+		yl = 0.0
+		if vlist[0] == "embed":
+			val = vlist[1]
+			p=re.match(r'x:([0-9.-]+);xl:([0-9.-]+);y:([0-9.-]+);yl:([0-9.-]+)$',vlist[2])
+                        x = float(p.group(1))
+                        xl = float(p.group(2))
+                        y = float(p.group(3))
+                        yl = float(p.group(4))
+			width_o = vlist[3]
+			height_o = vlist[4]
+		else:
+			width_o = vlist[1]
+			height_o = vlist[2]
+			p=re.match(r'x:([0-9.-]+);xl:([0-9.-]+);y:([0-9.-]+);yl:([0-9.-]+)$',vlist[3])
+                        x = float(p.group(1))
+                        xl = float(p.group(2))
+                        y = float(p.group(3))
+                        yl = float(p.group(4))
+			val = vlist[4]
+
 		file_s = docname + "/word/" + val
+		print "file_s: " + file_s
+
 		if os.path.isfile(file_s) is False:
 			file_s = docname + val
 		###url用目录
@@ -256,6 +285,45 @@ class Dic2json(object):
 			img = Image.open(file_s)
 			(width, height) = img.size
 			
+		if x or xl or y or yl:
+			print "change:" + str(width) + "x" + str(height)
+			print x
+			print xl
+			print y
+			print yl
+			width_x = 0
+			width_l = 0
+			height_y = 0
+			height_l = 0
+			if x:
+				width_x = int(width * float(x))
+			if xl:
+				width_l = int(width * float(xl))
+			if y:
+				height_y = int(height * float(y))
+			if yl:
+				height_l = int(height * float(yl))
+			file_s = file_o
+			fname = ".".join(fnamelist[0:-1]) + "_co.png"
+			file_o = dir_o + '/' + fname
+			width = width_x
+			height = height_y
+			cmd = "/usr/bin/convert -crop " + str(width) + "x" + str(height) + "+" + str(width_l) + "+" + str(height_l) + " " + file_s + " " + file_o
+			print cmd
+			retn=call(cmd,shell=True)
+
+		if height_o and height/int(height_o) > 1 and width_o and width/int(width_o) > 1:
+			print "real:" + width_o + "x" + height_o
+			print "change:" + str(width) + "x" + str(height)
+		        width = int(int(width_o) * 1.35 )	
+		        height = int(int(height_o) * 1.35 )	
+			file_s = file_o
+			fname = ".".join(fnamelist[0:-1]) + "_cv.png"
+			file_o = dir_o + '/' + fname
+			cmd = "/usr/bin/convert -resize " +str(width) + "x" + str(height) + " " + file_s + " " + file_o
+			print cmd
+			retn=call(cmd,shell=True)
+
 		url = "http://10.60.0.159/" + dir_b + "/" + fname
 		unit = {"type" : "image", "value":url, "width":width, "height":height, "image_type":pic_type }
 		self._data_push(unit)

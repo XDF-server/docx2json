@@ -15,11 +15,11 @@ dbase="test"
 db = MySQLdb.connect(host,user,passw,dbase,charset="utf8" )
 
 #subject_type="单项选择"
-#subject_type="选择题"
+subject_type="选择题"
 
 #subject_type="判断题"
 
-subject_type="简答题"
+#subject_type="简答题"
 #subject_type="解答题"
 #subject_type="填空题"
 
@@ -37,7 +37,7 @@ sql = '''SELECT o.id,question_docx,question_type,s.fullname,o.grade_id
          LEFT JOIN entity_subject as s
          on o.subject_id=s.id
          where question_type='%(s)s' 
-           and o.id = 216379
+           and o.id in (94811)
            and question_docx is not null and state='1' ''' % dict(s=subject_type)
 #         where n.oldid is null and question_type='%(s)s' and question_docx is not null and state='1' ''' % dict(s=subject_type)
 #           and o.id != 139905
