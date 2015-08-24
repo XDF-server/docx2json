@@ -38,7 +38,7 @@ class Docxml(object):
 			subject = Subject(self.config_file)
 		elif stype == "选择题" or stype == "单项选择":
 			subject = Subject_blank()
-		elif stype == "判断题" or stype == "简答题":
+		elif stype == "判断题" or stype == "简答题" or stype == "填空题":
 			subject = Subject_panduan()
 		
 		doc_line = ''
@@ -76,11 +76,9 @@ class Docxml(object):
 				
 
 #file_o='/home/work/wzj/docx/qd_hQHbWx6884.docx'
-file_o='/home/work/wzj/docx/qd_jWn9qK5551.ori.docx'
-file_o='/home/work/wzj/docx/qd_i51er25951.ori.docx'
+file_o='/home/work/wzj/docx/qd_jVaVly3077.ori.docx'
 #file_o='/home/work/wzj/docx/qd_hPfBzE9029.docx'
 docx = Docxml(file_o, '','')
 docx.parse()
-#docx.subject("选择题")
-docx.subject("判断题")
+docx.subject(gl.q_type)
 print json.dumps(gl.question, ensure_ascii=0)

@@ -51,7 +51,7 @@ class Parser(object):
             for doc_node in paragraph_node.iter(tag = etree.Element):
                 self.doc_nsmap = doc_node.nsmap
                 val = self._adapter(doc_node)
-                #print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
+                print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
                 if val is not None:
                     yield (doc_node, val, self.paragraph_num, self.parse_num)
                     continue
@@ -149,9 +149,21 @@ class Parser(object):
         '''
         if node.tag == self._get_doc_path('v', 'shape'):
             if node.attrib.has_key('style'):
-                p=re.match(r'width:([0-9.]+)pt;height:([0-9.]+)pt',node.attrib['style'])
-                w=int(round(float(p.group(1))))
-                h=int(round(float(p.group(2))))
+                print node.attrib['style']
+                w=0
+                y=0
+                p=re.search(r'width:([0-9.]+)(pt|px|in)',node.attrib['style'])
+                if p.group(1):
+                    if p.group(2) == "in":
+                        w=int(round(float(p.group(1)) * 72))
+                    else:
+                        w=int(round(float(p.group(1))))
+                p=re.search(r'height:([0-9.]+)(pt|px|in)',node.attrib['style'])
+                if p.group(1):
+                    if p.group(2) == "in":
+                        h=int(round(float(p.group(1)) * 72 ))
+                    else:
+                        h=int(round(float(p.group(1))))
                 return '\006image ' + str(w) + ' ' + str(h)
         '''
             题目分割

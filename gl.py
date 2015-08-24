@@ -22,5 +22,13 @@ option_stat = ""
 ###空行数
 blank_num = 0
 
+###题型
+#q_type = "填空题"
+#q_type="单项选择"
+q_type="选择题"
+#q_type="判断题"
+#q_type="简答题"
+#q_type="解答题"
+
 vertAlignlist = glob.glob("/home/work/wzj/tmpfile/vertAlign/*.gif")
 vertAlignSet = set(vertAlignlist)

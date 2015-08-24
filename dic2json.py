@@ -17,6 +17,8 @@ class Dic2json(object):
 	def __init__(self):
 		self.option_result = []
 		self.option_flg = ""
+		self.blank_flg = 0
+		self.blank_cnt = 0
 		self.flg_list = [] ###文本字体样式flg
 		self.style = 0 ###文本字体样式
 		self.cnt = 1 
@@ -32,7 +34,7 @@ class Dic2json(object):
 
 	def _data_push(self,val):
 
-		#print json.dumps(val, ensure_ascii=0)
+		val_o = val
 		if gl.type_status == "options" :
 			if self.option_flg != gl.option_stat:
 				self.option_flg =  gl.option_stat
@@ -44,12 +46,38 @@ class Dic2json(object):
 				self.option_result.append(val)
 
 		else:
+			###初始化options相关变量
 			if self.option_result:
 				gl.question["options"].append(self.option_result)
 				self.option_result = []
 				self.option_flg = ""
 
-			gl.question[gl.type_status].append(val)
+			if gl.q_type=="填空题" and gl.type_status=="body" and val_o['type']=='text':
+				if val['style']==4 and re.match('^[ 　]+$'.decode('utf8'),val_o['value']):
+					if self.blank_flg==0:
+						self.blank_flg = 1
+						self.blank_cnt += 1
+						val={ "type" : "blank", "value" : self.blank_cnt }
+						gl.question[gl.type_status].append(val)
+				elif re.search('_',val_o['value']):
+					print "###route"
+					vlist = val_o['value'].split('_')
+					for v in vlist:
+						if v:
+							val = {"type" : "text", "value":v, "size":"", "font":"", "style":val_o['style'], "align":val_o['align']} 
+							gl.question[gl.type_status].append(val)
+							self.blank_flg = 0
+						elif self.blank_flg==0:
+							self.blank_flg = 1
+							self.blank_cnt += 1
+							val={ "type" : "blank", "value" : self.blank_cnt }
+							gl.question[gl.type_status].append(val)
+				else:
+					gl.question[gl.type_status].append(val)
+					self.blank_flg = 0
+			else:
+				gl.question[gl.type_status].append(val)
+				self.blank_flg = 0
 
 
 	def _analysis(self,val,docname):
