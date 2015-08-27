@@ -51,7 +51,7 @@ class Parser(object):
             for doc_node in paragraph_node.iter(tag = etree.Element):
                 self.doc_nsmap = doc_node.nsmap
                 val = self._adapter(doc_node)
-                print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
+                #print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
                 if val is not None:
                     yield (doc_node, val, self.paragraph_num, self.parse_num)
                     continue
@@ -72,6 +72,10 @@ class Parser(object):
             text = node.text
             self.last_text = text
             self.parse_num += 1
+            if self.style == 2:
+                self.style = 0
+                text = '\007' + text + '\007'
+
             if self.style == 4:
                 self.style = 0
                 text = '\004' + text + '\004'
@@ -86,9 +90,11 @@ class Parser(object):
 
             if self.vertAlign == 2:
                 self.vertAlign = 0
+		text = text.replace('\007','')
                 text = '\002' + text + '\002'
             elif self.vertAlign == 3:
                 self.vertAlign = 0
+		text = text.replace('\007','')
                 text = '\003' + text + '\003'
 
             if self.align == 3:
@@ -221,6 +227,11 @@ class Parser(object):
                 self.vertAlign = 2
             if 'superscript' == align_type:
                 self.vertAlign = 3
+        '''
+            斜体
+        '''
+        if node.tag == self._get_doc_path('w', 'i'):
+            self.style = 2
         '''
             下划线
         '''

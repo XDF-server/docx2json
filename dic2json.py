@@ -25,9 +25,9 @@ class Dic2json(object):
 	
 	def parse(self,val,docname):
 		#print gl.option_stat + "  " + gl.type_status + ":" + val
-		if gl.type_change and gl.type_status != "options":
-			unit = {"type":"newline","value":"1"}
-			self._data_push(unit)
+		#if gl.type_change and gl.type_status != "options":
+		#	unit = {"type":"newline","value":"1"}
+		#	self._data_push(unit)
 		self._analysis(val,docname)
 		unit = {"type":"newline","value":"1"}
 		self._data_push(unit)
@@ -97,10 +97,10 @@ class Dic2json(object):
 		up_flg = 0
 		align = 0
 		text = ""
-		acc_list = {'\001':1, '\002':2, '\004':4, '\008':8, '\016':16, '\032':32} 
+		acc_list = {'\001':1, '\007':2, '\004':4, '\008':8, '\016':16, '\032':32} 
 		#print val
 		for i in val:
-			if i == '\004' or i == '\016' or i == '\032':
+			if i == '\004' or i == '\016' or i == '\032' or i == '\007':
 				if self.flg_list.count(i)==0:
 					self.flg_list.append(i)
 					if text != "":
@@ -205,9 +205,9 @@ class Dic2json(object):
 				draw = ImageDraw.Draw(img) # 创建画笔
 		
 				if atype == 2:
-					draw.text((0,10),val,font=font,fill=fontcolor)
+					draw.text((0,10),i,font=font,fill=fontcolor)
 				elif atype == 3:
-					draw.text((0,0),val,font=font,fill=fontcolor)
+					draw.text((0,0),i,font=font,fill=fontcolor)
 
 				del draw
 
@@ -232,17 +232,17 @@ class Dic2json(object):
 		yl = 0.0
 		if vlist[0] == "embed":
 			val = vlist[1]
-			p=re.match(r'x:([0-9.-]+);xl:([0-9.-]+);y:([0-9.-]+);yl:([0-9.-]+)$',vlist[2])
+			p=re.match(r'x:([e0-9.-]+);xl:([e0-9.-]+);y:([e0-9.-]+);yl:([e0-9.-]+)$',vlist[2])
                         x = float(p.group(1))
                         xl = float(p.group(2))
                         y = float(p.group(3))
                         yl = float(p.group(4))
-			width_o = vlist[3]
-			height_o = vlist[4]
+			width_o = float(vlist[3])
+			height_o = float(vlist[4])
 		else:
-			width_o = vlist[1]
-			height_o = vlist[2]
-			p=re.match(r'x:([0-9.-]+);xl:([0-9.-]+);y:([0-9.-]+);yl:([0-9.-]+)$',vlist[3])
+			width_o = float(vlist[1])
+			height_o = float(vlist[2])
+			p=re.match(r'x:([e0-9.-]+);xl:([e0-9.-]+);y:([e0-9.-]+);yl:([e0-9.-]+)$',vlist[3])
                         x = float(p.group(1))
                         xl = float(p.group(2))
                         y = float(p.group(3))
@@ -341,7 +341,7 @@ class Dic2json(object):
 			retn=call(cmd,shell=True)
 
 		if height_o and height/int(height_o) > 1 and width_o and width/int(width_o) > 1:
-			print "real:" + width_o + "x" + height_o
+			print "real:" + str(width_o) + "x" + str(height_o)
 			print "change:" + str(width) + "x" + str(height)
 		        width = int(int(width_o) * 1.35 )	
 		        height = int(int(height_o) * 1.35 )	

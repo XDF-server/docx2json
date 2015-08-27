@@ -61,6 +61,7 @@ class Subject_blank(object):
 		val = val.replace(b'\xc2\xa0',' ')
 		val = val.replace(b'\xe3\x80\x80',' ')
 		val = val.replace('\004\004','')
+		val = val.replace('\007\007','') #去除多余斜体标记
 		val = val.replace('\016\016','')
 		val = val.replace('\012\012','') #去除多余居中符
 		val = val.replace('\013\013','') #去除多余居右符
@@ -80,8 +81,8 @@ class Subject_blank(object):
 				(val, tag) = self.option_ana(val)
 				if tag == 1:
 					gl.type_status = "options"
-					unit = {"type":"newline","value":"1"}
-					gl.question["body"].append(unit)
+					#unit = {"type":"newline","value":"1"}
+					#gl.question["body"].append(unit)
 					flg = 1
 			elif gl.type_status == "options":
 				gl.type_status = "answer"
@@ -128,6 +129,7 @@ class Subject_panduan(object):
 		flg = 0 ###类型变化flg 用来增加空行的
 		val = val.replace(b'\xc2\xa0',' ') #去除utf8特殊空格
 		val = val.replace('\004\004','') #去除多余下划线标记
+		val = val.replace('\007\007','') #去除多余斜体标记
 		val = val.replace('\016\016','') #去除多余着重点标记
 		val = val.replace('\012\012','') #去除多余居中符
 		val = val.replace('\013\013','') #去除多余居右符
