@@ -29,8 +29,9 @@ class Dic2json(object):
 		#	unit = {"type":"newline","value":"1"}
 		#	self._data_push(unit)
 		self._analysis(val,docname)
-		unit = {"type":"newline","value":"1"}
-		self._data_push(unit)
+		if gl.type_status != "answer" and gl.q_type_l!="选择题":
+			unit = {"type":"newline","value":"1"}
+			self._data_push(unit)
 
 	def _data_push(self,val):
 
@@ -75,6 +76,9 @@ class Dic2json(object):
 				else:
 					gl.question[gl.type_status].append(val)
 					self.blank_flg = 0
+			elif gl.q_type_l=="选择题" and gl.type_status == "answer":
+				for i in val:
+					gl.question[gl.type_status].append(i)
 			else:
 				gl.question[gl.type_status].append(val)
 				self.blank_flg = 0
@@ -166,18 +170,35 @@ class Dic2json(object):
 
 	def _create_pic(self,val,atype):
 
-		cmd = "mkdir -p /home/work/wzj/tmpfile/vertAlign/"
+		print "###create vertAlign start"
+		cmd = "mkdir -p /home/work/wzj/tmpfile_f/vertAlign/"
 		retn=call(cmd,shell=True)
-		pic_type = 0
+		ttf_type = 0
 		for i in val.decode('utf8'):
-			pic = "/home/work/wzj/tmpfile/vertAlign/"
-			url = "http://10.60.0.159/vertAlign/"
+			if i=='\010':
+				ttf_type = ~ttf_type
+				continue
+			
+			pic = "/home/work/wzj/tmpfile_f/vertAlign/"
+			#url = "http://10.60.0.159/vertAlign/"
+			url = ""
+			#end=".gif"
+			end=".png"
+			pos = ""
 			if atype == 2:
-				pic += "sub_" + i.encode('utf8') + ".gif"
-				url += "sub_" + i.encode('utf8') + ".gif"
+				pic += "sub_" + i.encode('utf8') + end
+				url += "sub_" + i.encode('utf8') + end
+				pos = "south"
 			elif atype == 3:
-				pic += "up_" + i.encode('utf8') + ".gif"
-				url += "up_" + i.encode('utf8') + ".gif"
+				pic += "up_" + i.encode('utf8') + end
+				url += "up_" + i.encode('utf8') + end
+				pos = "north"
+
+			font_file = ""
+			if ttf_type:
+				font_file = "/usr/share/fonts/times/timesi.ttf"
+			else:
+				font_file = "/usr/share/fonts/simsun/simsun.ttf"
 
 
 			if pic in gl.vertAlignSet:
@@ -189,31 +210,21 @@ class Dic2json(object):
 					print "_create_pic : openfileNG  pic: " + pic
 
 				(width, height) = img.size
-				unit = {"type" : "image", "value":url, "width":width, "height":height, "image_type":pic_type }
+				unit = {"type" : "image", "value":url, "width":width, "height":height, "image_type":1 }
 				self._data_push(unit)
 			else:
 				###在角标集中不存在
-				w = 5
+				w = 7
 				if (unicodedata.east_asian_width(i) in ('F','W','A')):
 					w = 10
 				h = 20
 
-				bgcolor=(255,255,255,0) #背景颜色,透明度
-				fontcolor = (0,0,0) #字体颜色
-				font = ImageFont.truetype("/usr/share/fonts/simsun/simsun.ttf",10)
-				img = Image.new("RGBA", (w,h), bgcolor) # 创建图形 生成背景图片
-				draw = ImageDraw.Draw(img) # 创建画笔
-		
-				if atype == 2:
-					draw.text((0,10),i,font=font,fill=fontcolor)
-				elif atype == 3:
-					draw.text((0,0),i,font=font,fill=fontcolor)
+				cmd = "/usr/bin/convert -transparent white -size " + str(w) + "x" + str(h) + " -gravity " + pos + " -pointsize 10 -font " + font_file + " label:'" + i + "' " + pic
+                        	print cmd
+                        	retn=call(cmd,shell=True)
 
-				del draw
-
-				img.save(pic) #保存原始版本
 				gl.vertAlignSet.add(pic)
-				unit = {"type" : "image", "value":url, "width":w, "height":h, "image_type":pic_type }
+				unit = {"type" : "image", "value":url, "width":w, "height":h, "image_type":1 }
 				self._data_push(unit)
 
 		return ""
@@ -257,7 +268,7 @@ class Dic2json(object):
 		###url用目录
 		dir_b = docname.split('/')[-1] + "/" + "/".join(val.split('/')[0:-1])
 		###实际目录
-		dir_o = '/home/work/wzj/tmpfile/' + dir_b
+		dir_o = '/home/work/wzj/tmpfile_f/' + dir_b
 
 		###创建新文件目录
 		try:
@@ -283,15 +294,16 @@ class Dic2json(object):
 		result = p.stdout.readlines()[0]
 		print result
 		if re.search(r'EMF',result):
-			#cmd = "echo " + file_s + ">>pic_need_change"
-			#retn=call(cmd,shell=True)
-			fname = ".".join(fnamelist[0:-1]) + ".svg"
-			file_o_s = dir_o + '/' + fname
-			cmd = "/usr/local/bin/svgexport " + file_o_s + " " + file_o
+			cmd = "echo " + file_s + ">>pic_need_change"
 			retn=call(cmd,shell=True)
-			img = Image.open(file_o)
-			(width, height) = img.size
-			fname = ".".join(fnamelist[0:-1]) + ".png"
+			#fname = ".".join(fnamelist[0:-1]) + ".svg"
+			#file_o_s = dir_o + '/' + fname
+			#cmd = "/usr/local/bin/svgexport " + file_o_s + " " + file_o
+			#retn=call(cmd,shell=True)
+			#img = Image.open(file_o)
+			#(width, height) = img.size
+			#fname = ".".join(fnamelist[0:-1]) + ".png"
+			#gl.excep=1
 		elif re.search(r'wmf',result):
 			###图片后缀 svg
 			fname = ".".join(fnamelist[0:-1]) + ".svg"
@@ -340,7 +352,7 @@ class Dic2json(object):
 			print cmd
 			retn=call(cmd,shell=True)
 
-		if height_o and height/int(height_o) > 1 and width_o and width/int(width_o) > 1:
+		if height_o and height/height_o/1.35 > 1.5 and width_o and width/width_o/1.35 > 1.5:
 			print "real:" + str(width_o) + "x" + str(height_o)
 			print "change:" + str(width) + "x" + str(height)
 		        width = int(int(width_o) * 1.35 )	
@@ -352,7 +364,8 @@ class Dic2json(object):
 			print cmd
 			retn=call(cmd,shell=True)
 
-		url = "http://10.60.0.159/" + dir_b + "/" + fname
+		#url = "http://10.60.0.159/" + dir_b + "/" + fname
+		url = "/" + dir_b + "/" + fname
 		unit = {"type" : "image", "value":url, "width":width, "height":height, "image_type":pic_type }
 		self._data_push(unit)
 
@@ -368,7 +381,7 @@ class Dic2json(object):
 		###url用目录
 		dir_b = docname.split('/')[-1] + "/" + "/".join(val.split('/')[0:-1])
 		###实际目录
-		dir_o = '/home/work/wzj/tmpfile/' + dir_b
+		dir_o = '/home/work/wzj/tmpfile_f/' + dir_b
 
 		###创建新文件目录
 		try:
@@ -417,7 +430,8 @@ class Dic2json(object):
 			img = Image.open(file_s)
 			(width, height) = img.size
 			
-		url = "http://10.60.0.159/" + dir_b + "/" + fname
+		#url = "http://10.60.0.159/" + dir_b + "/" + fname
+		url = "/" + dir_b + "/" + fname
 		unit = {"type" : "image", "value":url, "width":width, "height":height, "image_type":pic_type }
 		self._data_push(unit)
 
@@ -433,7 +447,7 @@ class Dic2json(object):
 		###url用目录
 		dir_b = docname.split('/')[-1] + "/" + "/".join(val.split('/')[0:-1])
 		###实际目录
-		dir_o = '/home/work/wzj/tmpfile/' + dir_b
+		dir_o = '/home/work/wzj/tmpfile_f/' + dir_b
 
 		###创建新文件目录
 		try:
@@ -475,7 +489,8 @@ class Dic2json(object):
 				img = Image.open(file_o)
 				(width, height) = img.size
 			
-		url = "http://10.60.0.159/" + dir_b + "/" + fname
+		#url = "http://10.60.0.159/" + dir_b + "/" + fname
+		url = "/" + dir_b + "/" + fname
 		unit = {"type" : "image", "value":url, "width":width, "height":height, "image_type":pic_type }
 		self._data_push(unit)
 
@@ -491,7 +506,7 @@ class Dic2json(object):
 		###url用目录
 		dir_b = docname.split('/')[-1] + "/" + "/".join(val.split('/')[0:-1])
 		###实际目录
-		dir_o = '/home/work/wzj/tmpfile/' + dir_b
+		dir_o = '/home/work/wzj/tmpfile_f/' + dir_b
 
 		###创建新文件目录
 		try:
@@ -548,7 +563,8 @@ class Dic2json(object):
 			retn=call(cmd,shell=True)
 			#shutil.copy(file_s,file_o)
 
-		url = "http://10.60.0.159/" + dir_b + "/" + fname
+		#url = "http://10.60.0.159/" + dir_b + "/" + fname
+		url = "/" + dir_b + "/" + fname
 		unit = {"type" : "image", "value":url, "width":width, "height":height, "image_type":pic_type }
 		self._data_push(unit)
 		return
@@ -563,7 +579,7 @@ class Dic2json(object):
 		###url用目录
 		dir_b = docname.split('/')[-1] + "/" + "/".join(val.split('/')[0:-1])
 		###实际目录
-		dir_o = '/home/work/wzj/tmpfile/' + dir_b
+		dir_o = '/home/work/wzj/tmpfile_f/' + dir_b
 
 		###创建新文件目录
 		try:
@@ -608,7 +624,8 @@ class Dic2json(object):
 
 		(width, height) = img.size
 
-		url = "http://10.60.0.159/" + dir_b + "/" + fname
+		#url = "http://10.60.0.159/" + dir_b + "/" + fname
+		url = "/" + dir_b + "/" + fname
 		unit = {"type" : "image", "value":url, "width":width, "height":height, "image_type":pic_type }
 		self._data_push(unit)
 		return

@@ -45,6 +45,9 @@ class Parser(object):
         '''
             按word显示的行解析word文档
         '''
+        if self.doc_root.findall('.//' + self._get_doc_path('w', 'tbl')):
+            print "#####tbl######"
+            gl.excep=2
         for paragraph_node in self.doc_root.findall('.//' + self._get_doc_path('w', 'p')):
             self.paragraph_num += 1
             self.align = 0
@@ -90,11 +93,11 @@ class Parser(object):
 
             if self.vertAlign == 2:
                 self.vertAlign = 0
-		text = text.replace('\007','')
+		text = text.replace('\007','\010')
                 text = '\002' + text + '\002'
             elif self.vertAlign == 3:
                 self.vertAlign = 0
-		text = text.replace('\007','')
+		text = text.replace('\007','\010')
                 text = '\003' + text + '\003'
 
             if self.align == 3:
@@ -278,6 +281,10 @@ class Parser(object):
             self.xl = 0.0
             self.y = 0.0
             self.yl =0.0
+        if node.tag == self._get_doc_path('w', 'numPr'):
+            gl.excep=3
+        if node.tag == self._get_doc_path('w', 'fldChar'):
+            gl.excep=4
 
     
     def _pic_relation(self):

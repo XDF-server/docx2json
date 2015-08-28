@@ -70,10 +70,15 @@ class Subject_blank(object):
 		if gl.type_status == "":
 			gl.type_status = "type"
 			return
-		elif re.match(r'^[\s　]*\001$',val) or (val == '\005\001' and gl.type_status != "analysis" and gl.type_status != ""):
+		elif gl.type_status == "" and gl.sub_status==1:
+			gl.excep=5
+			gl.type_status = "type"
+			return
+		elif re.match(r'^[\s　]*\001$'.decode('utf8'),val) or (val == '\005\001' and gl.type_status != "analysis" and gl.type_status != ""):
 			gl.blank_num += 1
 			return
 		elif gl.type_status == "type":
+			gl.sub_status=1
 			gl.type_status = "body"
 			gl.blank_num = 0
 		elif gl.blank_num > 0 and gl.type_status != "analysis":
@@ -128,6 +133,7 @@ class Subject_panduan(object):
 		print "before: " + gl.type_status + " : "+ val
 		flg = 0 ###类型变化flg 用来增加空行的
 		val = val.replace(b'\xc2\xa0',' ') #去除utf8特殊空格
+		val = val.replace(b'\xe3\x80\x80',' ')
 		val = val.replace('\004\004','') #去除多余下划线标记
 		val = val.replace('\007\007','') #去除多余斜体标记
 		val = val.replace('\016\016','') #去除多余着重点标记
@@ -137,12 +143,17 @@ class Subject_panduan(object):
 		if gl.type_status == "":
 			gl.type_status = "type"
 			return
+		elif gl.type_status == "" and gl.sub_status==1:
+			gl.excep=5
+			gl.type_status = "type"
+			return
 		elif re.compile('^[\s]*\001$').match(val) or (val == '\005\001' and gl.type_status != "analysis" and gl.type_status != ""):
 			gl.blank_num += 1
 			return
 		elif gl.type_status == "type":
 			gl.type_status = "body"
 			gl.blank_num = 0
+			gl.sub_status = 1
 		elif gl.blank_num > 0 and gl.type_status != "analysis":
 			if gl.type_status == "body":
 				gl.type_status = "answer"
