@@ -3,6 +3,9 @@
 import glob
 import sys
 
+###题号
+oldid = 0
+
 ###规则字典
 rulelist = []
 
@@ -23,11 +26,11 @@ option_stat = ""
 blank_num = 0
 
 ###题型
-#q_type = "填空题"
-#q_type="单项选择"
-#q_type="选择题"
 #q_type="判断题"
-q_type="简答题"
+#q_type="单项选择"
+q_type="填空题"
+#q_type="选择题"
+#q_type="简答题"
 #q_type="解答题"
 
 q_type_l=q_type
@@ -43,9 +46,12 @@ elif q_type=="简答题" or q_type=="解答题":
 ###3:序号 numPr
 ###4:word公式
 ###5:复合题
+###6:textbox
+###7:file open ng
 excep=0
 
 ###角标集
-vertAlignlist = glob.glob("/home/work/wzj/tmpfile/vertAlign/*.png")
+vertAlignlist = glob.glob("/home/work/wzj/tmpfile_f/vertAlign/*.png")
+#vertAlignlist = glob.glob("/home/work/wzj/tmpfile/vertAlign/*.png")
 #vertAlignlist = glob.glob("/home/work/wzj/tmpfile/vertAlign/*.gif")
 vertAlignSet = set(vertAlignlist)

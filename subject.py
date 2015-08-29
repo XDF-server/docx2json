@@ -56,7 +56,7 @@ class Subject_blank(object):
 
 	def parse(self,val,pnum,bnum):
 
-		print "before:" + gl.type_status + " : " + val
+		#print "before:" + gl.type_status + " : " + val
 		flg = 0 ###类型变化flg 用来增加空行的
 		val = val.replace(b'\xc2\xa0',' ')
 		val = val.replace(b'\xe3\x80\x80',' ')
@@ -109,7 +109,7 @@ class Subject_blank(object):
 			gl.type_change = 1
 		else:
 			gl.type_change = 0
-		print "after : " + gl.type_status + " : " + val
+		#print "after : " + gl.type_status + " : " + val
 		val = val.replace('\005','')
 		val = val.replace("'","''")
 		return val
@@ -130,7 +130,7 @@ class Subject_panduan(object):
 
 	def parse(self,val,pnum,bnum):
 
-		print "before: " + gl.type_status + " : "+ val
+		#print "before: " + gl.type_status + " : "+ val
 		flg = 0 ###类型变化flg 用来增加空行的
 		val = val.replace(b'\xc2\xa0',' ') #去除utf8特殊空格
 		val = val.replace(b'\xe3\x80\x80',' ')
@@ -172,7 +172,7 @@ class Subject_panduan(object):
 			gl.type_change = 1
 		else:
 			gl.type_change = 0
-		print "after : " + gl.type_status + " : "+ val
+		#print "after : " + gl.type_status + " : "+ val
 		val = val.replace('\005','')
 		val = val.replace("'","''")
 		return val

@@ -19,8 +19,11 @@ class Docxml(object):
 	def reset(self,docxname):
 		self.docxname = docxname[0:docxname.find('.')]
 		self.fd = open(docxname)
-		self.zf = zipfile.ZipFile(self.fd)
-		self._pic_unzip()
+		try:
+			self.zf = zipfile.ZipFile(self.fd)
+			self._pic_unzip()
+		except:
+			gl.excep=7
 
 	def get_xml(self,xmlname):
 		return self.zf.read(xmlname,'r')

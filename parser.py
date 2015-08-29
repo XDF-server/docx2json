@@ -46,7 +46,7 @@ class Parser(object):
             按word显示的行解析word文档
         '''
         if self.doc_root.findall('.//' + self._get_doc_path('w', 'tbl')):
-            print "#####tbl######"
+            #print "#####tbl######"
             gl.excep=2
         for paragraph_node in self.doc_root.findall('.//' + self._get_doc_path('w', 'p')):
             self.paragraph_num += 1
@@ -150,15 +150,16 @@ class Parser(object):
             path = self._get_doc_path('r', 'id')
             picid = node.get(path)
             self.parse_num += 1
-            print "#####imagedata#######"
+            #print "#####imagedata#######"
             str_pos = 'x:' + str(self.x) + ';xl:' + str(self.xl) + ';y:' + str(self.y) + ';yl:' + str(self.yl)
             return ' ' + str_pos + ' ' + self.pic_rel_map[picid] + '\006'
         '''
             imagedata 图片大小
         '''
-        if node.tag == self._get_doc_path('v', 'shape'):
+        if node.tag == self._get_doc_path('v', 'shape') and gl.excep!=6:
+            #print "####006image" + str(gl.excep)
             if node.attrib.has_key('style'):
-                print node.attrib['style']
+                #print node.attrib['style']
                 w=0
                 y=0
                 p=re.search(r'width:([0-9.]+)(pt|px|in)',node.attrib['style'])
@@ -285,6 +286,8 @@ class Parser(object):
             gl.excep=3
         if node.tag == self._get_doc_path('w', 'fldChar'):
             gl.excep=4
+        if node.tag == self._get_doc_path('v', 'textbox'):
+            gl.excep=6
 
     
     def _pic_relation(self):

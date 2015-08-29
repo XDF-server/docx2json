@@ -61,7 +61,7 @@ class Dic2json(object):
 						val={ "type" : "blank", "value" : self.blank_cnt }
 						gl.question[gl.type_status].append(val)
 				elif re.search('_',val_o['value']):
-					print "###route"
+					#print "###route"
 					vlist = val_o['value'].split('_')
 					for v in vlist:
 						if v:
@@ -90,7 +90,8 @@ class Dic2json(object):
 		for i in range(0,len(vlist)):
 		#for i in range(1,len(vlist),2):
 			if i%2 == 1:
-				self._picinfo(vlist[i],docname)
+				if gl.excep != 6:
+					self._picinfo(vlist[i],docname)
 			else:
 				self._aligninfo(vlist[i],docname)
 
@@ -170,28 +171,57 @@ class Dic2json(object):
 
 	def _create_pic(self,val,atype):
 
-		print "###create vertAlign start"
+		#print "###create vertAlign start"
 		cmd = "mkdir -p /home/work/wzj/tmpfile_f/vertAlign/"
 		retn=call(cmd,shell=True)
 		ttf_type = 0
 		for i in val.decode('utf8'):
+			print "####_create_pic: " + i
 			if i=='\010':
 				ttf_type = ~ttf_type
 				continue
+			if i==" ":
+				continue
 			
 			pic = "/home/work/wzj/tmpfile_f/vertAlign/"
+			pic1 = "/home/work/wzj/tmpfile_f/vertAlign/"
 			#url = "http://10.60.0.159/vertAlign/"
-			url = ""
+			url = "/vertAlign/"
 			#end=".gif"
 			end=".png"
 			pos = ""
+			sflg=0
+			if i == '(' or i == ')':
+				sflg=1
+			elif i == '*':
+				sflg=2
+				print "###sflg:2"
+
 			if atype == 2:
-				pic += "sub_" + i.encode('utf8') + end
-				url += "sub_" + i.encode('utf8') + end
+				if sflg==1:
+					pic1 += "sub_" + "\\" + i.encode('utf8') + end
+				elif sflg==2:
+					pic += "sub_xy" + end
+				else:
+					pic += "sub_" + i.encode('utf8') + end
+
+				if sflg==2:
+					url += "sub_xy" + end
+				else:
+					url += "sub_" + i.encode('utf8') + end
 				pos = "south"
 			elif atype == 3:
-				pic += "up_" + i.encode('utf8') + end
-				url += "up_" + i.encode('utf8') + end
+				if sflg==1:
+					pic1 += "up_" + "\\" + i.encode('utf8') + end
+				elif sflg==2:
+					pic += "up_xy" + end
+				else:
+					pic += "up_" + i.encode('utf8') + end
+
+				if sflg==2:
+					url += "up_xy" + end
+				else:
+					url += "up_" + i.encode('utf8') + end
 				pos = "north"
 
 			font_file = ""
@@ -208,6 +238,8 @@ class Dic2json(object):
 					img = Image.open(pic)
 				except:
 					print "_create_pic : openfileNG  pic: " + pic
+					print "_create_pic : openfileNG  pic: " + pic1
+					print "_create_pic : openfileNG  i: " + i
 
 				(width, height) = img.size
 				unit = {"type" : "image", "value":url, "width":width, "height":height, "image_type":1 }
@@ -219,7 +251,12 @@ class Dic2json(object):
 					w = 10
 				h = 20
 
-				cmd = "/usr/bin/convert -transparent white -size " + str(w) + "x" + str(h) + " -gravity " + pos + " -pointsize 10 -font " + font_file + " label:'" + i + "' " + pic
+				cmd=""
+				if sflg==1:
+					cmd = "/usr/bin/convert -transparent white -size " + str(w) + "x" + str(h) + " -gravity " + pos + " -pointsize 10 -font " + font_file + " label:'" + i + "' " + pic1
+				else:
+					cmd = "/usr/bin/convert -transparent white -size " + str(w) + "x" + str(h) + " -gravity " + pos + " -pointsize 10 -font " + font_file + " label:'" + i + "' " + pic
+
                         	print cmd
                         	retn=call(cmd,shell=True)
 
@@ -233,7 +270,7 @@ class Dic2json(object):
 	def _picinfo(self,val,docname):
 
 		###源文件位置
-		print "#####val: " + val
+		#print "#####val: " + val
 		vlist = val.split(' ')
 		width_o = 0
 		height_o = 0
@@ -261,7 +298,7 @@ class Dic2json(object):
 			val = vlist[4]
 
 		file_s = docname + "/word/" + val
-		print "file_s: " + file_s
+		#print "file_s: " + file_s
 
 		if os.path.isfile(file_s) is False:
 			file_s = docname + val
@@ -292,9 +329,9 @@ class Dic2json(object):
 		p = []
 		p=subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 		result = p.stdout.readlines()[0]
-		print result
+		#print result
 		if re.search(r'EMF',result):
-			cmd = "echo " + file_s + ">>pic_need_change"
+			cmd = "echo " + str(gl.oldid) + file_s + ">>pic_need_change"
 			retn=call(cmd,shell=True)
 			#fname = ".".join(fnamelist[0:-1]) + ".svg"
 			#file_o_s = dir_o + '/' + fname
@@ -310,7 +347,7 @@ class Dic2json(object):
 			file_o_s = dir_o + '/' + fname
 			TypeChange.wmf2svg(file_s, file_o_s)
 			#pic_type = 3
-			print "wmf svgexport"
+			#print "wmf svgexport"
 			cmd = "/usr/local/bin/svgexport " + file_o_s + " " + file_o
 			retn=call(cmd,shell=True)
 			#img = Image.open(file_s)
@@ -319,18 +356,18 @@ class Dic2json(object):
 			fname = ".".join(fnamelist[0:-1]) + ".png"
 		else:
 			cmd = "/usr/bin/convert -transparent white " + file_s + " " + file_o
-			print cmd
+			#print cmd
 			retn=call(cmd,shell=True)
 
 			img = Image.open(file_s)
 			(width, height) = img.size
 			
 		if x or xl or y or yl:
-			print "change:" + str(width) + "x" + str(height)
-			print x
-			print xl
-			print y
-			print yl
+			#print "change:" + str(width) + "x" + str(height)
+			#print x
+			#print xl
+			#print y
+			#print yl
 			width_x = 0
 			width_l = 0
 			height_y = 0
@@ -349,19 +386,19 @@ class Dic2json(object):
 			width = width_x
 			height = height_y
 			cmd = "/usr/bin/convert -crop " + str(width) + "x" + str(height) + "+" + str(width_l) + "+" + str(height_l) + " " + file_s + " " + file_o
-			print cmd
+			#print cmd
 			retn=call(cmd,shell=True)
 
 		if height_o and height/height_o/1.35 > 1.5 and width_o and width/width_o/1.35 > 1.5:
-			print "real:" + str(width_o) + "x" + str(height_o)
-			print "change:" + str(width) + "x" + str(height)
+			#print "real:" + str(width_o) + "x" + str(height_o)
+			#print "change:" + str(width) + "x" + str(height)
 		        width = int(int(width_o) * 1.35 )	
 		        height = int(int(height_o) * 1.35 )	
 			file_s = file_o
 			fname = ".".join(fnamelist[0:-1]) + "_cv.png"
 			file_o = dir_o + '/' + fname
 			cmd = "/usr/bin/convert -resize " +str(width) + "x" + str(height) + " " + file_s + " " + file_o
-			print cmd
+			#print cmd
 			retn=call(cmd,shell=True)
 
 		#url = "http://10.60.0.159/" + dir_b + "/" + fname
