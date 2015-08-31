@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+##!/usr/bin/env python
 # encoding: utf-8
 import gl
 import re
@@ -22,6 +22,7 @@ class Parser(object):
         self.vertAlign = 0
         self.style = 0
         self.align = 0
+        self.picflg = 0
         self.w = 0
         self.h = 0
         self.x = 0.0
@@ -46,7 +47,6 @@ class Parser(object):
             按word显示的行解析word文档
         '''
         if self.doc_root.findall('.//' + self._get_doc_path('w', 'tbl')):
-            #print "#####tbl######"
             gl.excep=2
         for paragraph_node in self.doc_root.findall('.//' + self._get_doc_path('w', 'p')):
             self.paragraph_num += 1
@@ -152,28 +152,32 @@ class Parser(object):
             self.parse_num += 1
             #print "#####imagedata#######"
             str_pos = 'x:' + str(self.x) + ';xl:' + str(self.xl) + ';y:' + str(self.y) + ';yl:' + str(self.yl)
-            return ' ' + str_pos + ' ' + self.pic_rel_map[picid] + '\006'
+            if self.picflg:
+                return ' ' + str_pos + ' ' + self.pic_rel_map[picid] + '\006'
+            else:
+                return ""
         '''
             imagedata 图片大小
         '''
         if node.tag == self._get_doc_path('v', 'shape') and gl.excep!=6:
-            #print "####006image" + str(gl.excep)
+            print "####006image" + str(gl.excep)
             if node.attrib.has_key('style'):
-                #print node.attrib['style']
+                print node.attrib['style']
                 w=0
                 y=0
-                p=re.search(r'width:([0-9.]+)(pt|px|in)',node.attrib['style'])
+                p=re.search(r'width:([0-9.]+)(pt|px|in|;)',node.attrib['style'])
                 if p.group(1):
                     if p.group(2) == "in":
                         w=int(round(float(p.group(1)) * 72))
                     else:
                         w=int(round(float(p.group(1))))
-                p=re.search(r'height:([0-9.]+)(pt|px|in)',node.attrib['style'])
+                p=re.search(r'height:([0-9.]+)(pt|px|in|;|$)',node.attrib['style'])
                 if p.group(1):
                     if p.group(2) == "in":
                         h=int(round(float(p.group(1)) * 72 ))
                     else:
                         h=int(round(float(p.group(1))))
+                self.picflg=1
                 return '\006image ' + str(w) + ' ' + str(h)
         '''
             题目分割
@@ -189,6 +193,7 @@ class Parser(object):
             path = self._get_doc_path('r', 'embed')
             picid = node.get(path)
             self.parse_num += 1
+            self.picflg=1
             return '\006embed ' + self.pic_rel_map[picid] + ' '
         '''
             embed 图片偏移
@@ -219,7 +224,10 @@ class Parser(object):
                 w = int(node.attrib['cx'])/12700
                 h = int(node.attrib['cy'])/12700
                 str_pos = 'x:' + str(self.x) + ';xl:' + str(self.xl) + ';y:' + str(self.y) + ';yl:' + str(self.yl)
-                return str_pos + ' ' + str(w) + ' ' + str(h) + '\006'
+                if self.picflg:
+                    return str_pos + ' ' + str(w) + ' ' + str(h) + '\006'
+                else:
+                    return ""
         '''
             角标
         '''
@@ -282,12 +290,15 @@ class Parser(object):
             self.xl = 0.0
             self.y = 0.0
             self.yl =0.0
+            self.picflg =0
         if node.tag == self._get_doc_path('w', 'numPr'):
             gl.excep=3
         if node.tag == self._get_doc_path('w', 'fldChar'):
             gl.excep=4
         if node.tag == self._get_doc_path('v', 'textbox'):
             gl.excep=6
+        if node.tag == self._get_doc_path('mc', 'AlternateContent'):
+            gl.excep=8
 
     
     def _pic_relation(self):

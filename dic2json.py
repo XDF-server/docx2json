@@ -24,12 +24,16 @@ class Dic2json(object):
 		self.cnt = 1 
 	
 	def parse(self,val,docname):
-		#print gl.option_stat + "  " + gl.type_status + ":" + val
+		#print gl.option_stat + "  " + gl.type_status + ":" + val + " " + gl.q_type_l
 		#if gl.type_change and gl.type_status != "options":
 		#	unit = {"type":"newline","value":"1"}
 		#	self._data_push(unit)
 		self._analysis(val,docname)
-		if gl.type_status != "answer" and gl.q_type_l!="选择题":
+		print gl.type_status + gl.q_type_l
+		if gl.q_type_l!="选择题":
+			unit = {"type":"newline","value":"1"}
+			self._data_push(unit)
+		elif gl.type_status != "answer":
 			unit = {"type":"newline","value":"1"}
 			self._data_push(unit)
 
@@ -77,7 +81,9 @@ class Dic2json(object):
 					gl.question[gl.type_status].append(val)
 					self.blank_flg = 0
 			elif gl.q_type_l=="选择题" and gl.type_status == "answer":
-				for i in val:
+				print "选择题"
+				print val_o['value']
+				for i in val_o['value']:
 					gl.question[gl.type_status].append(i)
 			else:
 				gl.question[gl.type_status].append(val)
@@ -90,7 +96,7 @@ class Dic2json(object):
 		for i in range(0,len(vlist)):
 		#for i in range(1,len(vlist),2):
 			if i%2 == 1:
-				if gl.excep != 6:
+				if gl.excep == 0:
 					self._picinfo(vlist[i],docname)
 			else:
 				self._aligninfo(vlist[i],docname)
@@ -180,46 +186,61 @@ class Dic2json(object):
 			if i=='\010':
 				ttf_type = ~ttf_type
 				continue
-			if i==" ":
+			if i==" " or i=="":
 				continue
 			
 			pic = "/home/work/wzj/tmpfile_f/vertAlign/"
-			pic1 = "/home/work/wzj/tmpfile_f/vertAlign/"
 			#url = "http://10.60.0.159/vertAlign/"
 			url = "/vertAlign/"
 			#end=".gif"
 			end=".png"
 			pos = ""
 			sflg=0
-			if i == '(' or i == ')':
+			sstr=""
+			if i == '(':
 				sflg=1
-			elif i == '*':
+				sstr="xa"
+				print "###sflg:1"
+			elif i == ')':
 				sflg=2
+				sstr="xb"
 				print "###sflg:2"
+			elif i == '*':
+				sflg=3
+				sstr="xy"
+				print "###sflg:3"
+			elif i == '|':
+				sflg=4
+				sstr="xz"
+				print "###sflg:4"
+			elif i == r"/":
+				sflg=5
+				sstr="xc"
+				print "###sflg:5"
+			elif i == r";":
+				sflg=6
+				sstr="xd"
+				print "###sflg:6"
 
 			if atype == 2:
-				if sflg==1:
-					pic1 += "sub_" + "\\" + i.encode('utf8') + end
-				elif sflg==2:
-					pic += "sub_xy" + end
+				if sflg:
+					pic += "sub_" + sstr + end
 				else:
 					pic += "sub_" + i.encode('utf8') + end
 
-				if sflg==2:
-					url += "sub_xy" + end
+				if sflg:
+					url += "sub_" + sstr + end
 				else:
 					url += "sub_" + i.encode('utf8') + end
 				pos = "south"
 			elif atype == 3:
-				if sflg==1:
-					pic1 += "up_" + "\\" + i.encode('utf8') + end
-				elif sflg==2:
-					pic += "up_xy" + end
+				if sflg:
+					pic += "up_" + sstr + end
 				else:
 					pic += "up_" + i.encode('utf8') + end
 
-				if sflg==2:
-					url += "up_xy" + end
+				if sflg:
+					url += "up_" + sstr + end
 				else:
 					url += "up_" + i.encode('utf8') + end
 				pos = "north"
@@ -231,6 +252,7 @@ class Dic2json(object):
 				font_file = "/usr/share/fonts/simsun/simsun.ttf"
 
 
+			print pic
 			if pic in gl.vertAlignSet:
 
 				###在角标集中存在
@@ -238,7 +260,6 @@ class Dic2json(object):
 					img = Image.open(pic)
 				except:
 					print "_create_pic : openfileNG  pic: " + pic
-					print "_create_pic : openfileNG  pic: " + pic1
 					print "_create_pic : openfileNG  i: " + i
 
 				(width, height) = img.size
@@ -251,11 +272,7 @@ class Dic2json(object):
 					w = 10
 				h = 20
 
-				cmd=""
-				if sflg==1:
-					cmd = "/usr/bin/convert -transparent white -size " + str(w) + "x" + str(h) + " -gravity " + pos + " -pointsize 10 -font " + font_file + " label:'" + i + "' " + pic1
-				else:
-					cmd = "/usr/bin/convert -transparent white -size " + str(w) + "x" + str(h) + " -gravity " + pos + " -pointsize 10 -font " + font_file + " label:'" + i + "' " + pic
+				cmd = "/usr/bin/convert -transparent white -size " + str(w) + "x" + str(h) + " -gravity " + pos + " -pointsize 10 -font " + font_file + " label:'" + i + "' " + pic
 
                         	print cmd
                         	retn=call(cmd,shell=True)
@@ -270,7 +287,7 @@ class Dic2json(object):
 	def _picinfo(self,val,docname):
 
 		###源文件位置
-		#print "#####val: " + val
+		print "#####val: " + val
 		vlist = val.split(' ')
 		width_o = 0
 		height_o = 0
@@ -287,7 +304,7 @@ class Dic2json(object):
                         yl = float(p.group(4))
 			width_o = float(vlist[3])
 			height_o = float(vlist[4])
-		else:
+		elif vlist[0] == "image":
 			width_o = float(vlist[1])
 			height_o = float(vlist[2])
 			p=re.match(r'x:([e0-9.-]+);xl:([e0-9.-]+);y:([e0-9.-]+);yl:([e0-9.-]+)$',vlist[3])
@@ -296,6 +313,8 @@ class Dic2json(object):
                         y = float(p.group(3))
                         yl = float(p.group(4))
 			val = vlist[4]
+		else:
+			print gl.excep
 
 		file_s = docname + "/word/" + val
 		#print "file_s: " + file_s
@@ -340,7 +359,7 @@ class Dic2json(object):
 			#img = Image.open(file_o)
 			#(width, height) = img.size
 			#fname = ".".join(fnamelist[0:-1]) + ".png"
-			#gl.excep=1
+			gl.excep=1
 		elif re.search(r'wmf',result):
 			###图片后缀 svg
 			fname = ".".join(fnamelist[0:-1]) + ".svg"

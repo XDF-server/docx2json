@@ -28,10 +28,10 @@ blank_num = 0
 ###题型
 #q_type="判断题"
 #q_type="单项选择"
-q_type="填空题"
-#q_type="选择题"
+#q_type="填空题"
 #q_type="简答题"
 #q_type="解答题"
+q_type="选择题"
 
 q_type_l=q_type
 if q_type=="选择题" or q_type=="单项选择":
@@ -48,6 +48,8 @@ elif q_type=="简答题" or q_type=="解答题":
 ###5:复合题
 ###6:textbox
 ###7:file open ng
+###8:mc:AlternateContent
+###9:UnicodeDecodeError
 excep=0
 
 ###角标集

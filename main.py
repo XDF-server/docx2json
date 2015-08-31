@@ -33,7 +33,7 @@ sql = '''SELECT o.id,question_docx,question_type,s.fullname,o.grade_id
          on o.subject_id=s.id
          where question_type='%(s)s' 
            and o.id in (%(i)s) 
-           and n.oldid is null 
+           and o.id = 163786
            and question_docx is not null and state='ENABLED' ''' % dict(s=gl.q_type,i=idlist)
 #         where n.oldid is null and question_type='%(s)s' and question_docx is not null and state='1' ''' % dict(s=gl.q_type)
 #           and o.id != 139905
@@ -54,7 +54,8 @@ for row in results:
 	gl.oldid = num
 	print "num: " + str(num)
 	docfile = row[1]
-	qtype = row[2]
+	#qtype = row[2]
+	qtype = gl.q_type_l
 	suject = row[3]
 	grade = row[4]
 	if grade:
@@ -110,18 +111,30 @@ for row in results:
 
 
 	
-	sql = '''insert into entity_question_new_f(oldid,type,json,subject,grade_id) 
-                 values('%(n)d','%(t)s','%(j)s','%(s)s','%(g)d')
-                 on duplicate key update type= '%(t)s' , json='%(j)s' , subject='%(s)s' , 
-                 grade_id='%(g)d' ''' % dict(n=num, t=qtype, j=json.dumps(gl.question, ensure_ascii=0), s=suject, g=grade)
-	#print "###oldnum:" + str(num)
-	#try:
-	#print sql
-	cursor.execute(sql)
-	db.commit()
-	#except:
-	#	db.rollback()
-	#	print "insert NG"
+	try:
+		js=json.dumps(gl.question, ensure_ascii=0)
+		sql = '''insert into entity_question_new_f(oldid,type,json,subject,grade_id) 
+                         values('%(n)d','%(t)s','%(j)s','%(s)s','%(g)d')
+                         on duplicate key update type= '%(t)s' , json='%(j)s' , subject='%(s)s' , 
+                         grade_id='%(g)d' ''' % dict(n=num, t=qtype, j=js, s=suject, g=grade)
+		#print "###oldnum:" + str(num)
+		#try:
+		#print sql
+		cursor.execute(sql)
+		db.commit()
+		#except:
+		#	db.rollback()
+		#	print "insert NG"
+	except:
+		gl.excep=9
+                cmd = "echo " + str(num) + ":" + str(gl.excep) + ">>ng_flg"
+                retn=call(cmd,shell=True)
+		sql = '''insert into entity_question_new_f(oldid,detail) 
+                    values('%(n)d','%(t)s')
+                    on duplicate key update detail= '%(t)s' ''' % dict(n=num, t=str(gl.excep))
+		cursor.execute(sql)
+		db.commit()
+
 
 db.close()
 

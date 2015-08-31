@@ -38,23 +38,21 @@ class Docxml(object):
 			subject = Subject(self.config_file)
 		elif stype == "选择题" or stype == "单项选择":
 			subject = Subject_blank()
-		elif stype == "判断题" or stype == "简答题" or stype == "填空题":
+		elif stype == "判断题" or stype == "简答题" or stype == "填空题" or stype == "解答题":
 			subject = Subject_panduan()
-		
+
 		doc_line = ''
 		dic2json = Dic2json()
 
+		print "###gl.excep" + str(gl.excep)
 		for node,val,pnum,bnum in self.parser.iterater():
-
 			doc_line += val
-
 			if '\001' == val:
 				json_unit = subject.parse(doc_line,pnum,bnum)
 				doc_line = ''
-
 				if json_unit :
 					dic2json.parse( json_unit[0:-1], self.docxname )
-		
+
 
 	def _pic_unzip(self):
 		namelist = self.zf.namelist()
@@ -75,10 +73,11 @@ class Docxml(object):
 		self.fd.close()
 				
 
-#file_o='/home/work/wzj/docx/qd_hQHbWx6884.docx'
-file_o='/home/work/wzj/docx/qd_jVaVly3077.ori.docx'
-#file_o='/home/work/wzj/docx/qd_hPfBzE9029.docx'
+file_o='/home/work/wzj/docx/qd_hvCyFA3394.ori.docx'
+#file_o='/home/work/wzj/docx/qd_ikm0SM7518.ori.docx' ###err6
+#file_o='/home/work/wzj/docx/qd_xPz8W4k08M.docx'  ###err8
 docx = Docxml(file_o, '','')
 docx.parse()
 docx.subject(gl.q_type)
 print json.dumps(gl.question, ensure_ascii=0)
+print gl.excep
