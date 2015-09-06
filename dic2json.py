@@ -80,6 +80,8 @@ class Dic2json(object):
 				else:
 					gl.question[gl.type_status].append(val)
 					self.blank_flg = 0
+				if self.blank_cnt > 1:
+					gl.excep = 10
 			elif gl.q_type_l=="选择题" and gl.type_status == "answer":
 				print "选择题"
 				print val_o['value']
@@ -296,23 +298,31 @@ class Dic2json(object):
 		y = 0.0
 		yl = 0.0
 		if vlist[0] == "embed":
-			val = vlist[1]
-			p=re.match(r'x:([e0-9.-]+);xl:([e0-9.-]+);y:([e0-9.-]+);yl:([e0-9.-]+)$',vlist[2])
-                        x = float(p.group(1))
-                        xl = float(p.group(2))
-                        y = float(p.group(3))
-                        yl = float(p.group(4))
-			width_o = float(vlist[3])
-			height_o = float(vlist[4])
+			try:
+				val = vlist[1]
+				p=re.match(r'x:([e0-9.-]+);xl:([e0-9.-]+);y:([e0-9.-]+);yl:([e0-9.-]+)$',vlist[2])
+                        	x = float(p.group(1))
+				xl = float(p.group(2))
+        	                y = float(p.group(3))
+                	        yl = float(p.group(4))
+				width_o = float(vlist[3])
+				height_o = float(vlist[4])
+			except:
+				gl.excep=12
+				return
 		elif vlist[0] == "image":
-			width_o = float(vlist[1])
-			height_o = float(vlist[2])
-			p=re.match(r'x:([e0-9.-]+);xl:([e0-9.-]+);y:([e0-9.-]+);yl:([e0-9.-]+)$',vlist[3])
-                        x = float(p.group(1))
-                        xl = float(p.group(2))
-                        y = float(p.group(3))
-                        yl = float(p.group(4))
-			val = vlist[4]
+			try:
+				width_o = float(vlist[1])
+				height_o = float(vlist[2])
+				p=re.match(r'x:([e0-9.-]+);xl:([e0-9.-]+);y:([e0-9.-]+);yl:([e0-9.-]+)$',vlist[3])
+        	                x = float(p.group(1))
+                	        xl = float(p.group(2))
+                        	y = float(p.group(3))
+				yl = float(p.group(4))
+				val = vlist[4]
+			except:
+				gl.excep=12
+				return
 		else:
 			print gl.excep
 
@@ -364,14 +374,17 @@ class Dic2json(object):
 			###图片后缀 svg
 			fname = ".".join(fnamelist[0:-1]) + ".svg"
 			file_o_s = dir_o + '/' + fname
-			TypeChange.wmf2svg(file_s, file_o_s)
-			#pic_type = 3
-			#print "wmf svgexport"
-			cmd = "/usr/local/bin/svgexport " + file_o_s + " " + file_o
-			retn=call(cmd,shell=True)
-			#img = Image.open(file_s)
-			img = Image.open(file_o)
-			(width, height) = img.size
+			try:
+				TypeChange.wmf2svg(file_s, file_o_s)
+				#pic_type = 3
+				#print "wmf svgexport"
+				cmd = "/usr/local/bin/svgexport " + file_o_s + " " + file_o
+				retn=call(cmd,shell=True)
+				#img = Image.open(file_s)
+				img = Image.open(file_o)
+				(width, height) = img.size
+			except:
+				gl.excep = 13
 			fname = ".".join(fnamelist[0:-1]) + ".png"
 		else:
 			cmd = "/usr/bin/convert -transparent white " + file_s + " " + file_o

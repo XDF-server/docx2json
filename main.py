@@ -33,11 +33,10 @@ sql = '''SELECT o.id,question_docx,question_type,s.fullname,o.grade_id
          on o.subject_id=s.id
          where question_type='%(s)s' 
            and o.id in (%(i)s) 
-           and o.id = 163786
+           and n.oldid is null 
            and question_docx is not null and state='ENABLED' ''' % dict(s=gl.q_type,i=idlist)
-#         where n.oldid is null and question_type='%(s)s' and question_docx is not null and state='1' ''' % dict(s=gl.q_type)
+#           and n.oldid is null and question_docx is not null and is_single=1 and subject_id in (1,2,19,5,6,21) and state='ENABLED' ''' % dict(s=gl.q_type)
 #           and o.id != 139905
-#           and n.oldid is null 
 #print sql
 
 cursor.execute(sql)

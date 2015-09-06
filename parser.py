@@ -73,6 +73,9 @@ class Parser(object):
         '''
         if node.tag == self._get_doc_path('w', 't'):
             text = node.text
+            if text is None:
+                gl.excep = 11
+                return ""
             self.last_text = text
             self.parse_num += 1
             if self.style == 2:
@@ -93,11 +96,11 @@ class Parser(object):
 
             if self.vertAlign == 2:
                 self.vertAlign = 0
-		text = text.replace('\007','\010')
+	        text = text.replace('\007','\010')
                 text = '\002' + text + '\002'
             elif self.vertAlign == 3:
                 self.vertAlign = 0
-		text = text.replace('\007','\010')
+	        text = text.replace('\007','\010')
                 text = '\003' + text + '\003'
 
             if self.align == 3:
@@ -194,7 +197,11 @@ class Parser(object):
             picid = node.get(path)
             self.parse_num += 1
             self.picflg=1
-            return '\006embed ' + self.pic_rel_map[picid] + ' '
+            if picid is None:
+                gl.excep = 12
+                return ''
+            else:
+                return '\006embed ' + self.pic_rel_map[picid] + ' '
         '''
             embed 图片偏移
         '''

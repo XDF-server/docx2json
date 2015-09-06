@@ -26,12 +26,12 @@ option_stat = ""
 blank_num = 0
 
 ###题型
-#q_type="判断题"
 #q_type="单项选择"
-#q_type="填空题"
+#q_type="选择题"
 #q_type="简答题"
-#q_type="解答题"
-q_type="选择题"
+q_type="解答题"
+#q_type="填空题"
+#q_type="判断题"
 
 q_type_l=q_type
 if q_type=="选择题" or q_type=="单项选择":
@@ -50,6 +50,10 @@ elif q_type=="简答题" or q_type=="解答题":
 ###7:file open ng
 ###8:mc:AlternateContent
 ###9:UnicodeDecodeError
+###10:多空格
+###11:text NoneType
+###12:图片异常
+###13:TypeChange.wmf2svg NG
 excep=0
 
 ###角标集
