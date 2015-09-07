@@ -30,7 +30,7 @@ class Dic2json(object):
 		#	self._data_push(unit)
 		self._analysis(val,docname)
 		print gl.type_status + gl.q_type_l
-		if gl.q_type_l!="选择题":
+		if gl.q_type_l!="选择题" and gl.q_type_l!="判断题":
 			unit = {"type":"newline","value":"1"}
 			self._data_push(unit)
 		elif gl.type_status != "answer":
@@ -87,6 +87,13 @@ class Dic2json(object):
 				print val_o['value']
 				for i in val_o['value']:
 					gl.question[gl.type_status].append(i)
+			elif gl.q_type_l=="判断题" and gl.type_status == "answer":
+				if val_o['value'] == "√" or val_o['value'] == "对" or val_o['value'] == "答案：对":
+					gl.question["answer"]=1
+				elif val_o['value'] == "×" or val_o['value'] == "错" or val_o['value'] == "错误" or val_o['value'] == "答案：错":
+					gl.question["answer"]=0
+				else:
+					gl.excep=14
 			else:
 				gl.question[gl.type_status].append(val)
 				self.blank_flg = 0
@@ -223,6 +230,10 @@ class Dic2json(object):
 				sflg=6
 				sstr="xd"
 				print "###sflg:6"
+			elif i == r"'":
+				sflg=7
+				sstr="xe"
+				print "###sflg:7"
 
 			if atype == 2:
 				if sflg:

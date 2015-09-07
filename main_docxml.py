@@ -73,7 +73,7 @@ class Docxml(object):
 		self.fd.close()
 				
 
-file_o='/home/work/wzj/docx/qd_hvCyFA3394.ori.docx'
+file_o='/home/work/wzj/docx/qd_jGjpht3094.ori.docx'
 #file_o='/home/work/wzj/docx/qd_ikm0SM7518.ori.docx' ###err6
 #file_o='/home/work/wzj/docx/qd_xPz8W4k08M.docx'  ###err8
 docx = Docxml(file_o, '','')

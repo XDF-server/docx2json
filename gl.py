@@ -54,6 +54,8 @@ elif q_type=="简答题" or q_type=="解答题":
 ###11:text NoneType
 ###12:图片异常
 ###13:TypeChange.wmf2svg NG
+###14:判断题非常规
+###15:题目不完整
 excep=0
 
 ###角标集
