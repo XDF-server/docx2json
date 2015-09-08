@@ -1,4 +1,4 @@
-##!/usr/bin/env python
+#!/usr/bin/env python
 # encoding: utf-8
 import gl
 import re
@@ -156,7 +156,11 @@ class Parser(object):
             #print "#####imagedata#######"
             str_pos = 'x:' + str(self.x) + ';xl:' + str(self.xl) + ';y:' + str(self.y) + ';yl:' + str(self.yl)
             if self.picflg:
-                return ' ' + str_pos + ' ' + self.pic_rel_map[picid] + '\006'
+                if picid is None:
+                    gl.excep = 12
+                    return ''
+                else:
+                    return ' ' + str_pos + ' ' + self.pic_rel_map[picid] + '\006'
             else:
                 return ""
         '''

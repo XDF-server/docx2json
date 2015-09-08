@@ -29,9 +29,11 @@ blank_num = 0
 #q_type="单项选择"
 #q_type="选择题"
 #q_type="简答题"
-q_type="解答题"
+#q_type="解答题"
 #q_type="填空题"
 #q_type="判断题"
+
+q_type="综合题"
 
 q_type_l=q_type
 if q_type=="选择题" or q_type=="单项选择":

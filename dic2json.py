@@ -80,8 +80,8 @@ class Dic2json(object):
 				else:
 					gl.question[gl.type_status].append(val)
 					self.blank_flg = 0
-				if self.blank_cnt > 1:
-					gl.excep = 10
+				#if self.blank_cnt > 1:
+				#	gl.excep = 10
 			elif gl.q_type_l=="选择题" and gl.type_status == "answer":
 				print "选择题"
 				print val_o['value']
@@ -234,6 +234,10 @@ class Dic2json(object):
 				sflg=7
 				sstr="xe"
 				print "###sflg:7"
+			elif i == r"?":
+				sflg=8
+				sstr="xf"
+				print "###sflg:8"
 
 			if atype == 2:
 				if sflg:

@@ -40,6 +40,8 @@ class Docxml(object):
 			subject = Subject_blank()
 		elif stype == "判断题" or stype == "简答题" or stype == "填空题" or stype == "解答题":
 			subject = Subject_panduan()
+		elif stype == "综合题":
+			subject = Subject_complex()
 
 		doc_line = ''
 		dic2json = Dic2json()
@@ -73,7 +75,7 @@ class Docxml(object):
 		self.fd.close()
 				
 
-file_o='/home/work/wzj/docx/qd_jGjpht3094.ori.docx'
+file_o='/home/work/wzj/docx/qd_hPUfFU6183.ori.docx'
 #file_o='/home/work/wzj/docx/qd_ikm0SM7518.ori.docx' ###err6
 #file_o='/home/work/wzj/docx/qd_xPz8W4k08M.docx'  ###err8
 docx = Docxml(file_o, '','')
