@@ -34,14 +34,15 @@ class Docxml(object):
 		self.parser.set_pic_rel_xml(pic_rel_xml)
 
 	def subject(self,stype):
-		if self.config_type == "tag":
-			subject = Subject(self.config_file)
-		elif stype == "选择题" or stype == "单项选择":
-			subject = Subject_blank()
-		elif stype == "判断题" or stype == "简答题" or stype == "填空题" or stype == "解答题":
-			subject = Subject_panduan()
-		elif stype == "综合题":
-			subject = Subject_complex()
+		#if self.config_type == "tag":
+		#	subject = Subject(self.config_file)
+		#elif stype == "选择题" or stype == "单项选择":
+		#	subject = Subject_blank()
+		#elif stype == "判断题" or stype == "简答题" or stype == "填空题" or stype == "解答题":
+		#	subject = Subject_panduan()
+		#elif stype == "综合题":
+		#if stype == "综合题":
+		subject = Subject_complex()
 
 		doc_line = ''
 		dic2json = Dic2json()
@@ -75,11 +76,14 @@ class Docxml(object):
 		self.fd.close()
 				
 
-file_o='/home/work/wzj/docx/qd_hPUfFU6183.ori.docx'
+file_o='/home/work/wzj/docx/qd_hRAWN96891.docx' ###现代文阅读题
+file_o='/home/work/wzj/docx/qd_hM0Uyl7896.docx' ###实验题
+file_o='/home/work/wzj/docx/qd_hPXjeK7573.docx' ###组合选择题
+file_o='/home/work/wzj/docx/qd_hRpvpK4384.docx' ###选择型阅读理解
 #file_o='/home/work/wzj/docx/qd_ikm0SM7518.ori.docx' ###err6
 #file_o='/home/work/wzj/docx/qd_xPz8W4k08M.docx'  ###err8
 docx = Docxml(file_o, '','')
 docx.parse()
-docx.subject(gl.q_type)
-print json.dumps(gl.question, ensure_ascii=0)
+docx.subject(gl.main_q_type)
+print json.dumps(gl.content, ensure_ascii=0)
 print gl.excep

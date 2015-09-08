@@ -56,7 +56,7 @@ for row in results:
 	print "num: " + str(num)
 	docfile = row[1]
 	#qtype = row[2]
-	qtype = gl.q_type_l
+	qtype = gl.q_type
 	suject = row[3]
 	grade = row[4]
 	if grade:

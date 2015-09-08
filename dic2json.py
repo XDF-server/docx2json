@@ -18,19 +18,19 @@ class Dic2json(object):
 		self.option_result = []
 		self.option_flg = ""
 		self.blank_flg = 0
-		self.blank_cnt = 0
+		#self.blank_cnt = 0
 		self.flg_list = [] ###文本字体样式flg
 		self.style = 0 ###文本字体样式
 		self.cnt = 1 
 	
 	def parse(self,val,docname):
-		#print gl.option_stat + "  " + gl.type_status + ":" + val + " " + gl.q_type_l
+		#print gl.option_stat + "  " + gl.type_status + ":" + val + " " + gl.q_type
 		#if gl.type_change and gl.type_status != "options":
 		#	unit = {"type":"newline","value":"1"}
 		#	self._data_push(unit)
 		self._analysis(val,docname)
-		print gl.type_status + gl.q_type_l
-		if gl.q_type_l!="选择题" and gl.q_type_l!="判断题":
+		#print gl.type_status + gl.q_type
+		if gl.q_type!="选择题" and gl.q_type!="判断题":
 			unit = {"type":"newline","value":"1"}
 			self._data_push(unit)
 		elif gl.type_status != "answer":
@@ -61,8 +61,8 @@ class Dic2json(object):
 				if val['style']==4 and re.match('^[ 　]+$'.decode('utf8'),val_o['value']):
 					if self.blank_flg==0:
 						self.blank_flg = 1
-						self.blank_cnt += 1
-						val={ "type" : "blank", "value" : self.blank_cnt }
+						gl.blank_cnt += 1
+						val={ "type" : "blank", "value" : gl.blank_cnt }
 						gl.question[gl.type_status].append(val)
 				elif re.search('_',val_o['value']):
 					#print "###route"
@@ -74,29 +74,39 @@ class Dic2json(object):
 							self.blank_flg = 0
 						elif self.blank_flg==0:
 							self.blank_flg = 1
-							self.blank_cnt += 1
-							val={ "type" : "blank", "value" : self.blank_cnt }
+							gl.blank_cnt += 1
+							val={ "type" : "blank", "value" : gl.blank_cnt }
 							gl.question[gl.type_status].append(val)
 				else:
 					gl.question[gl.type_status].append(val)
 					self.blank_flg = 0
 				#if self.blank_cnt > 1:
 				#	gl.excep = 10
-			elif gl.q_type_l=="选择题" and gl.type_status == "answer":
-				print "选择题"
-				print val_o['value']
+				#print "gl.question" + gl.type_status + json.dumps(val, ensure_ascii=0)
+				#print json.dumps(val, ensure_ascii=0)
+			elif gl.q_type=="选择题" and gl.type_status == "answer":
+				#print "选择题"
+				#print val_o['value']
 				for i in val_o['value']:
 					gl.question[gl.type_status].append(i)
-			elif gl.q_type_l=="判断题" and gl.type_status == "answer":
+					#print "gl.question" + gl.type_status
+					#print json.dumps(val, ensure_ascii=0)
+			elif gl.q_type=="判断题" and gl.type_status == "answer":
 				if val_o['value'] == "√" or val_o['value'] == "对" or val_o['value'] == "答案：对":
 					gl.question["answer"]=1
 				elif val_o['value'] == "×" or val_o['value'] == "错" or val_o['value'] == "错误" or val_o['value'] == "答案：错":
 					gl.question["answer"]=0
 				else:
 					gl.excep=14
-			else:
+			elif gl.main_type_status == "questions":
 				gl.question[gl.type_status].append(val)
 				self.blank_flg = 0
+				#print "gl.question" + gl.type_status
+				#print json.dumps(val, ensure_ascii=0)
+			elif gl.main_type_status == "material" or gl.main_type_status == "translation":
+				gl.content[gl.main_type_status].append(val)
+				#print "gl.content" + gl.type_status
+				#print json.dumps(val, ensure_ascii=0)
 
 
 	def _analysis(self,val,docname):
