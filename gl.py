@@ -44,8 +44,12 @@ q_type=""
 #main_q_type="组合简答题"
 #main_q_type="探究题"
 #main_q_type="文言文阅读题"
-#main_q_type="选择型阅读理解" ###同文言文阅读题
-main_q_type="现代文阅读题" ###缩进问题未解决
+main_q_type="现代文阅读题"
+#main_q_type="选择型阅读理解"
+
+
+#main_q_type="分析说明题"
+
 #分析说明题	qd_hSxVNm9081.docx 需要新定义子题类型
 #实验题	9005
 

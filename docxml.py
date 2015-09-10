@@ -36,12 +36,13 @@ class Docxml(object):
 		self.parser.set_pic_rel_xml(pic_rel_xml)
 
 	def subject(self,stype):
-		if self.config_type == "tag":
-			subject = Subject(self.config_file)
-		elif stype == "选择题" or stype == "单项选择":
-			subject = Subject_blank()
-		elif stype == "判断题" or stype == "简答题" or stype == "解答题" or stype == "填空题":
-			subject = Subject_panduan()
+		#if self.config_type == "tag":
+		#	subject = Subject(self.config_file)
+		#elif stype == "选择题" or stype == "单项选择":
+		#	subject = Subject_blank()
+		#elif stype == "判断题" or stype == "简答题" or stype == "解答题" or stype == "填空题":
+		#	subject = Subject_panduan()
+		subject = Subject_complex()
 		
 		doc_line = ''
 		dic2json = Dic2json()

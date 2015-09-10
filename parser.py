@@ -51,6 +51,7 @@ class Parser(object):
         for paragraph_node in self.doc_root.findall('.//' + self._get_doc_path('w', 'p')):
             self.paragraph_num += 1
             self.align = 0
+            self.style = 0
             for doc_node in paragraph_node.iter(tag = etree.Element):
                 self.doc_nsmap = doc_node.nsmap
                 val = self._adapter(doc_node)
@@ -93,6 +94,10 @@ class Parser(object):
             if self.style == 32:
                 self.style = 0
                 text = '\032' + text + '\032'
+
+            if self.style == 64:
+                self.style = 0
+                text = '\014' + text + '\014'
 
             if self.vertAlign == 2:
                 self.vertAlign = 0
@@ -254,7 +259,10 @@ class Parser(object):
             斜体
         '''
         if node.tag == self._get_doc_path('w', 'i'):
-            self.style = 2
+            if self.style == 64:
+                self.style = 66
+            else:
+                self.style = 2
         '''
             下划线
         '''
@@ -262,7 +270,10 @@ class Parser(object):
             path = self._get_doc_path('w', 'val')
             style_type = node.get(path)
             if 'single' == style_type:
-                self.style = 4
+		if self.style == 64:
+                    self.style = 68
+                else:
+                    self.style = 4
         '''
             下标点
         '''
@@ -270,7 +281,10 @@ class Parser(object):
             path = self._get_doc_path('w', 'val')
             style_type = node.get(path)
             if 'dot' == style_type or 'underDot' == style_type:
-                self.style = 16
+		if self.style == 64:
+                    self.style = 80
+                else:
+                    self.style = 16
         '''
             方框
         '''
@@ -279,6 +293,11 @@ class Parser(object):
             style_type = node.get(path)
             if 'single' == style_type:
                 self.style = 32
+        '''
+            缩进
+        '''
+        if node.tag == self._get_doc_path('w', 'ind'):
+            self.style = 64
         '''
             行位置:居左 1 居中 2 居右 3
         '''
@@ -293,7 +312,10 @@ class Parser(object):
             特殊字体初始化
         '''
         if node.tag == self._get_doc_path('w', 'r'):
-            self.style = 0
+            if self.style > 64:
+                self.style = 64
+            elif self.style != 64:
+                self.style = 0
             self.vertAlign = 0
             self.w = 0
             self.h = 0

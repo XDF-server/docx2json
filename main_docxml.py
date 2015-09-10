@@ -76,14 +76,20 @@ class Docxml(object):
 		self.fd.close()
 				
 
+#file_o='/home/work/wzj/docx/qd_hRpvpK4384.docx' ###选择型阅读理解
+#file_o='/home/work/wzj/docx/qd_hRtBso8550.docx' ###选择型阅读理解
+#file_o='/home/work/wzj/docx/qd_hQ4Xi97460.docx' ###综合题
+#file_o='/home/work/wzj/docx/qd_hSxVNm9081.docx' ###分析说明题
+#file_o='/home/work/wzj/docx/qd_hQBU0t2728.docx' ###探究题
+#file_o='/home/work/wzj/docx/qd_hPXjeK7573.docx' ###组合选择题
 file_o='/home/work/wzj/docx/qd_hRAWN96891.docx' ###现代文阅读题
-file_o='/home/work/wzj/docx/qd_hM0Uyl7896.docx' ###实验题
-file_o='/home/work/wzj/docx/qd_hPXjeK7573.docx' ###组合选择题
-file_o='/home/work/wzj/docx/qd_hRpvpK4384.docx' ###选择型阅读理解
+#file_o='/home/work/wzj/docx/qd_hM0Uyl7896.docx' ###实验题
 #file_o='/home/work/wzj/docx/qd_ikm0SM7518.ori.docx' ###err6
 #file_o='/home/work/wzj/docx/qd_xPz8W4k08M.docx'  ###err8
 docx = Docxml(file_o, '','')
 docx.parse()
 docx.subject(gl.main_q_type)
+if gl.question["topic_type"].has_key("id") and gl.question["topic_type"]["id"]:
+	gl.content["questions"].append(gl.question)
 print json.dumps(gl.content, ensure_ascii=0)
 print gl.excep

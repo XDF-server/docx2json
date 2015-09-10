@@ -32,31 +32,41 @@ sql = '''SELECT o.id,question_docx,question_type,s.fullname,o.grade_id
          LEFT JOIN entity_subject as s
          on o.subject_id=s.id
          where question_type='%(s)s' 
-           and o.parent_question_id = 0 and is_single=1
-           and n.oldid is not null and n.detail='10' 
-           and question_docx is not null and state='ENABLED' ''' % dict(s=gl.q_type)
+           and o.parent_question_id = 0
+           and o.id = 21326
+           and question_docx is not null and state='ENABLED' ''' % dict(s=gl.main_q_type)
+#           and n.oldid is null
 #           and question_docx is not null and state='ENABLED' ''' % dict(s=gl.q_type,i=idlist)
 #           and o.id in (%(i)s) 
 #           and n.oldid is null and question_docx is not null and is_single=1 and subject_id in (1,2,19,5,6,21) and state='ENABLED' ''' % dict(s=gl.q_type)
-#           and o.id != 139905
+#           and o.id = 21326
+#           and o.id = 17701
+#           and o.id = 24463 最后一种题型
 #print sql
 
 cursor.execute(sql)
 results = cursor.fetchall()
 for row in results:
 	###全局变量初始化 start
-	gl.question={'tag':'','body':[],'options':[],'answer':[],'analysis':[]}
+	question={'topic_type':{},'body':[],'options':[],'answer':[],'analysis':[]}
+	content={'material':[],'translation':[],'questions':[]}
 	gl.sub_status = 0
 	gl.type_status = ""
+	gl.main_type_status = ""
+	gl.type_change = ""
 	gl.option_stat = ""
 	gl.blank_num = 0
+	gl.blank_cnt = 0
+	gl.q_type=""
+	###异常flg初始化
+	gl.excep=0
 	###全局变量初始化 end
 	num = row[0]
 	gl.oldid = num
 	print "num: " + str(num)
 	docfile = row[1]
 	#qtype = row[2]
-	qtype = gl.q_type
+	qtype = gl.main_q_type
 	suject = row[3]
 	grade = row[4]
 	if grade:
@@ -76,8 +86,6 @@ for row in results:
 			continue
 	#print cmd
 
-	###异常flg初始化
-	gl.excep=0
 	docx = Docxml(file_o, '','')
 	if gl.excep!=0:
 		cmd = "echo " + str(num) + ":" + str(gl.excep) + ">>ng_flg"
@@ -99,7 +107,7 @@ for row in results:
 		db.commit()
 		continue
 
-	docx.subject(gl.q_type)
+	docx.subject(gl.main_q_type)
         if gl.excep!=0:
                 cmd = "echo " + str(num) + ":" + str(gl.excep) + ">>ng_flg"
                 retn=call(cmd,shell=True)
@@ -110,10 +118,11 @@ for row in results:
 		db.commit()
 		continue
 
-
+	if gl.question["topic_type"].has_key("id") and gl.question["topic_type"]["id"]:
+		gl.content["questions"].append(gl.question)
 	
 	try:
-		js=json.dumps(gl.question, ensure_ascii=0)
+		js=json.dumps(gl.content, ensure_ascii=0)
 		sql = '''insert into entity_question_new_f(oldid,type,json,subject,grade_id) 
                          values('%(n)d','%(t)s','%(j)s','%(s)s','%(g)d')
                          on duplicate key update type= '%(t)s' , json='%(j)s' , subject='%(s)s' , 

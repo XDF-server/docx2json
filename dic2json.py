@@ -25,9 +25,7 @@ class Dic2json(object):
 	
 	def parse(self,val,docname):
 		#print gl.option_stat + "  " + gl.type_status + ":" + val + " " + gl.q_type
-		#if gl.type_change and gl.type_status != "options":
-		#	unit = {"type":"newline","value":"1"}
-		#	self._data_push(unit)
+		#print "###Dic2json parse start"
 		self._analysis(val,docname)
 		#print gl.type_status + gl.q_type
 		if gl.q_type!="选择题" and gl.q_type!="判断题":
@@ -127,10 +125,10 @@ class Dic2json(object):
 		up_flg = 0
 		align = 0
 		text = ""
-		acc_list = {'\001':1, '\007':2, '\004':4, '\008':8, '\016':16, '\032':32} 
+		acc_list = {'\001':1, '\007':2, '\004':4, '\008':8, '\016':16, '\032':32, '\014':64} 
 		#print val
 		for i in val:
-			if i == '\004' or i == '\016' or i == '\032' or i == '\007':
+			if i == '\004' or i == '\016' or i == '\032' or i == '\007' or i == '\014':
 				if self.flg_list.count(i)==0:
 					self.flg_list.append(i)
 					if text != "":
