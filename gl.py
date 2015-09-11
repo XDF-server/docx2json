@@ -38,16 +38,14 @@ blank_cnt = 0
 #q_type="判断题"
 
 q_type=""
-#main_q_type="综合题"
+main_q_type="综合题"
 #main_q_type="组合选择题"
 #main_q_type="组合填空题"
 #main_q_type="组合简答题"
 #main_q_type="探究题"
 #main_q_type="文言文阅读题"
-main_q_type="现代文阅读题"
+#main_q_type="现代文阅读题"
 #main_q_type="选择型阅读理解"
-
-
 #main_q_type="分析说明题"
 
 #分析说明题	qd_hSxVNm9081.docx 需要新定义子题类型

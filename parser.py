@@ -298,6 +298,7 @@ class Parser(object):
         '''
         if node.tag == self._get_doc_path('w', 'ind'):
             self.style = 64
+            print "###w:ind"
         '''
             行位置:居左 1 居中 2 居右 3
         '''
@@ -311,6 +312,8 @@ class Parser(object):
         '''
             特殊字体初始化
         '''
+        if node.tag == self._get_doc_path('w', 'pPr'):
+            self.style = 0
         if node.tag == self._get_doc_path('w', 'r'):
             if self.style > 64:
                 self.style = 64

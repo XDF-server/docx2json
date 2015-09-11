@@ -55,6 +55,7 @@ class Subject_complex(object):
 
 	def __init__(self):
 		self.end_flg = 0 ###结束符flg,用于应对 \005content\001 这种格式
+		self.old_status = ""
 
 	def parse(self,val,pnum,bnum):
 
@@ -75,9 +76,11 @@ class Subject_complex(object):
 			return
 		elif re.match('^[\s]*\001$',val):
 			if gl.main_type_status == "type":
+				self.old_status = gl.main_type_status
 				gl.main_type_status = "material"
 				return
 			elif gl.main_type_status == "material":
+				self.old_status = gl.main_type_status
 				gl.main_type_status = "translation"
 				return
 			elif gl.main_type_status != "questions":
@@ -86,6 +89,7 @@ class Subject_complex(object):
 				return
 		elif val == '\005\001':
 			if gl.main_type_status == "material" or gl.main_type_status == "translation":
+				self.old_status = gl.main_type_status
 				gl.main_type_status = "questions"
 				return
 			elif gl.type_status:
@@ -97,7 +101,10 @@ class Subject_complex(object):
 					gl.content["questions"].append(gl.question)
 					gl.question = {'topic_type':{},'body':[],'options':[],'answer':[],'analysis':[]}
 					return
-			val = "\001"
+				else:
+					val = "\001"
+			elif gl.main_type_status == "questions" and gl.type_status == "":
+				return
 		elif p:
 			val = p.group(1)
 			if gl.main_type_status == "material" or gl.main_type_status == "translation" or gl.main_type_status == "type":
@@ -106,21 +113,24 @@ class Subject_complex(object):
 				if gl.type_status:
 					if gl.type_status == "analysis":
 						self.end_flg = 1
+				else:
+					gl.main_type_status = self.old_status
+					self.end_flg = 1
 		elif self.end_flg:
 			tid = 0
-			if re.match('选择题'.decode('utf8'),val):
+			if re.match('选择题'.decode('utf8'),val) or re.match('\014选择题'.decode('utf8'),val):
 				gl.q_type = "选择题"
 				tid = 1
-			elif re.match('填空题'.decode('utf8'),val):
+			elif re.match('填空题'.decode('utf8'),val) or re.match('\014填空题'.decode('utf8'),val):
 				gl.q_type = "填空题"
 				tid = 2
-			elif re.match('判断题'.decode('utf8'),val):
+			elif re.match('判断题'.decode('utf8'),val) or re.match('\014判断题'.decode('utf8'),val):
 				gl.q_type = "判断题"
 				tid = 3
-			elif re.match('简答题'.decode('utf8'),val):
+			elif re.match('简答题'.decode('utf8'),val) or re.match('\014简答题'.decode('utf8'),val):
 				gl.q_type = "简答题"
 				tid = 4
-			elif re.match('论述题'.decode('utf8'),val):
+			elif re.match('论述题'.decode('utf8'),val) or re.match('\014论述题'.decode('utf8'),val):
 				gl.q_type = "论述题"
 				tid = 5
 			if tid:
@@ -134,27 +144,29 @@ class Subject_complex(object):
 				gl.type_status = "type"
 				gl.main_type_status = "questions"
 				self.end_flg = 0
+				self.old_status = ""
 				return
 			
 		elif gl.type_status=="" and gl.main_type_status == "questions":
 			tid = 0
 			gl.question["topic_type"] = {"id":tid, "name":"未定义"}
-			if re.match('选择题'.decode('utf8'),val):
+			if re.match('选择题'.decode('utf8'),val) or re.match('\014选择题'.decode('utf8'),val):
 				gl.q_type = "选择题"
 				tid = 1
-			elif re.match('填空题'.decode('utf8'),val):
+			elif re.match('填空题'.decode('utf8'),val) or re.match('\014填空题'.decode('utf8'),val):
 				gl.q_type = "填空题"
 				tid = 2
-			elif re.match('判断题'.decode('utf8'),val):
+			elif re.match('判断题'.decode('utf8'),val) or re.match('\014判断题'.decode('utf8'),val):
 				gl.q_type = "判断题"
 				tid = 3
-			elif re.match('简答题'.decode('utf8'),val):
+			elif re.match('简答题'.decode('utf8'),val) or re.match('\014简答题'.decode('utf8'),val):
 				gl.q_type = "简答题"
 				tid = 4
-			elif re.match('论述题'.decode('utf8'),val):
+			elif re.match('论述题'.decode('utf8'),val) or re.match('\014论述题'.decode('utf8'),val):
 				gl.q_type = "论述题"
 				tid = 5
 			else:
+				print "####route16"
 				gl.excep = "16" + val
 				return
 			if tid:
@@ -163,6 +175,7 @@ class Subject_complex(object):
 				return
 
 		if gl.main_type_status == "type":
+			self.old_status = gl.main_type_status
 			gl.main_type_status == "material"
 				
 		if gl.type_status:
@@ -194,9 +207,14 @@ class Subject_complex(object):
 			gl.blank_num += 1
 			return
 		elif gl.type_status == "type":
-			gl.sub_status=1
-			gl.type_status = "body"
-			gl.blank_num = 0
+			if gl.main_q_type == "选择型完形填空":
+				(val, tag) = self.option_ana(val)
+				if tag == 1:
+					gl.type_status = "options"
+			else:
+				gl.sub_status=1
+				gl.type_status = "body"
+				gl.blank_num = 0
 		elif gl.blank_num > 0 and gl.type_status != "analysis":
 			if gl.type_status == "body":
 				(val, tag) = self.option_ana(val)

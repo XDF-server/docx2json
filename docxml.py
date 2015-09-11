@@ -55,7 +55,7 @@ class Docxml(object):
 				json_unit = subject.parse(doc_line,pnum,bnum)
 				doc_line = ''
 
-				if json_unit :
+				if json_unit and gl.excep == 0:
 					dic2json.parse( json_unit[0:-1], self.docxname )
 		
 

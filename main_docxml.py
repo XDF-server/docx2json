@@ -53,7 +53,7 @@ class Docxml(object):
 			if '\001' == val:
 				json_unit = subject.parse(doc_line,pnum,bnum)
 				doc_line = ''
-				if json_unit :
+				if json_unit and gl.excep==0:
 					dic2json.parse( json_unit[0:-1], self.docxname )
 
 
@@ -76,13 +76,18 @@ class Docxml(object):
 		self.fd.close()
 				
 
+#file_o='/home/work/wzj/docx/qd_hya9oV6858.ori.docx' ###选择型完形填空
+
 #file_o='/home/work/wzj/docx/qd_hRpvpK4384.docx' ###选择型阅读理解
 #file_o='/home/work/wzj/docx/qd_hRtBso8550.docx' ###选择型阅读理解
 #file_o='/home/work/wzj/docx/qd_hQ4Xi97460.docx' ###综合题
-#file_o='/home/work/wzj/docx/qd_hSxVNm9081.docx' ###分析说明题
+#file_o='/home/work/wzj/docx/qd_hPUfFU6183.docx' ###综合题
+file_o='/home/work/wzj/docx/qd_hQ5kbW0534.docx' ###综合题
+#file_o='/home/work/wzj/docx/qd_hTh2ZM6184.ori.docx' ###综合题
+#file_o='/home/work/wzj/docx/qd_hvB4l22841.ori.docx' ###综合题
 #file_o='/home/work/wzj/docx/qd_hQBU0t2728.docx' ###探究题
 #file_o='/home/work/wzj/docx/qd_hPXjeK7573.docx' ###组合选择题
-file_o='/home/work/wzj/docx/qd_hRAWN96891.docx' ###现代文阅读题
+#file_o='/home/work/wzj/docx/qd_hRAWN96891.docx' ###现代文阅读题
 #file_o='/home/work/wzj/docx/qd_hM0Uyl7896.docx' ###实验题
 #file_o='/home/work/wzj/docx/qd_ikm0SM7518.ori.docx' ###err6
 #file_o='/home/work/wzj/docx/qd_xPz8W4k08M.docx'  ###err8

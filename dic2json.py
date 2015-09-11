@@ -196,6 +196,7 @@ class Dic2json(object):
 
 		#print "###create vertAlign start"
 		cmd = "mkdir -p /home/work/wzj/tmpfile_f/vertAlign/"
+		print "###cmd:" + cmd
 		retn=call(cmd,shell=True)
 		ttf_type = 0
 		for i in val.decode('utf8'):
@@ -299,7 +300,7 @@ class Dic2json(object):
 
 				cmd = "/usr/bin/convert -transparent white -size " + str(w) + "x" + str(h) + " -gravity " + pos + " -pointsize 10 -font " + font_file + " label:'" + i + "' " + pic
 
-                        	print cmd
+                        	print "###cmd:" + cmd
                         	retn=call(cmd,shell=True)
 
 				gl.vertAlignSet.add(pic)
@@ -362,6 +363,7 @@ class Dic2json(object):
 		###创建新文件目录
 		try:
 			cmd = "mkdir -p " + dir_o
+			print "###cmd:" + cmd
 			retn=call(cmd,shell=True)
 		except: 
 			print "mkdir err"
@@ -378,12 +380,14 @@ class Dic2json(object):
 
 		###查看图片类型
 		cmd = "/usr/bin/file " + file_s
+		print "###cmd:" + cmd
 		p = []
 		p=subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 		result = p.stdout.readlines()[0]
 		#print result
 		if re.search(r'EMF',result):
 			cmd = "echo " + str(gl.oldid) + file_s + ">>pic_need_change"
+			print "###cmd:" + cmd
 			retn=call(cmd,shell=True)
 			#fname = ".".join(fnamelist[0:-1]) + ".svg"
 			#file_o_s = dir_o + '/' + fname
@@ -402,6 +406,7 @@ class Dic2json(object):
 				#pic_type = 3
 				#print "wmf svgexport"
 				cmd = "/usr/local/bin/svgexport " + file_o_s + " " + file_o
+				print "###cmd:" + cmd
 				retn=call(cmd,shell=True)
 				#img = Image.open(file_s)
 				img = Image.open(file_o)
@@ -411,7 +416,7 @@ class Dic2json(object):
 			fname = ".".join(fnamelist[0:-1]) + ".png"
 		else:
 			cmd = "/usr/bin/convert -transparent white " + file_s + " " + file_o
-			#print cmd
+			print "###cmd:" + cmd
 			retn=call(cmd,shell=True)
 
 			img = Image.open(file_s)
@@ -441,7 +446,7 @@ class Dic2json(object):
 			width = width_x
 			height = height_y
 			cmd = "/usr/bin/convert -crop " + str(width) + "x" + str(height) + "+" + str(width_l) + "+" + str(height_l) + " " + file_s + " " + file_o
-			#print cmd
+			print "###cmd:" + cmd
 			retn=call(cmd,shell=True)
 
 		if height_o and height/height_o/1.35 > 1.5 and width_o and width/width_o/1.35 > 1.5:
@@ -453,7 +458,7 @@ class Dic2json(object):
 			fname = ".".join(fnamelist[0:-1]) + "_cv.png"
 			file_o = dir_o + '/' + fname
 			cmd = "/usr/bin/convert -resize " +str(width) + "x" + str(height) + " " + file_s + " " + file_o
-			#print cmd
+			print "###cmd:" + cmd
 			retn=call(cmd,shell=True)
 
 		#url = "http://10.60.0.159/" + dir_b + "/" + fname

@@ -33,7 +33,7 @@ sql = '''SELECT o.id,question_docx,question_type,s.fullname,o.grade_id
          on o.subject_id=s.id
          where question_type='%(s)s' 
            and o.parent_question_id = 0
-           and o.id = 21326
+           and n.oldid is null
            and question_docx is not null and state='ENABLED' ''' % dict(s=gl.main_q_type)
 #           and n.oldid is null
 #           and question_docx is not null and state='ENABLED' ''' % dict(s=gl.q_type,i=idlist)
@@ -88,8 +88,6 @@ for row in results:
 
 	docx = Docxml(file_o, '','')
 	if gl.excep!=0:
-		cmd = "echo " + str(num) + ":" + str(gl.excep) + ">>ng_flg"
-		retn=call(cmd,shell=True)
 		sql = '''insert into entity_question_new_f(oldid,detail) 
                     values('%(n)d','%(t)s')
                     on duplicate key update detail= '%(t)s' ''' % dict(n=num, t=str(gl.excep))
@@ -98,8 +96,6 @@ for row in results:
 		continue
 	docx.parse()
 	if gl.excep!=0:
-		cmd = "echo " + str(num) + ":" + str(gl.excep) + ">>ng_flg"
-		retn=call(cmd,shell=True)
 		sql = '''insert into entity_question_new_f(oldid,detail) 
                     values('%(n)d','%(t)s')
                     on duplicate key update detail= '%(t)s' ''' % dict(n=num, t=str(gl.excep))
@@ -109,8 +105,6 @@ for row in results:
 
 	docx.subject(gl.main_q_type)
         if gl.excep!=0:
-                cmd = "echo " + str(num) + ":" + str(gl.excep) + ">>ng_flg"
-                retn=call(cmd,shell=True)
 		sql = '''insert into entity_question_new_f(oldid,detail) 
                     values('%(n)d','%(t)s')
                     on duplicate key update detail= '%(t)s' ''' % dict(n=num, t=str(gl.excep))
@@ -137,8 +131,6 @@ for row in results:
 		#	print "insert NG"
 	except:
 		gl.excep=9
-                cmd = "echo " + str(num) + ":" + str(gl.excep) + ">>ng_flg"
-                retn=call(cmd,shell=True)
 		sql = '''insert into entity_question_new_f(oldid,detail) 
                     values('%(n)d','%(t)s')
                     on duplicate key update detail= '%(t)s' ''' % dict(n=num, t=str(gl.excep))
