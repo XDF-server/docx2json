@@ -39,14 +39,15 @@ blank_cnt = 0
 
 q_type=""
 main_q_type="综合题"
-#main_q_type="组合选择题"
-#main_q_type="组合填空题"
-#main_q_type="组合简答题"
-#main_q_type="探究题"
-#main_q_type="文言文阅读题"
-#main_q_type="现代文阅读题"
-#main_q_type="选择型阅读理解"
+main_q_type="选择型完形填空"
+main_q_type="组合选择题"
+main_q_type="组合填空题"
+main_q_type="组合简答题"
+main_q_type="探究题"
+main_q_type="文言文阅读题"
+main_q_type="现代文阅读题"
 #main_q_type="分析说明题"
+#main_q_type="选择型阅读理解"
 
 #分析说明题	qd_hSxVNm9081.docx 需要新定义子题类型
 #实验题	9005
@@ -68,6 +69,7 @@ main_q_type="综合题"
 ###14:判断题非常规
 ###15:题目不完整
 ###16:子题类型非基础题
+###17:题目格式异常
 excep=0
 
 ###角标集

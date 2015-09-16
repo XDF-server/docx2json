@@ -62,6 +62,7 @@ class Subject_complex(object):
 		print "before " + str(self.end_flg) + " : " + gl.main_type_status + " : " + gl.q_type + " : " + gl.type_status + " : " + val
 		val = val.replace(b'\xc2\xa0',' ') #去除utf8特殊空格
 		val = val.replace(b'\xe3\x80\x80',' ')
+		val = val.replace(b'\xe2\x80\x83',' ')
 		val = val.replace('\004\004','') #去除多余下划线标记
 		val = val.replace('\007\007','') #去除多余斜体标记
 		val = val.replace('\016\016','') #去除多余着重点标记
@@ -114,25 +115,61 @@ class Subject_complex(object):
 					if gl.type_status == "analysis":
 						self.end_flg = 1
 				else:
-					gl.main_type_status = self.old_status
-					self.end_flg = 1
+					tid = 0
+					if re.match('[\014\005 ]*选择题'.decode('utf8'),val):
+						gl.q_type = "选择题"
+						tid = 1
+					elif re.match('[\014\005 ]*填空题'.decode('utf8'),val):
+						gl.q_type = "填空题"
+						tid = 2
+					elif re.match('[\014\005 ]*判断题'.decode('utf8'),val):
+						gl.q_type = "判断题"
+						tid = 3
+					elif re.match('[\014\005 ]*简答题'.decode('utf8'),val) or re.match('[\014 ]*简单题'.decode('utf8'),val):
+						gl.q_type = "简答题"
+						tid = 4
+					elif re.match('[\014\005 ]*论述题'.decode('utf8'),val):
+						gl.q_type = "论述题"
+						tid = 5
+					elif re.match('[\014\005 ]*辨析题'.decode('utf8'),val):
+						gl.q_type = "辨析题"
+						tid = 6
+					else:
+						gl.main_type_status = self.old_status
+						self.end_flg = 1
+					if tid:
+						gl.blank_cnt = 0
+						gl.blank_num = 0
+						if gl.question["topic_type"].has_key("id") and gl.question["topic_type"]["id"]:
+							gl.content["questions"].append(gl.question)
+
+						gl.question = {'topic_type':{},'body':[],'options':[],'answer':[],'analysis':[]}
+						gl.question["topic_type"] = {"id":tid, "name":gl.q_type}
+						gl.type_status = "type"
+						gl.main_type_status = "questions"
+						self.end_flg = 0
+						self.old_status = ""
+						return
 		elif self.end_flg:
 			tid = 0
-			if re.match('选择题'.decode('utf8'),val) or re.match('\014选择题'.decode('utf8'),val):
+			if re.match('[\014\005 ]*选择题'.decode('utf8'),val):
 				gl.q_type = "选择题"
 				tid = 1
-			elif re.match('填空题'.decode('utf8'),val) or re.match('\014填空题'.decode('utf8'),val):
+			elif re.match('[\014\005 ]*填空题'.decode('utf8'),val):
 				gl.q_type = "填空题"
 				tid = 2
-			elif re.match('判断题'.decode('utf8'),val) or re.match('\014判断题'.decode('utf8'),val):
+			elif re.match('[\014\005 ]*判断题'.decode('utf8'),val):
 				gl.q_type = "判断题"
 				tid = 3
-			elif re.match('简答题'.decode('utf8'),val) or re.match('\014简答题'.decode('utf8'),val):
+			elif re.match('[\014\005 ]*简答题'.decode('utf8'),val) or re.match('[\014 ]*简单题'.decode('utf8'),val):
 				gl.q_type = "简答题"
 				tid = 4
-			elif re.match('论述题'.decode('utf8'),val) or re.match('\014论述题'.decode('utf8'),val):
+			elif re.match('[\014\005 ]*论述题'.decode('utf8'),val):
 				gl.q_type = "论述题"
 				tid = 5
+			elif re.match('[\014\005 ]*辨析题'.decode('utf8'),val):
+				gl.q_type = "辨析题"
+				tid = 6
 			if tid:
 				gl.blank_cnt = 0
 				gl.blank_num = 0
@@ -150,21 +187,24 @@ class Subject_complex(object):
 		elif gl.type_status=="" and gl.main_type_status == "questions":
 			tid = 0
 			gl.question["topic_type"] = {"id":tid, "name":"未定义"}
-			if re.match('选择题'.decode('utf8'),val) or re.match('\014选择题'.decode('utf8'),val):
+			if re.match('[\014\005 ]*选择题'.decode('utf8'),val):
 				gl.q_type = "选择题"
 				tid = 1
-			elif re.match('填空题'.decode('utf8'),val) or re.match('\014填空题'.decode('utf8'),val):
+			elif re.match('[\014\005 ]*填空题'.decode('utf8'),val):
 				gl.q_type = "填空题"
 				tid = 2
-			elif re.match('判断题'.decode('utf8'),val) or re.match('\014判断题'.decode('utf8'),val):
+			elif re.match('[\014\005 ]*判断题'.decode('utf8'),val):
 				gl.q_type = "判断题"
 				tid = 3
-			elif re.match('简答题'.decode('utf8'),val) or re.match('\014简答题'.decode('utf8'),val):
+			elif re.match('[\014\005 ]*简答题'.decode('utf8'),val) or re.match('[\014 ]*简单题'.decode('utf8'),val):
 				gl.q_type = "简答题"
 				tid = 4
-			elif re.match('论述题'.decode('utf8'),val) or re.match('\014论述题'.decode('utf8'),val):
+			elif re.match('[\014\005 ]*论述题'.decode('utf8'),val):
 				gl.q_type = "论述题"
 				tid = 5
+			elif re.match('[\014\005 ]*辨析题'.decode('utf8'),val):
+				gl.q_type = "辨析题"
+				tid = 6
 			else:
 				print "####route16"
 				gl.excep = "16" + val
@@ -183,6 +223,8 @@ class Subject_complex(object):
 				val = self._parse_blank(val,pnum,bnum)
 			else:
 				val = self._parse_panduan(val,pnum,bnum)
+		if p and gl.main_type_status == "questions" and gl.type_status == "analysis":
+			self.end_flg = 1
 
 		if val:
 			print "after : " + gl.main_type_status + " : " + gl.q_type + " : " + gl.type_status + " : " + val
@@ -195,7 +237,7 @@ class Subject_complex(object):
 
 	def _parse_blank(self,val,pnum,bnum):
 
-		#print "before:" + gl.type_status + " : " + val
+		#print "###before:" + str(gl.blank_num) + ":" + gl.type_status + " : " + val
 		if gl.type_status == "":
 			gl.type_status = "type"
 			return
@@ -214,7 +256,7 @@ class Subject_complex(object):
 			else:
 				gl.sub_status=1
 				gl.type_status = "body"
-				gl.blank_num = 0
+			gl.blank_num = 0
 		elif gl.blank_num > 0 and gl.type_status != "analysis":
 			if gl.type_status == "body":
 				(val, tag) = self.option_ana(val)
@@ -229,13 +271,14 @@ class Subject_complex(object):
 		elif gl.type_status == "options":
 			(val, tag) = self.option_ana(val)
 
-		#print "after : " + gl.type_status + " : " + val
+		#print "###after:" + str(gl.blank_num) + ":" + gl.type_status + " : " + val
 		return val
 
 
 	def option_ana(self,val):
 
-		p = re.match(r'([a-gA-G])[\.．、]*(.*)'.decode('utf8'), val)
+		val = val.replace('\014','')
+		p = re.match(r'( *[a-gA-G])[\.．、]*(.*)'.decode('utf8'), val)
 		if p:
 			gl.option_stat = p.group(1)
 			return (p.group(2), 1)
