@@ -247,6 +247,18 @@ class Dic2json(object):
 				sflg=8
 				sstr="xf"
 				print "###sflg:8"
+			elif i == '\\':
+				sflg=9
+				sstr="xg"
+				print "###sflg:9"
+			elif i == r'.':
+				sflg=10
+				sstr="xh"
+				print "###sflg:10"
+			elif i == r'`':
+				sflg=11
+				sstr="xi"
+				print "###sflg:11"
 
 			if atype == 2:
 				if sflg:

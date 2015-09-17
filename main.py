@@ -117,6 +117,7 @@ for row in results:
 	
 	try:
 		js=json.dumps(gl.content, ensure_ascii=0)
+		js=db.escape_string(js)
 		sql = '''insert into entity_question_new_f(oldid,type,json,subject,grade_id) 
                          values('%(n)d','%(t)s','%(j)s','%(s)s','%(g)d')
                          on duplicate key update type= '%(t)s' , json='%(j)s' , subject='%(s)s' , 
