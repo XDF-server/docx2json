@@ -774,4 +774,3 @@ class Dic2json(object):
         unit = {"type" : "image", "value":url, "width":width, "height":height, "image_type":pic_type }
         self._data_push(unit)
         return
-        
