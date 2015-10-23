@@ -56,7 +56,7 @@ class Subject_blank(object):
 
 	def parse(self,val,pnum,bnum):
 
-		#print "before:" + gl.type_status + " : " + val
+		#print "before:" + str(gl.blank_num) + ":" + gl.type_status + " : " + val
 		flg = 0 ###类型变化flg 用来增加空行的
 		val = val.replace(b'\xc2\xa0',' ')
 		val = val.replace(b'\xe3\x80\x80',' ')
@@ -74,7 +74,7 @@ class Subject_blank(object):
 			gl.excep=5
 			gl.type_status = "type"
 			return
-		elif re.match(r'^[\s　]*\001$'.decode('utf8'),val) or (val == '\005\001' and gl.type_status != "analysis" and gl.type_status != ""):
+		elif re.match(r'^[\s　]*\001$'.decode('utf8'),val) or ((val == '\005\001' or re.match('^\005\s*\001$',val)) and gl.type_status != "analysis" and gl.type_status != ""):
 			gl.blank_num += 1
 			return
 		elif gl.type_status == "type":
@@ -97,6 +97,9 @@ class Subject_blank(object):
 				gl.type_status = "analysis"
 				flg = 1
 			gl.blank_num = 0
+		elif gl.type_status == "answer" and re.match('^\005\S+\001$',val):
+			gl.type_status = "analysis"
+			flg = 1
 		elif val == '\005\001' and gl.type_status == "analysis":
 			gl.type_status = ""
 			gl.blank_num = 0
@@ -111,16 +114,41 @@ class Subject_blank(object):
 			gl.type_change = 0
 		print "after : " + gl.type_status + " : " + val
 		val = val.replace('\005','')
-		val = val.replace("'","''")
 		return val
 
 
 	def option_ana(self,val):
 
-		p = re.match(r'([a-gA-G])[\.．、]*(.*)'.decode('utf8'), val)
+		print "###"+val+"###"
+		p = re.match('[ \007\005]*([a-gA-GＡＢＣＤＥ])[\007]*[\.．、]*(.*)'.decode('utf8'), val)
 		if p:
-			gl.option_stat = p.group(1)
+			v=p.group(1)
+			if p.group(1)=="Ａ":
+				v="A"
+			elif p.group(1)=="Ｂ":
+				v="B"
+			elif p.group(1)=="Ｃ":
+				v="C"
+			elif p.group(1)=="Ｄ":
+				v="D"
+			elif p.group(1)=="Ｅ":
+				v="E"
+			gl.option_stat = v
 			return (p.group(2), 1)
+
+		#p = re.match('[ \005]*([①②③④])(.*)'.decode('utf8'), val)
+		#if p:
+		#	v=p.group(1)
+		#	if p.group(1)=="①":
+		#		v="A"
+		#	elif p.group(1)=="②":
+		#		v="B"
+		#	elif p.group(1)=="③":
+		#		v="C"
+		#	elif p.group(1)=="④":
+		#		v="D"
+		#	gl.option_stat = v
+		#	return (p.group(2), 1)
 		else:
 			return (val, 0)
 
@@ -130,7 +158,7 @@ class Subject_panduan(object):
 
 	def parse(self,val,pnum,bnum):
 
-		print "before: " + gl.type_status + " : "+ val
+		#print "before: " + gl.type_status + " : "+ val
 		flg = 0 ###类型变化flg 用来增加空行的
 		val = val.replace(b'\xc2\xa0',' ') #去除utf8特殊空格
 		val = val.replace(b'\xe3\x80\x80',' ')
@@ -174,5 +202,48 @@ class Subject_panduan(object):
 			gl.type_change = 0
 		print "after : " + gl.type_status + " : "+ val
 		val = val.replace('\005','')
-		val = val.replace("'","''")
+		return val
+
+class Subject_xiezuo(object):
+	
+
+	def parse(self,val,pnum,bnum):
+
+		#print "before: " + gl.type_status + " : "+ val
+		val = val.replace(b'\xc2\xa0',' ') #去除utf8特殊空格
+		val = val.replace(b'\xe3\x80\x80',' ')
+		val = val.replace('\004\004','') #去除多余下划线标记
+		val = val.replace('\007\007','') #去除多余斜体标记
+		val = val.replace('\016\016','') #去除多余着重点标记
+		val = val.replace('\012\012','') #去除多余居中符
+		val = val.replace('\013\013','') #去除多余居右符
+		val = val.replace('\032\032','') #去除多余方框
+		if gl.type_status == "":
+			gl.type_status = "type"
+			return
+		elif gl.type_status == "" and gl.sub_status==1:
+			gl.excep=5
+			gl.type_status = "type"
+			return
+		elif re.compile('^[\s]*\001$').match(val) or (val == '\005\001' and gl.type_status != "analysis" and gl.type_status != ""):
+			gl.blank_num += 1
+			return
+		elif gl.type_status == "type":
+			gl.type_status = "interpret"
+			gl.blank_num = 0
+			gl.sub_status = 1
+		elif gl.blank_num > 0 and gl.type_status != "analysis":
+			if gl.type_status == "interpret":
+				gl.type_status = "model_essay"
+			elif gl.type_status == "model_essay":
+				gl.type_status = "analysis"
+			gl.blank_num = 0
+		elif val == '\005\001' and gl.type_status == "analysis":
+			gl.type_status = ""
+			gl.blank_num = 0
+			#print "=================================="
+			return
+
+		print "after : " + gl.type_status + " : "+ val
+		val = val.replace('\005','')
 		return val

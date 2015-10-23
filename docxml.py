@@ -40,13 +40,18 @@ class Docxml(object):
 			subject = Subject(self.config_file)
 		elif stype == "选择题" or stype == "单项选择":
 			subject = Subject_blank()
-		elif stype == "判断题" or stype == "简答题" or stype == "解答题" or stype == "填空题":
+		elif stype == "写作题" or stype=="书面表达":
+			subject = Subject_xiezuo()
+		else:
 			subject = Subject_panduan()
 		
 		doc_line = ''
 		dic2json = Dic2json()
 
 		for node,val,pnum,bnum in self.parser.iterater():
+
+			if gl.excep:
+				break
 
 			doc_line += val
 

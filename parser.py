@@ -1,4 +1,4 @@
-##!/usr/bin/env python
+#!/usr/bin/env python
 # encoding: utf-8
 import gl
 import re
@@ -51,9 +51,12 @@ class Parser(object):
         for paragraph_node in self.doc_root.findall('.//' + self._get_doc_path('w', 'p')):
             self.paragraph_num += 1
             self.align = 0
+            self.style = 0
             for doc_node in paragraph_node.iter(tag = etree.Element):
                 self.doc_nsmap = doc_node.nsmap
                 val = self._adapter(doc_node)
+                if gl.excep:
+                    break
                 #print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
                 if val is not None:
                     yield (doc_node, val, self.paragraph_num, self.parse_num)
@@ -93,6 +96,10 @@ class Parser(object):
             if self.style == 32:
                 self.style = 0
                 text = '\032' + text + '\032'
+
+            if self.style == 64:
+                self.style = 0
+                text = '\014' + text + '\014'
 
             if self.vertAlign == 2:
                 self.vertAlign = 0
@@ -156,7 +163,11 @@ class Parser(object):
             #print "#####imagedata#######"
             str_pos = 'x:' + str(self.x) + ';xl:' + str(self.xl) + ';y:' + str(self.y) + ';yl:' + str(self.yl)
             if self.picflg:
-                return ' ' + str_pos + ' ' + self.pic_rel_map[picid] + '\006'
+                if picid is None:
+                    gl.excep = 12
+                    return ''
+                else:
+                    return ' ' + str_pos + ' ' + self.pic_rel_map[picid] + '\006'
             else:
                 return ""
         '''
@@ -214,7 +225,10 @@ class Parser(object):
                 cropleft = float(node.attrib['l'])/100000
                 self.xl = cropleft
             if node.attrib.has_key('r'):
+                print "x:r " + node.attrib['r']
                 cropright = float(node.attrib['r'])/100000
+                print "cropleft " + str(cropleft)
+                print "cropright " + str(cropright)
                 self.x = 1 - cropright - cropleft
             if node.attrib.has_key('t'):
                 croptop = float(node.attrib['t'])/100000
@@ -250,7 +264,10 @@ class Parser(object):
             斜体
         '''
         if node.tag == self._get_doc_path('w', 'i'):
-            self.style = 2
+            if self.style == 64:
+                self.style = 66
+            else:
+                self.style = 2
         '''
             下划线
         '''
@@ -258,7 +275,10 @@ class Parser(object):
             path = self._get_doc_path('w', 'val')
             style_type = node.get(path)
             if 'single' == style_type:
-                self.style = 4
+                if self.style == 64:
+                    self.style = 68
+                else:
+                    self.style = 4
         '''
             下标点
         '''
@@ -266,7 +286,10 @@ class Parser(object):
             path = self._get_doc_path('w', 'val')
             style_type = node.get(path)
             if 'dot' == style_type or 'underDot' == style_type:
-                self.style = 16
+                if self.style == 64:
+                    self.style = 80
+                else:
+                    self.style = 16
         '''
             方框
         '''
@@ -275,6 +298,12 @@ class Parser(object):
             style_type = node.get(path)
             if 'single' == style_type:
                 self.style = 32
+        '''
+            缩进
+        '''
+        if node.tag == self._get_doc_path('w', 'ind'):
+            self.style = 64
+            print "###w:ind"
         '''
             行位置:居左 1 居中 2 居右 3
         '''
@@ -288,8 +317,13 @@ class Parser(object):
         '''
             特殊字体初始化
         '''
-        if node.tag == self._get_doc_path('w', 'r'):
+        if node.tag == self._get_doc_path('w', 'pPr'):
             self.style = 0
+        if node.tag == self._get_doc_path('w', 'r'):
+            if self.style > 64:
+                self.style = 64
+            elif self.style != 64:
+                self.style = 0
             self.vertAlign = 0
             self.w = 0
             self.h = 0
@@ -306,6 +340,10 @@ class Parser(object):
             gl.excep=6
         if node.tag == self._get_doc_path('mc', 'AlternateContent'):
             gl.excep=8
+        if node.tag == self._get_doc_path('m', 'oMath'):
+            gl.excep=18
+        if node.tag == self._get_doc_path('w', 'sym'):
+            gl.excep=19
 
     
     def _pic_relation(self):
