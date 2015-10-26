@@ -85,10 +85,47 @@ class Dic2json(object):
 			elif gl.q_type=="选择题" and gl.type_status == "answer":
 				#print "选择题"
 				#print val_o['value']
-				for i in val_o['value']:
-					gl.question[gl.type_status].append(i)
-					#print "gl.question" + gl.type_status
-					#print json.dumps(val, ensure_ascii=0)
+				p = re.match('【答案】(.*)$'.decode('utf8'),val_o['value'])
+				if p:
+					val_o['value'] = p.group(1)
+				p = re.match('【答案】(.*)$',val_o['value'])
+				if p:
+					val_o['value'] = p.group(1)
+				p = re.match('答[案]*[：:]*(.*)$'.decode('utf8'),val_o['value'])
+				if p:
+					val_o['value'] = p.group(1)
+ 				p = re.match('答[案]*[：:]*(.*)$',val_o['value'])
+				if p:
+					val_o['value'] = p.group(1)
+				p = re.match('选(.*)$'.decode('utf8'),val_o['value'])
+				if p:
+ 					val_o['value'] = p.group(1)
+ 				p = re.match('选(.*)$',val_o['value'])
+				if p:
+					val_o['value'] = p.group(1)
+				for i in val_o['value']: 
+					if i != " " and i!="、" and i!="。" and i!="." and i!="．" and i!="，": 
+						#if i=="Ａ" or i=="甲" or i=="①": 
+						#	i="A" 
+						#elif i=="Ｂ" or i=="乙" or i=="②": 
+						#	i="B" 
+						#elif i=="Ｃ" or i=="丙" or i=="③": 
+						#	i="C" 
+						#elif i=="Ｄ" or i=="丁" or i=="④": 
+						#	i="D" 
+						#elif i=="Ｅ":
+						#	i="E"
+						if i=="Ａ": 
+							i="A" 
+						elif i=="Ｂ": 
+							i="B" 
+						elif i=="Ｃ": 
+							i="C" 
+						elif i=="Ｄ": 
+							i="D" 
+						elif i=="Ｅ":
+							i="E"
+						gl.question[gl.type_status].append(i) 
 			elif gl.q_type=="判断题" and gl.type_status == "answer":
 				if val_o['value'] == "√" or val_o['value'] == "对" or val_o['value'] == "答案：对":
 					gl.question["answer"]=1
@@ -197,7 +234,7 @@ class Dic2json(object):
 		#print "###create vertAlign start"
 		cmd = "mkdir -p /home/work/wzj/tmpfile_f/vertAlign/"
 		print "###cmd:" + cmd
-		retn=call(cmd,shell=True)
+		###tmp###retn=call(cmd,shell=True)
 		ttf_type = 0
 		for i in val.decode('utf8'):
 			print "####_create_pic: " + i
@@ -313,7 +350,7 @@ class Dic2json(object):
 				cmd = "/usr/bin/convert -transparent white -size " + str(w) + "x" + str(h) + " -gravity " + pos + " -pointsize 10 -font " + font_file + " label:'" + i + "' " + pic
 
                         	print "###cmd:" + cmd
-                        	retn=call(cmd,shell=True)
+                        	###tmp###retn=call(cmd,shell=True)
 
 				gl.vertAlignSet.add(pic)
 				unit = {"type" : "image", "value":url, "width":w, "height":h, "image_type":1 }
@@ -376,7 +413,7 @@ class Dic2json(object):
 		try:
 			cmd = "mkdir -p " + dir_o
 			print "###cmd:" + cmd
-			retn=call(cmd,shell=True)
+			###tmp###retn=call(cmd,shell=True)
 		except: 
 			print "mkdir err"
 
@@ -400,7 +437,7 @@ class Dic2json(object):
 		if re.search(r'EMF',result):
 			cmd = "echo " + str(gl.oldid) + file_s + ">>pic_need_change"
 			print "###cmd:" + cmd
-			retn=call(cmd,shell=True)
+			###tmp###retn=call(cmd,shell=True)
 			#fname = ".".join(fnamelist[0:-1]) + ".svg"
 			#file_o_s = dir_o + '/' + fname
 			#cmd = "/usr/local/bin/svgexport " + file_o_s + " " + file_o
@@ -419,7 +456,7 @@ class Dic2json(object):
 				#print "wmf svgexport"
 				cmd = "/usr/local/bin/svgexport " + file_o_s + " " + file_o
 				print "###cmd:" + cmd
-				retn=call(cmd,shell=True)
+				###tmp###retn=call(cmd,shell=True)
 				#img = Image.open(file_s)
 				img = Image.open(file_o)
 				(width, height) = img.size
@@ -429,7 +466,7 @@ class Dic2json(object):
 		else:
 			cmd = "/usr/bin/convert -transparent white " + file_s + " " + file_o
 			print "###cmd:" + cmd
-			retn=call(cmd,shell=True)
+			###tmp###retn=call(cmd,shell=True)
 
 			img = Image.open(file_s)
 			(width, height) = img.size
@@ -455,11 +492,15 @@ class Dic2json(object):
 			file_s = file_o
 			fname = ".".join(fnamelist[0:-1]) + "_co.png"
 			file_o = dir_o + '/' + fname
+			if width_x==0:
+				width_x=width-width_l
+			if height_y==0:
+				height_y=height-height_y
 			width = width_x
 			height = height_y
 			cmd = "/usr/bin/convert -crop " + str(width) + "x" + str(height) + "+" + str(width_l) + "+" + str(height_l) + " " + file_s + " " + file_o
 			print "###cmd:" + cmd
-			retn=call(cmd,shell=True)
+			###tmp###retn=call(cmd,shell=True)
 
 		if height_o and height/height_o/1.35 > 1.5 and width_o and width/width_o/1.35 > 1.5:
 			#print "real:" + str(width_o) + "x" + str(height_o)
@@ -471,7 +512,7 @@ class Dic2json(object):
 			file_o = dir_o + '/' + fname
 			cmd = "/usr/bin/convert -resize " +str(width) + "x" + str(height) + " " + file_s + " " + file_o
 			print "###cmd:" + cmd
-			retn=call(cmd,shell=True)
+			###tmp###retn=call(cmd,shell=True)
 
 		#url = "http://10.60.0.159/" + dir_b + "/" + fname
 		url = "/" + dir_b + "/" + fname

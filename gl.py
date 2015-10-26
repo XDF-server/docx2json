@@ -30,24 +30,18 @@ blank_num = 0
 blank_cnt = 0
 
 ###题型
-#q_type="单项选择"
-#q_type="选择题"
-#q_type="简答题"
-#q_type="解答题"
-#q_type="填空题"
-#q_type="判断题"
-
 q_type=""
-main_q_type="综合题"
-main_q_type="选择型完形填空"
+main_q_type="组合简答题"
+#main_q_type="选择型完形填空"
 main_q_type="组合选择题"
 main_q_type="组合填空题"
-main_q_type="组合简答题"
-main_q_type="探究题"
-main_q_type="文言文阅读题"
-main_q_type="现代文阅读题"
-#main_q_type="分析说明题"
+#main_q_type="探究题"
+#main_q_type="文言文阅读题"
+#main_q_type="现代文阅读题"
+#main_q_type="现代文阅读"
 #main_q_type="选择型阅读理解"
+main_q_type="综合题"
+#main_q_type="分析说明题"
 
 #分析说明题	qd_hSxVNm9081.docx 需要新定义子题类型
 #实验题	9005

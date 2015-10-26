@@ -97,8 +97,39 @@ class Subject_complex(object):
 				if gl.type_status == "analysis":
 					gl.type_status = ""
 					gl.q_type = ""
-					gl.blank_cnt = 0
 					gl.blank_num = 0
+					#if gl.question["topic_type"]["id"] == 2 and gl.question['answer'] and not gl.question['answer'][0].has_key('index'):
+					if gl.question["topic_type"]["id"] == 2 :
+						index=0
+						tmp_ans=[]
+						tmp_ans_group=[]
+						for elem in gl.question['answer']:
+							if elem['type']=="text":
+								count=0
+								for arr in re.split('#####',elem['value']):
+									if count:
+										index+=1
+										tmp_ans.append({'index':index,'group':tmp_ans_group})
+										tmp_ans_group=[]
+										count=0
+									if arr:
+										tmp_ans_group.append({"style": elem['style'], "align": elem['style'], "value": arr, "font": "", "type": "text", "size": ""})
+									count=1
+							elif elem['type']=="newline":
+								if tmp_ans_group:
+									index+=1
+									tmp_ans.append({'index':index,'group':tmp_ans_group})
+									tmp_ans_group=[]
+							else:
+								tmp_ans_group.append(elem)
+						gl.question['answer']=tmp_ans
+						if gl.blank_cnt!=index:
+							gl.excep=22
+							print "###gl.excep22: " + str(gl.excep)
+							print "###blank "+ str(gl.blank_cnt)
+							print "###answer "+ str(index)
+							return
+						gl.blank_cnt = 0
 					gl.content["questions"].append(gl.question)
 					gl.question = {'topic_type':{},'body':[],'options':[],'answer':[],'analysis':[]}
 					return
@@ -134,13 +165,47 @@ class Subject_complex(object):
 					elif re.match('[\014\005 ]*辨析题'.decode('utf8'),val):
 						gl.q_type = "辨析题"
 						tid = 6
+					elif re.match('[\014\005 ]*材料题'.decode('utf8'),val):
+						gl.q_type = "材料题"
+						tid = 7
 					else:
 						gl.main_type_status = self.old_status
 						self.end_flg = 1
 					if tid:
-						gl.blank_cnt = 0
 						gl.blank_num = 0
 						if gl.question["topic_type"].has_key("id") and gl.question["topic_type"]["id"]:
+							#if gl.question["topic_type"]["id"] == 2 and gl.question['answer'] and not gl.question['answer'][0].has_key('index'):
+							if gl.question["topic_type"]["id"] == 2 :
+								index=0
+								tmp_ans=[]
+								tmp_ans_group=[]
+								for elem in gl.question['answer']:
+									if elem['type']=="text":
+										count=0
+										for arr in re.split('#####',elem['value']):
+											if count:
+												index+=1
+												tmp_ans.append({'index':index,'group':tmp_ans_group})
+												tmp_ans_group=[]
+												count=0
+											if arr:
+												tmp_ans_group.append({"style": elem['style'], "align": elem['style'], "value": arr, "font": "", "type": "text", "size": ""})
+											count=1
+									elif elem['type']=="newline":
+										if tmp_ans_group:
+											index+=1
+											tmp_ans.append({'index':index,'group':tmp_ans_group})
+											tmp_ans_group=[]
+									else:
+										tmp_ans_group.append(elem)
+								gl.question['answer']=tmp_ans
+								if gl.blank_cnt!=index:
+									gl.excep=22
+									print "###gl.excep22: " + str(gl.excep)
+									print "###blank "+ str(gl.blank_cnt)
+									print "###answer "+ str(index)
+									return
+								gl.blank_cnt = 0
 							gl.content["questions"].append(gl.question)
 
 						gl.question = {'topic_type':{},'body':[],'options':[],'answer':[],'analysis':[]}
@@ -170,10 +235,44 @@ class Subject_complex(object):
 			elif re.match('[\014\005 ]*辨析题'.decode('utf8'),val):
 				gl.q_type = "辨析题"
 				tid = 6
+			elif re.match('[\014\005 ]*材料题'.decode('utf8'),val):
+				gl.q_type = "材料题"
+				tid = 7
 			if tid:
-				gl.blank_cnt = 0
 				gl.blank_num = 0
 				if gl.question["topic_type"].has_key("id") and gl.question["topic_type"]["id"]:
+					#if gl.question["topic_type"]["id"] == 2 and gl.question['answer'] and not gl.question['answer'][0].has_key('index'):
+					if gl.question["topic_type"]["id"] == 2 :
+						index=0
+						tmp_ans=[]
+						tmp_ans_group=[]
+						for elem in gl.question['answer']:
+							if elem['type']=="text":
+								count=0
+								for arr in re.split('#####',elem['value']):
+									if count:
+										index+=1
+										tmp_ans.append({'index':index,'group':tmp_ans_group})
+										tmp_ans_group=[]
+										count=0
+									if arr:
+										tmp_ans_group.append({"style": elem['style'], "align": elem['style'], "value": arr, "font": "", "type": "text", "size": ""})
+									count=1
+							elif elem['type']=="newline":
+								if tmp_ans_group:
+									index+=1
+									tmp_ans.append({'index':index,'group':tmp_ans_group})
+									tmp_ans_group=[]
+							else:
+								tmp_ans_group.append(elem)
+						gl.question['answer']=tmp_ans
+						if gl.blank_cnt!=index:
+							gl.excep=22
+							print "###gl.excep22: " + str(gl.excep)
+							print "###blank "+ str(gl.blank_cnt)
+							print "###answer "+ str(index)
+							return
+						gl.blank_cnt = 0
 					gl.content["questions"].append(gl.question)
 
 				gl.question = {'topic_type':{},'body':[],'options':[],'answer':[],'analysis':[]}
@@ -205,6 +304,9 @@ class Subject_complex(object):
 			elif re.match('[\014\005 ]*辨析题'.decode('utf8'),val):
 				gl.q_type = "辨析题"
 				tid = 6
+			elif re.match('[\014\005 ]*材料题'.decode('utf8'),val):
+				gl.q_type = "材料题"
+				tid = 7
 			else:
 				print "####route16"
 				gl.excep = "16" + val
@@ -215,8 +317,9 @@ class Subject_complex(object):
 				return
 
 		if gl.main_type_status == "type":
+			print "OK"
 			self.old_status = gl.main_type_status
-			gl.main_type_status == "material"
+			gl.main_type_status = "material"
 				
 		if gl.type_status:
 			if gl.q_type == "选择题":
@@ -229,7 +332,6 @@ class Subject_complex(object):
 		if val:
 			print "after : " + gl.main_type_status + " : " + gl.q_type + " : " + gl.type_status + " : " + val
 			val = val.replace('\005','')
-			val = val.replace("'","''")
 			return val
 		else:
 			return
@@ -249,7 +351,7 @@ class Subject_complex(object):
 			gl.blank_num += 1
 			return
 		elif gl.type_status == "type":
-			if gl.main_q_type == "选择型完形填空":
+			if gl.main_q_type == "选择型完形填空" or gl.main_q_type == "短对话选择型听力":
 				(val, tag) = self.option_ana(val)
 				if tag == 1:
 					gl.type_status = "options"
@@ -278,10 +380,34 @@ class Subject_complex(object):
 	def option_ana(self,val):
 
 		val = val.replace('\014','')
-		p = re.match(r'( *[a-gA-G])[\.．、]*(.*)'.decode('utf8'), val)
+		p = re.match('[ \007]*([a-gA-GＡＢＣＤＥ])[\007]*[\.．、]*(.*)'.decode('utf8'), val)
 		if p:
-			gl.option_stat = p.group(1)
+			v=p.group(1) 
+			if p.group(1)=="Ａ": 
+				v="A" 
+			elif p.group(1)=="Ｂ": 
+				v="B" 
+			elif p.group(1)=="Ｃ": 
+				v="C" 
+			elif p.group(1)=="Ｄ": 
+				v="D" 
+			elif p.group(1)=="Ｅ":
+				v="E" 
+			gl.option_stat = v 
 			return (p.group(2), 1)
+		#p = re.match('[ \005]*([①②③④])(.*)'.decode('utf8'), val)
+		#if p:
+		#	v=p.group(1)
+		#	if p.group(1)=="①":
+		#		v="A"
+		#	elif p.group(1)=="②":
+		#		v="B"
+		#	elif p.group(1)=="③":
+		#		v="C"
+		#	elif p.group(1)=="④":
+		#		v="D"
+		#	gl.option_stat = v
+		#	return (p.group(2), 1)
 		else:
 			return (val, 0)
 

@@ -55,6 +55,8 @@ class Parser(object):
             for doc_node in paragraph_node.iter(tag = etree.Element):
                 self.doc_nsmap = doc_node.nsmap
                 val = self._adapter(doc_node)
+                if gl.excep:
+                    break
                 #print etree.tostring(doc_node, pretty_print=True, encoding="UTF-8")
                 if val is not None:
                     yield (doc_node, val, self.paragraph_num, self.parse_num)
@@ -270,7 +272,7 @@ class Parser(object):
             path = self._get_doc_path('w', 'val')
             style_type = node.get(path)
             if 'single' == style_type:
-		if self.style == 64:
+                if self.style == 64:
                     self.style = 68
                 else:
                     self.style = 4
@@ -281,7 +283,7 @@ class Parser(object):
             path = self._get_doc_path('w', 'val')
             style_type = node.get(path)
             if 'dot' == style_type or 'underDot' == style_type:
-		if self.style == 64:
+                if self.style == 64:
                     self.style = 80
                 else:
                     self.style = 16
@@ -335,6 +337,10 @@ class Parser(object):
             gl.excep=6
         if node.tag == self._get_doc_path('mc', 'AlternateContent'):
             gl.excep=8
+        if node.tag == self._get_doc_path('m', 'oMath'):
+            gl.excep=18
+        if node.tag == self._get_doc_path('w', 'sym'):
+            gl.excep=19
 
     
     def _pic_relation(self):
